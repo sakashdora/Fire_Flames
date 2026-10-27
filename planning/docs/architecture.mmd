@@ -1,0 +1,16 @@
+flowchart TD
+  Visitor[Public visitor] --> Public[Published E Fest and Esports pages]
+  Student[Student from any eligible college] --> Auth[Managed authentication]
+  Staff[Invited teacher or staff] --> MFA[Authentication plus MFA]
+  Auth --> Commands[Authorized server commands]
+  MFA --> Commands
+  Commands --> Scope[Ownership organizer event and duty checks]
+  Scope --> DB[(Transactional database with access policies)]
+  DB --> Audit[Append only audit]
+  DB --> Outbox[Transactional notification outbox]
+  Outbox --> Worker[Retry and deduplication worker]
+  Worker --> Inbox[In app inbox and verified email]
+  Commands --> Storage[Private payment evidence storage]
+  Finance[Authorized finance reviewer] --> Bank[Official bank credit evidence]
+  Bank --> Review[Verified reconciliation command]
+  Review --> Scope

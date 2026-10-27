@@ -1,0 +1,140 @@
+{
+  "status": "source weights; conditional criteria and judge aggregation require approval",
+  "source": "E-Fest GAME RULES & RUBRICS-1 (1).docx",
+  "rubrics": [
+    {
+      "id": "treasure-discipline",
+      "total": 100,
+      "criteria": [
+        {
+          "label": "Respectful behavior",
+          "max_marks": 25
+        },
+        {
+          "label": "Following instructions",
+          "max_marks": 25
+        },
+        {
+          "label": "Fair play and honesty",
+          "max_marks": 25
+        },
+        {
+          "label": "Team coordination and responsible conduct",
+          "max_marks": 25
+        }
+      ]
+    },
+    {
+      "id": "brand-war",
+      "total": 100,
+      "criteria": [
+        {
+          "label": "Brand understanding and accuracy",
+          "max_marks": 25
+        },
+        {
+          "label": "Creativity and originality",
+          "max_marks": 25
+        },
+        {
+          "label": "Marketing strategy and customer insight",
+          "max_marks": 20
+        },
+        {
+          "label": "Pitch clarity and persuasion",
+          "max_marks": 20
+        },
+        {
+          "label": "Teamwork and time management",
+          "max_marks": 10
+        }
+      ]
+    },
+    {
+      "id": "bazar-best-stall",
+      "total": 100,
+      "criteria": [
+        {
+          "label": "Product/service quality and relevance",
+          "max_marks": 25
+        },
+        {
+          "label": "Stall presentation layout and visual appeal",
+          "max_marks": 20
+        },
+        {
+          "label": "Customer interaction and explanation",
+          "max_marks": 20
+        },
+        {
+          "label": "Business potential and pricing clarity",
+          "max_marks": 15
+        },
+        {
+          "label": "Branding promotion and originality",
+          "max_marks": 10
+        },
+        {
+          "label": "Team preparedness and professionalism",
+          "max_marks": 10
+        }
+      ]
+    },
+    {
+      "id": "bazar-innovative",
+      "total": 100,
+      "criteria": [
+        {
+          "label": "Novelty and originality",
+          "max_marks": 30
+        },
+        {
+          "label": "Practical usefulness or problem-solving",
+          "max_marks": 25
+        },
+        {
+          "label": "Creative presentation or demonstration",
+          "max_marks": 20
+        },
+        {
+          "label": "Sustainability or responsible practices where relevant",
+          "max_marks": 15
+        },
+        {
+          "label": "Potential to develop or scale",
+          "max_marks": 10
+        }
+      ]
+    },
+    {
+      "id": "exhibition",
+      "total": 100,
+      "criteria": [
+        {
+          "label": "Problem clarity and relevance",
+          "max_marks": 15
+        },
+        {
+          "label": "Originality and innovation",
+          "max_marks": 20
+        },
+        {
+          "label": "Feasibility and execution plan",
+          "max_marks": 20
+        },
+        {
+          "label": "Prototype quality or demonstration where applicable",
+          "max_marks": 20
+        },
+        {
+          "label": "Customer or user value and market potential",
+          "max_marks": 15
+        },
+        {
+          "label": "Presentation clarity and responses",
+          "max_marks": 10
+        }
+      ]
+    }
+  ]
+}

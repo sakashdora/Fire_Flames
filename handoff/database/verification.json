@@ -1,0 +1,158 @@
+{
+  "status": "PASS",
+  "engine": "PGlite disposable embedded PostgreSQL",
+  "auth": "minimal auth.users fixture only; not Supabase Auth",
+  "cloud_changes": false,
+  "concurrency_tested": false,
+  "checks": [
+    {
+      "test": "Apply entire schema to disposable PostgreSQL engine",
+      "result": "PASS"
+    },
+    {
+      "test": "Unknown fee cannot be enabled",
+      "result": "PASS",
+      "expected_sqlstate": "23514"
+    },
+    {
+      "test": "Negative fee rejected",
+      "result": "PASS",
+      "expected_sqlstate": "23514"
+    },
+    {
+      "test": "Cross event publication rejected",
+      "result": "PASS",
+      "expected_sqlstate": "23503"
+    },
+    {
+      "test": "Registration cannot open without published version",
+      "result": "PASS",
+      "expected_sqlstate": "23514"
+    },
+    {
+      "test": "Invalid team limits rejected",
+      "result": "PASS",
+      "expected_sqlstate": "23514"
+    },
+    {
+      "test": "Registration cannot use another events entry",
+      "result": "PASS",
+      "expected_sqlstate": "23503"
+    },
+    {
+      "test": "Registration mode must match price option",
+      "result": "PASS",
+      "expected_sqlstate": "23503"
+    },
+    {
+      "test": "Duplicate accepted event membership rejected",
+      "result": "PASS",
+      "expected_sqlstate": "23505"
+    },
+    {
+      "test": "Membership cannot be accepted without consent",
+      "result": "PASS",
+      "expected_sqlstate": "23514"
+    },
+    {
+      "test": "Separate payable registrations can fund members of one competition entry",
+      "result": "PASS"
+    },
+    {
+      "test": "Participant identity must match membership",
+      "result": "PASS",
+      "expected_sqlstate": "23503"
+    },
+    {
+      "test": "Only one live reservation per entry",
+      "result": "PASS",
+      "expected_sqlstate": "23505"
+    },
+    {
+      "test": "Same settled credit cannot be imported twice",
+      "result": "PASS",
+      "expected_sqlstate": "23505"
+    },
+    {
+      "test": "Same bank credit cannot fund two orders",
+      "result": "PASS",
+      "expected_sqlstate": "23505"
+    },
+    {
+      "test": "Bank credits are append only",
+      "result": "PASS",
+      "expected_sqlstate": "55000"
+    },
+    {
+      "test": "Self approved refund rejected",
+      "result": "PASS",
+      "expected_sqlstate": "23514"
+    },
+    {
+      "test": "Only one unrevoked pass per participant",
+      "result": "PASS",
+      "expected_sqlstate": "23505"
+    },
+    {
+      "test": "Duplicate attendance rejected",
+      "result": "PASS",
+      "expected_sqlstate": "23505"
+    },
+    {
+      "test": "Scan actor must be assigned duty holder",
+      "result": "PASS",
+      "expected_sqlstate": "23503"
+    },
+    {
+      "test": "Wrong organizer staff assignment rejected",
+      "result": "PASS",
+      "expected_sqlstate": "23503"
+    },
+    {
+      "test": "Marks above maximum rejected",
+      "result": "PASS",
+      "expected_sqlstate": "23514"
+    },
+    {
+      "test": "Locked score cannot be edited",
+      "result": "PASS",
+      "expected_sqlstate": "55000"
+    },
+    {
+      "test": "Locked score cannot be deleted",
+      "result": "PASS",
+      "expected_sqlstate": "55000"
+    },
+    {
+      "test": "Audit records cannot be deleted",
+      "result": "PASS",
+      "expected_sqlstate": "55000"
+    },
+    {
+      "test": "anon cannot directly read domain tables",
+      "result": "PASS",
+      "expected_sqlstate": "42501"
+    },
+    {
+      "test": "authenticated cannot directly read domain tables",
+      "result": "PASS",
+      "expected_sqlstate": "42501"
+    },
+    {
+      "test": "service_role cannot directly read domain tables",
+      "result": "PASS",
+      "expected_sqlstate": "42501"
+    },
+    {
+      "test": "All 57 domain tables have RLS enabled",
+      "result": "PASS"
+    }
+  ],
+  "limitations": [
+    "No live Supabase Auth/Storage/RLS RPC integration",
+    "No live Vercel/email/bank tests",
+    "No application commands implemented",
+    "No multi-connection concurrency test; unique constraints only",
+    "No claim of production readiness"
+  ]
+}

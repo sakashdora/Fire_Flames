@@ -1,0 +1,1743 @@
+PAGE 1
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+1
+Fire and Flames
+Event platform and operations plan
+College review edition • 27 October 2026
+One platform for E-Fest by ED Cell and Kurukshetra esports by Srustiprosar, with
+secure registration, verified payments and accountable event-day operations.
+Prepared for Srusti Academy of Management & Technology (Autonomous)
+Documented E-Fest dates: 13–14 November 2026. Participation is open to students from other colleges.
+This review edition contains proposed workflows and acceptance criteria. Official payment details, esports rules and
+several college policies remain approval items. It does not represent a deployed or tested application.
+Review sequence
+01 Product and scope · p. 2
+02 Event catalogue and source rules · p. 4
+03 Roles and access · p. 6
+04 Registration payments and QR workflows · p. 8
+05 Experience and brand specification · p. 11
+06 Architecture and data contracts · p. 14
+07 Security privacy and recovery · p. 17
+08 Notification design and message catalogue · p. 19
+09 Event programme and operations · p. 21
+10 Testing delivery and release readiness · p. 24
+11 Decisions risks and source register · p. 27
+Companion deliverable: Fire and Flames Design Boards. Editable sources, structured catalogue, acceptance register and asset provenance
+are included in the planning folder.
+
+
+PAGE 2
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+2
+Product and scope
+Build one trustworthy event platform with two distinct public experiences and one controlled operations system.
+Students should understand the organizer, event requirements, price and payment status before registering. Staff
+should see only the records and actions their assigned duties require.
+Confirmed foundation
+Fire & Flames is the E-Fest of Srusti Academy of Management & Technology (Autonomous), organized by ED Cell on
+13–14 November 2026. The shared entrance also presents Kurukshetra esports, Free Fire and BGMI, organized by
+Srustiprosar per the user's instruction. Dates for individual esports sessions require confirmation. Students from other
+colleges are welcome. Teachers have a separate sign-in entry but do not automatically receive management
+permissions.
+Core requirements
+ID
+Requirement
+Release evidence
+R01
+Two visible organizer-labelled hero
+panels and deep-linked event pages
+Desktop and mobile navigation reaches the correct event
+R02
+Verified student identity, college profile
+and self-service registration
+External-college student completes the full flow
+R03
+Teams, invitations, roster consent and
+membership limits
+Duplicate membership and invalid sizes blocked server-side
+R04
+Official college QR payment and
+controlled reconciliation
+Payment evidence alone cannot produce a valid pass
+R05
+Teacher, volunteer, judge, admin and
+super-admin access
+Denied action tests across roles and organizer scopes
+R06
+Volunteer QR attendance and duty
+assignment
+Concurrent duplicate scans record one valid attendance
+R07
+Event management, capacities,
+schedules, scoring and results
+Published results trace back to locked scores and approval
+R08
+In-app and email transaction
+notifications
+Outage, retry and deduplication tested
+R09
+Responsive, accessible, fast public
+and staff screens
+Real phone, keyboard and reduced-motion checks
+R10
+Audit history, backups, restoration and
+incident controls
+Restore rehearsal and attributable activity logs
+Release scope
+The first production release includes both landing paths, the six documented E-Fest activities, esports information
+pages, student/teacher authentication, team and solo intake, manual official-QR payment reconciliation, passes, online
+scanning, scoped operations, judging, controlled results, notifications and support. Paid esports intake opens only after
+its separate configuration is approved. This is a feature gate, not a fake free registration option.
+Each event has its own registration. A student can enter multiple compatible activities; there is no implied all-event pass
+or combined fee. The initial checkout handles one event registration per order. Team price is charged once per team,
+
+
+PAGE 3
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+3
+never once per member. Cross-organizer consolidated checkout is deferred to avoid ambiguous payment allocation.
+Proposed technology direction
+Prefer a separate React and TypeScript application, a managed PostgreSQL backend, managed authentication, private
+file storage and server-side operations. Supabase and Vercel are the proposed fit based on Crossfire's existing
+approach; versions, account ownership, hosting plan and costs must be assessed at implementation. Do not reuse
+Crossfire's live database or keys.
+Sites was assessed as an alternative. Its documented hosted identity is ChatGPT sign-in. It is not the selected
+production path for the requested college email and teacher/student flow unless the college explicitly accepts that
+identity model. No Sites project is registered during planning.
+Success measures and limits
+Acceptance targets: no unauthorized cross-track access; no duplicate payment allocation; no confirmed entry without
+verified funding and valid roster; no duplicate same-session attendance; all operational changes auditable. Target a
+typical verified scan response below two seconds on a working campus connection. Provisional load test: 500
+concurrent browsing sessions, 50 concurrent registration mutations and 20 scanners; validate actual expected
+attendance before sizing hosting.
+Public loading should target LCP at or below 2.5 seconds, INP at or below 200 milliseconds and CLS at or below 0.1,
+measured at the 75th percentile where field data is available. These are targets, not measurements of an app that
+already exists. Reference: https://web.dev/articles/defining-core-web-vitals-thresholds.
+Explicit exclusions
+No automated bank verification without a supported verified integration; no live esports game telemetry or anti-cheat
+claim; no guaranteed notification delivery; no automatic Instagram vote scraping; no offline scan claiming final success.
+Meals, certificates and guest hospitality are optional modules, not promises inherited from Crossfire. The college must
+enable and define them before they appear publicly.
+
+
+PAGE 4
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+4
+Event catalogue and source rules
+Use the supplied rules document for detailed judging weights and the PDF for visual direction. Conflicts remain visible
+until an organizer signs off. Monetary values below are INR. Store integer paise in the future database.
+E Fest registration and prizes
+Activity
+Team or capacity
+Registration
+Awards
+Pool
+IPL Auction
+2–4 members; 8 teams
+in a pool
+₹99 per team OR ₹59 per
+person
+₹4,000 / ₹2,500 / ₹1,500
+₹8,000
+e-Trivia
+2–4 members
+₹99 per team OR ₹59 per
+person
+₹2,000 / ₹1,500 / ₹1,000
+₹4,500
+Treasure Hunt
+2–4 members
+₹99 per team OR ₹59 per
+person
+₹3,000 / ₹2,500; discipline ₹1,500
+₹7,000
+Brand War
+2–3 members
+₹99 per team OR ₹59 per
+person
+₹2,000 / ₹1,500 / ₹1,000
+₹4,500
+Srusti Bazar
+10 stalls; member limit
+unspecified
+₹299 per stall
+Three awards of ₹1,000
+₹3,000
+Srusti Exhibition
+10 entries; member limit
+unspecified
+₹199 per entry or team
+Three awards of ₹3,000
+₹9,000
+Total for these six activities is ₹36,000. Eight teams is a pool size for IPL, not necessarily the total event capacity. Do
+not enforce an invented capacity for trivia, treasure hunt or Brand War. Ten stalls and ten exhibition entries are the
+published capacities; overrides require a revised published configuration.
+Esports
+The PDF advertises Kurukshetra, Free Fire and BGMI with a combined esports prize pool of ₹20,000. Organizer
+attribution is Srustiprosar, supplied by the user. Entry fee, player count, substitutes, match format, server, device
+restrictions, scoring, tie-breaks, prize split and reporting times are unknown. Save unknown fees as null, never zero.
+Each game has a draft event record with registration disabled. Display “Registration details coming soon” until
+approved. Do not distribute ₹20,000 equally or advertise ₹56,000 as a confirmed festival-wide total without approval.
+Required event rules
+All participants register and pay before the activity; roster changes need organizer approval. Schedules, time limits,
+conduct and fair play apply. Disruption, cheating, disrespect or property damage can disqualify. Evaluator and
+committee decisions are final under the source rules. Prizes require completed activity and verified results.
+IPL Auction uses an external evaluator and ranking by points. Budget, player pool, squad size, role constraints and
+scoring formula are not specified; publish a versioned rules supplement before play. Recognized bids are binding,
+overspending is prohibited and teams explain squad choices.
+e-Trivia uses an internal evaluator and one point per correct entrepreneur answer. Quizmaster defines round formats,
+answer submission and time limits. Phones, internet and outside help are prohibited unless a round allows them.
+Publish whether response time affects score or only ties before the quiz.
+Treasure Hunt rewards the first and second teams to solve all clues/checkpoints correctly in the least time. The
+discipline award is separate and discretionary, although shown in the third-prize column. Keep teams together unless a
+checkpoint allows separation; prohibit unsafe areas, disruption, tampering and unauthorized help. Server timestamps
+
+
+PAGE 5
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+5
+plus marshal records determine ordered progress; GPS is not required or proof of completion.
+Brand War uses an external evaluator. Teams complete a brand task/pitch within time, use original or credited content
+and answer questions respectfully. Time deductions must be defined before judging and recorded, not silently
+subtracted.
+Bazar awards Best Stall by Jury, Most Popular Stall and Innovative Stall. The official ED Cell Instagram live poll
+determines Most Popular; organizers announce the voting window and verify results. The platform records verified poll
+evidence and approval, rather than replacing it with a website poll. Stalls manage setup, accurate pricing, cleanliness,
+safety, equipment and clear walkways.
+Exhibition entries explain the problem, solution, users, value and development stage. External jury can request demos
+and ask about feasibility, costs and differentiation. Teams disclose third-party work and special power/setup needs.
+Multiple awards for one entry are not assumed.
+Judging weights from the Word document
+Rubric
+Criterion and maximum marks
+Total
+Treasure discipline
+Respect 25; instructions 25; fair play 25; coordination 25
+100
+Brand War
+Brand accuracy 25; creativity 25; marketing/customer insight 20; pitch 20; teamwork/time
+10
+100
+Bazar Best Stall
+Quality/relevance 25; presentation 20; customer interaction 20; business/pricing 15;
+branding 10; preparedness 10
+100
+Bazar Innovative Stall
+Novelty 30; usefulness 25; demonstration 20; sustainability where relevant 15; scalability
+10
+100
+Exhibition
+Problem clarity 15; originality 20; feasibility 20; prototype where applicable 20;
+user/market value 15; presentation/questions 10
+100
+Judge scores must fall within each criterion's maximum. The organizer must decide how “where applicable” is scored
+before publishing: no silent zero, silent omission or undocumented renormalization. Multiple-judge aggregation and
+tie-break policy also need approval; store both raw marks and the approved calculation version.
+Conflicts to resolve
+Exhibition summary names Best Startup / Business Concept, Best Working Prototype and Most Promising Idea. Both
+files' award tables instead name Best Problem identified, Best Working Prototype and Best Scalability idea. Propose
+the clearer summary names for review, but do not silently replace the source labels.
+The PDF omits several weighted rubrics present in the DOCX, repeats the institutional description under About the
+Event, and contains spelling/formatting errors. Use accessible HTML text for corrected approved copy; preserve
+original source files for traceability. No official payment QR was supplied in these files.
+
+
+PAGE 6
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+6
+Roles and access
+Identity, affiliation and operational authority are separate. A person may be a student volunteer or a teacher judge, but
+staff permissions exist only through approved assignments. Selecting “Teacher sign in” is not a grant of admin rights.
+Role definitions
+Role
+Access scope
+Allowed duties
+Never implied
+Visitor
+Public
+View published events, rules, schedules and
+approved results
+Participant directory or payment
+data
+Student
+Own profile and accepted
+memberships
+Register, invite members as captain, submit
+own payment, view own passes
+View other students or approve
+funds
+Teacher
+Own verified profile
+View assigned coordination tasks; judge if
+separately assigned
+Automatic admin or finance
+access
+Volunteer
+Active shift, event and
+station
+Scan, limited lookup, attendance and
+incidents
+Fees, funds approval, exports or
+scores
+Judge
+Assigned event and
+candidates
+Draft and lock own rubric scores
+Other judges' draft scores or
+payment evidence
+Event admin
+Assigned organizer and
+events
+Registrations, teams, timetable,
+volunteer/judge duties, result proposals
+Cross-organizer access or
+super-admin grants
+Finance reviewer
+Explicit additional permission
+and organizer scope
+Reconcile deposits, reject evidence, propose
+refunds
+Change beneficiary or
+own-payment approval
+Super admin
+Institution-wide explicit
+membership
+Assign admins, approve settings, payment
+profile, result publication and incident
+recovery
+Bypass audit or unilateral
+self-approval
+Permission matrix
+Action
+Student
+Teacher
+Volunteer
+Judge
+Event admin
+Super admin
+Own profile and registration
+Own
+Own where
+eligible
+Own student
+role
+Own where
+eligible
+Own where
+eligible
+Own where
+eligible
+View event participant
+roster
+No
+Assigned only
+Minimal
+on-duty
+Assigned
+candidates
+Scoped
+Institution
+Check in participant
+No
+With duty
+Assigned
+station
+No
+Scoped
+override with
+reason
+Logged
+override
+Verify payment
+No
+Finance grant
+only
+No
+No
+Finance grant
+only
+Finance grant;
+no self-review
+Edit event setup
+No
+No
+No
+No
+Draft scoped
+Approve/publi
+sh
+Assign volunteer or judge
+No
+No
+No
+No
+Scoped
+Institution
+Grant admin or finance role
+No
+No
+No
+No
+No
+Yes with
+reason and
+MFA
+
+
+PAGE 7
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+7
+Action
+Student
+Teacher
+Volunteer
+Judge
+Event admin
+Super admin
+Submit scores
+No
+Judge grant
+No
+Assigned
+Only if judge
+grant
+Only if judge
+grant
+Publish or correct results
+No
+No
+No
+No
+Propose
+Approve
+Export personal data
+Own
+No
+No
+No
+Separate
+export grant
+Logged and p
+urpose-limited
+Change payment
+beneficiary
+No
+No
+No
+No
+No
+Propose;
+second
+approver
+required
+“Assigned” always means explicit current database assignment, not a frontend route or email suffix. Scope checks
+apply to organizer, event, duty window and record ownership on every request. A global role does not remove
+conflict-of-interest restrictions.
+Account lifecycle
+Students verify an email address, complete name, mobile, college, course/year and college-ID number only where
+needed for eligibility, and accept terms. No bulk public student list. Captains invite members with expiring single-use
+links; each member authenticates and consents. A captain cannot set another person's password or silently consent for
+them.
+Teachers are invited or submit an access request for manual college verification. Staff invitation is issued to a specific
+address and role; first sign-in requires account setup and MFA enrollment. No shared volunteer accounts. Admins may
+assign already verified volunteers/judges only within their own events. Only super admins grant admin/finance
+privileges. Assignment expiry automatically removes effective permissions.
+Provision the first super admin through a documented owner-controlled bootstrap outside public registration. Require a
+second named super admin for beneficiary changes and recovery. The last active super admin cannot be demoted
+without an approved replacement. There is no public role dropdown that grants elevated access.
+Session and audit behavior
+Staff MFA is enforced on the server and database, not just shown as a setup prompt. Proposed staff idle timeout: 30
+minutes with reauthentication; require recent MFA for privilege grants, exports, refunds and beneficiary changes.
+Revoked roles must stop working immediately by checking active membership on each sensitive action; do not wait for
+a cached role claim to expire. Student sessions use normal managed-auth limits and explicit sign-out on shared
+devices.
+Audit entries contain actor, effective role, scope, action, record, time, reason, before/after summary and request
+correlation ID. Exclude raw QR tokens, passwords, session tokens and full payment screenshots. Audit access is
+restricted and retention follows college policy. Application users cannot update or delete audit records.
+
+
+PAGE 8
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+8
+Registration payments and QR workflows
+Keep registration, payment, eligibility and attendance as distinct records. The UI must describe the real state and
+required next action. “Evidence submitted” does not mean “Paid”, and “Paid” does not automatically mean “Eligible to
+participate”.
+Student and team journey
+Browse either organizer track, select an event, read price/size/rules, sign in, complete college profile, choose team or
+individual mode where published, obtain member consent, review the roster and fee, accept the event rules version,
+reserve a slot, pay the displayed official beneficiary, submit a transaction reference and optional supporting receipt,
+await verification, and receive a confirmed event registration and individual pass.
+The ₹99 team option covers one valid team. ₹59 individual intake is a separate product, not ₹59 multiplied automatically
+into a team fee. Proposed individual policy: coordinator pools individually paid applicants into valid teams with consent,
+with no extra ₹99 charge; no pass until allocation completes. This policy needs college approval before individual
+checkout opens. Until then show the documented individual price with “Individual registration policy awaiting
+confirmation”; do not accept unallocatable payments.
+For team mode, enforce 2–4 members or 2–3 for Brand War before payment. Pending invitations must be resolved first.
+Once evidence is submitted, freeze the price and roster snapshot. A post-payment roster change requires admin
+review, member consent, eligibility recheck, audit and pass reissue for affected members. Moving captainship must not
+create a second order or payment.
+Registration states
+State
+Entry condition
+Next allowed actions
+draft
+Student starts own form
+Edit, invite, abandon
+awaiting_members
+Valid captain, unresolved invitations
+Accept/decline, revise roster
+awaiting_allocation
+Individual policy approved; allocation incomplete
+Coordinator proposes team, students
+accept
+payment_due
+Eligible roster or approved solo-intake mode; slot held
+Pay, submit evidence, cancel, expire
+payment_review
+Evidence submitted within hold
+Reviewer verifies, requests correction
+or rejects
+action_required
+Evidence mismatch or incomplete information
+Submit corrected evidence before
+deadline
+confirmed
+Verified full payment plus valid eligibility and allocated roster
+Issue pass, attend, request
+change/cancellation
+waitlisted
+Capacity unavailable before collection
+Accept a time-limited offer; no
+payment yet
+expired
+Reservation deadline elapsed without evidence
+Recheck availability and start a new
+reservation
+cancelled
+Approved withdrawal or event cancellation
+Refund workflow if required
+disqualified
+Authorized conduct/rules decision
+Revoke event pass, record reason
+and appeal channel
+
+
+PAGE 9
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+9
+Proposed hold: 30 minutes to submit evidence. Evidence submitted on time protects the slot through manual review.
+Escalate review older than 24 hours to finance; never silently expire a paid-looking submission. Capacity counts
+confirmed entries and active holds/reviews; waitlist and abandoned drafts do not count. Exact timer and support
+coverage need approval. Allocate the last slot transactionally so two users cannot buy it.
+If a transfer arrives after a slot expires or an event fills, mark “Verified payment awaiting resolution”; do not
+force-confirm above capacity. Finance offers an approved reallocation or refund. This exception blocks automatic pass
+issuance and appears in a dedicated queue.
+Payment configuration
+The college supplies its official QR image, beneficiary name, UPI identifier and authorized receiving account
+confirmation through a controlled channel. Two named approvers verify decoded destination against college records
+and conduct an approved test transfer before activation. Store a versioned payment profile with image checksum,
+verified destination, effective time and approvals. Never recreate an official QR using guessed information.
+Desktop checkout shows the verified QR, beneficiary, exact amount, order reference and a copyable UPI ID. Mobile
+also offers an approved UPI intent link if the college provides/verifies the required details, plus QR download/manual
+payment guidance. Static QR often does not encode the order amount, so show the exact amount prominently. Do not
+assume a UPI app return, intent callback, screenshot or typed UTR proves payment.
+Payment credentials are separate from entry-pass QR tokens. Never place the college payment QR on an attendance
+pass. Never style a decorative QR as a functional one. The design boards use labelled boxes for missing QR assets.
+Reconciliation state machine
+Payment progresses from unpaid to evidence_submitted, then under_review, then verified, rejected or
+needs_information. Corrections append a new evidence version. Match transaction reference, credited amount,
+beneficiary, transaction time and settlement evidence from authorized bank/merchant records. Reviewer records
+source/reference and reason. No screen scraping of personal banking accounts is part of this plan.
+Use a unique settled bank transaction identifier and receiving account combination to prevent the same credit funding
+two orders. Typed UTR uniqueness alone is not proof. Handle duplicated submissions idempotently. Reject a reviewer
+verifying their own order or a team they belong to; route to another reviewer. UI displays the verification history without
+exposing bank statements to students.
+Underpayment, overpayment, missing reference, duplicate reference, wrong beneficiary, unreadable evidence and late
+payment each enter explicit exception queues. Do not silently change an order price to match a transfer. One verified
+transaction funds one order in the first release; split/combined bank transfers require finance resolution. Refund states
+are requested, approved, processing, completed or failed, with amount, reason and actual bank reference; clicking
+approve is not proof money was returned. Refund policy and service targets require college approval.
+Pass issuance and scanning
+A valid confirmed registration issues one pass per authenticated participant per event; the team captain also sees a
+roster summary. Each pass has a random opaque token of at least 128 bits, its hash stored server-side, expiry, version,
+event and participant association. The QR contains no name, phone, college ID, payment data or role. Display event,
+participant display name, team, date/time when published and a human-readable support reference beside the QR.
+Volunteer signs in with MFA, starts an assigned shift, selects the authorized station/session, permits camera access
+and scans. Server checks token validity, current registration, revocation, event/session, duty assignment and
+attendance uniqueness in one transaction. Successful attendance returns a concise green confirmation with matching
+identity and time; repeated scan returns amber “Already checked in” with original time; wrong event, invalid or revoked
+pass returns a clear denial. Never reveal a full profile for an invalid token.
+
+
+PAGE 10
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+10
+Uniqueness key is participant plus event session plus attendance action. Day-one check-in must not block a separately
+authorized day-two session; event entry is distinct from campus entry. Check-out/re-entry, if enabled, requires an
+explicitly modeled policy. Shared team passes must not mark absent teammates present. Copied valid QR images are
+mitigated by server replay protection and name/college-ID visual matching where required; opaque tokens alone do not
+prevent sharing.
+If the camera fails, use a rate-limited support-reference lookup at the assigned desk and verify identity before marking
+attendance. Log manual entries and reason. On network loss show “Not recorded”; pause definitive check-in.
+Authorized fallback is a numbered paper exception ledger, later reconciled by a supervisor. Do not store a roster or
+unrestricted payment data on volunteer phones.
+Treasure checkpoints and optional entitlements
+Checkpoint completion is separate from event attendance. Assigned marshals validate a team's pass and checkpoint in
+order, recording server time and any approved penalty. The last checkpoint does not automatically publish a winner; the
+evaluator reviews correct completion and penalties. Optional meal/certificate records use their own eligibility and
+uniqueness rules and remain off until college approval.
+
+
+PAGE 11
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+11
+Experience and brand specification
+The public site should feel like the brochure brought into a clear, fast web experience: charcoal, metallic gold, ember
+orange, deep red and warm white. Management screens should emphasize readable data and unambiguous status.
+The attached design boards are static concepts, not working screens.
+Two event entrances
+Desktop hero shows two equal panels simultaneously, with a shared institution header and the event date above them.
+Left: “Fire & Flames / The E-Fest / Organized by ED Cell”, six activities, documented ₹36,000 activity pool, “Explore
+E-Fest”. Right: “Kurukshetra / Esports / Organized by Srustiprosar”, Free Fire and BGMI, advertised ₹20,000 esports
+pool, “Explore Esports”. Unknown fees show “To be announced”. Do not put a single ambiguous Register button over
+both panels or hide one track in an auto-rotating carousel.
+At 360–430 px, use stacked compact hero panels in a clear order, each with its organizer label and action. Both are
+reachable immediately without dismissing an intro. A compact top-level track selector links to each section. Use
+separate URLs /e-fest and /esports; individual event pages live below the correct track. Selection persists through
+sign-in using a validated internal return path. Site-wide account view groups registrations by organizer.
+Avoid compulsory loading animations, scroll hijacking, autoplay sound and heavy WebGL. Optional brief ember
+animation starts after content is usable, stops offscreen/in background and honors reduced motion. Deep links, back
+navigation and recovery after refresh must work without replaying an intro.
+Design tokens
+Token
+Proposed value
+Usage
+Canvas
+#0B0B0D
+Public background
+Surface
+#161619
+Cards and panels
+Raised surface
+#222226
+Dialog and form panels
+Primary text
+#F7F2E8
+Main copy on dark
+Secondary text
+#C4BFB5
+Supporting labels
+Ember
+#FF781F
+Primary action with near-black text
+Gold
+#F5BF42
+E-Fest accent and highlights
+Deep red
+#9B1C17
+Decorative brand accent, not small
+text
+Border
+#3A3530
+Field boundaries
+Success
+#91E6B5
+With “Verified” or “Recorded” text
+Warning
+#FFD57A
+With reason and next action
+Error
+#FFB4AB
+With message, not color alone
+These are proposed web tokens matched to the PDF visually, not a claim that the brochure specifies exact hex codes.
+Use the extracted official logos without redrawing or recoloring. The ED Cell badge is only 160×160 in the source;
+render it modestly and request a higher-resolution official master for large print. Preserve source aspect ratios and
+transparency.
+
+
+PAGE 12
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+12
+Use a condensed bold display typeface for short event headings and a readable sans-serif for content, forms and
+tables. Prototype boards use available Arial; final font family and self-hosting license must be verified. Minimum body
+size 16 px on phones; avoid compressed paragraph fonts from the brochure. Render fees, dates and requirements as
+HTML, not flattened images.
+Layout and accessibility
+Use an 8 px spacing base, 16–24 px phone gutters, 24–32 px desktop card gaps and a 1200–1280 px content width.
+Target 44×44 px controls or larger; mobile scan action 56 px. Keep visible keyboard focus, skip link, semantic labels,
+error summaries, descriptive button text and sufficient contrast. Gold/orange buttons use near-black text; test contrast,
+including disabled states. Tables convert to labelled record cards on narrow screens, with no clipped actions. Charts
+include text summaries.
+Meet WCAG 2.2 AA as the acceptance objective, with manual keyboard/screen-reader review. Reference:
+https://www.w3.org/TR/WCAG22/. Practical target-size reference:
+https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum. Use reduced-motion preferences and never
+use animation to communicate the only copy of a status.
+Screen inventory
+Area
+Required screens
+Critical states
+Public
+Dual hero, track pages, event detail, rules, schedule, help,
+approved results
+Loading, unavailable, closed, sold
+out, fee unknown
+Authentication
+Student sign-in, teacher sign-in, verification, reset, MFA, access
+request
+Expired link, invalid credentials,
+disabled account, unassigned
+teacher
+Student
+Profile, college details, event choice, roster invitations, review,
+checkout, payment status, pass, history
+Incomplete team, waitlist, correction
+needed, refunded, revoked pass
+Volunteer
+Duty selection, scanner, scan result, lookup, incident, shift
+summary
+Wrong station, off duty, duplicate,
+denied camera, offline
+Judge
+Assigned candidates, rubric, save draft, submit lock, conflict
+declaration
+Missing criterion, score limit, locked
+score, reopened revision
+Admin
+Overview, scoped event setup, roster, reconciliation, assignments,
+schedules, result proposals, broadcasts
+Pending approval, conflict, partial
+failure, stale edit
+Super admin
+Institution overview, roles, settings approvals, beneficiary
+versions, exports, audits, recovery
+Last-admin protection, dual approval,
+suspended track
+Form and status design
+Registration is a short stepper: event → profile → team → review → payment → status. Save drafts server-side for
+signed-in users. Keep one primary action per step and show the selected organizer/event/fee summary throughout.
+Preserve valid input after errors. Required fields are visibly labelled. Show exact fees rather than “starting from” during
+checkout.
+Student dashboard shows “Action needed”, “Payment under review”, “Confirmed” and “Waitlisted” separately. A pass
+button is disabled with an explanation until all conditions are met. Teacher workspace shows assignments and an
+access-request route if none exist. Admin dashboard starts with review queues and operational exceptions, not vanity
+metrics. Super-admin dashboard emphasizes unresolved approvals and access risk.
+
+
+PAGE 13
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+13
+Asset and performance budget
+Use named source artwork from assets/brand, optimized derivatives from assets/web, and the generated background
+only for decorative atmosphere. Preload at most the primary hero background; lazy-load offscreen event cards.
+Suggested first-viewport image budget: 350 KB mobile and 700 KB desktop; initial route JavaScript target 200 KB gzip
+excluding deferred scanner/management modules. Set image dimensions to prevent shifts. Preserve a solid-color
+background when images fail. Do not send the 42 MB brochure as a page background; brochure download is explicit.
+Copy examples
+Primary actions: “Explore E-Fest”, “Explore Esports”, “Review registration”, “Submit payment details”, “View my pass”,
+“Start duty”. Payment message: “Your payment details are under review. We will notify you after verification.” Offline
+scanner: “Connection lost. Attendance has not been recorded.” Staff rejection: “This action is outside your assigned
+duty. Contact the event desk.”
+
+
+PAGE 14
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+14
+Architecture and data contracts
+Proposed design: a modular application with a public frontend, authenticated workspaces, server-side commands,
+transactional PostgreSQL, managed authentication, private object storage and an outbox worker. This is a
+specification; no service account or database has been provisioned.
+Components and boundaries
+Public published event content can be cached. Registration, funds, passes, scores, roles and private documents must
+remain authoritative on the server. Authentication establishes identity; database permissions and server-side
+ownership/scope checks authorize actions. Browser state is for UI preferences, never the source of payment or
+attendance truth.
+Use a fresh Supabase project for Auth, PostgreSQL and private Storage, and a separately owned web hosting project
+such as Vercel, subject to college approval. Sensitive workflows run through narrow server endpoints or reviewed
+database procedures. Transactional email comes from a college-approved provider and sender domain.
+SMS/WhatsApp and bank APIs are optional later integrations, not assumed available. Assess plan limits, database
+recovery, email quotas and secret ownership before committing to vendors.
+OWASP authorization guidance recommends default denial and permission validation on every request:
+https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html. Supabase RLS reference:
+https://supabase.com/docs/guides/database/postgres/row-level-security.
+Proposed repository structure
+fire-and-flames/
+  apps/web/src/
+    routes/public/   routes/student/   routes/staff/
+    features/auth/   features/events/  features/teams/
+    features/payments/ features/passes/ features/scanning/
+    features/judging/ features/notifications/ features/admin/
+    components/ui/   styles/           assets/
+  packages/domain/  packages/validation/  packages/contracts/
+  backend/functions/  backend/migrations/  backend/policies/
+  tests/unit/  tests/integration/  tests/access/  tests/e2e/
+  docs/  scripts/  public/brand/
+Keep shared types, validation rules and state-transition definitions in domain packages. UI calls typed commands; it
+does not write arbitrary payment/status columns. New project setup is a future development phase, not part of this
+planning delivery.
+Entity model
+Entity
+Core fields
+Integrity rule
+profiles
+auth user ID, name, email, phone, college, course/year
+One profile per identity; own updates
+only
+organizer_units
+ID, label, contact
+ED Cell and Srustiprosar separate
+scopes
+role_assignments
+user, role, organizer/event, active window, issuer
+No self-assigned privileged role
+events
+organizer, slug, status, capacity, team limits
+Unknown capacity/fee remains null
+event_versions
+rules, price options, rubric, publishing approvals
+Accepted version immutable for a
+registration
+
+
+PAGE 15
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+15
+Entity
+Core fields
+Integrity rule
+sessions
+event, venue, start/end, reporting time
+Explicit timezone; detect overlaps
+teams and members
+event, captain, membership status, consent
+Unique active event membership per
+participant
+registrations
+owner, event version, mode, roster snapshot, state
+State transition validated; one active
+entry per participant/event
+reservations
+registration, capacity units, expires, review hold
+Atomically acquire capacity
+orders
+registration, total_paise, currency, payment profile version
+Server-calculated price, immutable
+after submission
+payment_evidence
+order, reference, private object, submitted time
+Append versions; limited file access
+bank_credits
+receiving account, settled transaction ID, amount
+Unique credit identity; no double
+allocation
+payment_reviews
+evidence, reviewer, outcome, reason
+No self-review; audit every decision
+refunds
+order, amount, approval, bank reference, state
+Sum cannot exceed verified
+refundable amount
+passes
+registration/member, token hash, version, expiry, revoked
+Only confirmed eligible membership
+attendance
+member, event session, action, station, actor
+Unique action per member/session
+duty_assignments
+staff, event, station, start/end
+Scan only while authorized and
+active
+checkpoints
+event, sequence, instructions
+Ordered team completion constraints
+checkpoint_records
+team, checkpoint, time, marshal, penalty
+Unique completion; corrections
+audited
+rubric_scores
+judge, candidate, rubric version, marks, lock
+Unique judge/candidate/version;
+bounded marks
+result_revisions
+event, totals, tie decisions, approval, publication
+No overwrite of published history
+outbox and deliveries
+event key, recipient, channel, attempts, status
+Unique notification deduplication key
+audit_log and incidents
+actor, scope, action, time, reason
+Append-only for application roles
+Relationships: organizer has many events; event has versions, sessions and registrations; registration has a roster, one
+active order and many evidence attempts; verified order plus valid roster yields member passes; pass usage creates
+attendance. Scores belong to a candidate registration and rubric version. Do not put raw tokens or member details
+inside public URLs.
+Command contracts
+Command
+Request essentials
+Server validations
+Result
+POST /registrations
+event ID, mode, member
+IDs, rules version
+Ownership, consent, eligibility, duplicates
+Draft/reference or
+typed conflict
+POST /registrations/:id/reserve
+expected version,
+idempotency key
+Roster, published price, capacity, schedule
+Order and reservation
+deadline
+POST /orders/:id/evidence
+transaction ref, approved
+upload ID
+Owner, file validation, state, deadline
+Review reference;
+never paid=true
+
+
+PAGE 16
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+16
+Command
+Request essentials
+Server validations
+Result
+POST /payments/:id/review
+outcome, credited
+transaction, reason
+Finance scope, MFA, no self-review,
+uniqueness
+Verified or exception
+state
+POST /scan
+token, station, session,
+idempotency key
+Duty, scope, pass validity and replay
+recorded, duplicate or
+denied
+POST /scores/:id/lock
+complete marks, rubric
+version
+Judge assignment, bounds, completeness
+Immutable locked
+score
+POST
+/events/:id/results/publish
+revision, reason
+Super-admin approval, locked scores
+Published revision and
+notifications
+POST /staff/assignments
+user, role, scope, expiry
+Grant authority, MFA, active issuer
+Audited assignment
+POST
+/payment-profiles/:id/approve
+expected version, approval
+Second authorized actor, verified
+destination
+Activated profile
+version
+Use consistent JSON errors: code, safe message, field errors and correlation ID. Return 401 for unauthenticated, 403
+or privacy-preserving 404 for unauthorized records, 409 for state/version conflicts, 422 for invalid inputs and 429 for
+throttling. Never return database stack traces or inferable private record details.
+Transactions and concurrency
+Capacity reservation locks the event capacity record and counts holds consistently within a transaction. Confirming
+payment atomically records credit allocation, payment review, registration transition, pass records, audit and notification
+outbox. Solo intake may become payment-verified while waiting for allocation; only the allocation command can
+subsequently confirm it. Attendance inserts use a database uniqueness constraint and idempotency key to tolerate
+retries and simultaneous scanners.
+Use expected version numbers for admin edits, result approval and payment profile changes. Server rechecks
+permissions and state at commit time. Idempotency keys are scoped to actor plus command and bind to a request
+payload hash; a reused key with a different payload is rejected. Background work claims jobs atomically and tolerates
+duplicate delivery.
+Storage and environments
+Separate development, staging and production identities, storage and databases. Synthetic data only in tests. Store
+uploaded payment evidence privately, with short-lived authorized download URLs, randomized names and content
+checks. Public assets contain only approved artwork. Backups and restore permissions belong to named college
+owners; deployment rollback must account for forward-only schema migrations. Use append-only migrations and
+release-specific restore instructions, never run destructive reset scripts against production.
+Proposed service objectives
+Target 99.5% availability over the event period, read response p95 below 800 ms and mutation p95 below 1.5 seconds
+at approved load, excluding user camera acquisition. Proposed recovery targets are one hour RTO and fifteen minutes
+RPO only if the purchased service and tested backup method support them. Otherwise document the measured limits
+and obtain a decision before launch. Alerts cover elevated scan failures, review backlog, failed jobs, capacity anomalies
+and payment profile changes.
+
+
+PAGE 17
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+17
+Security privacy and recovery
+Security is a property of implemented and tested controls. This plan does not certify an undeveloped application as
+secure. Threat priorities are unauthorized staff access, cross-organizer record exposure, forged payments, reused QR
+passes, hostile uploads and unsafe result changes.
+Required controls
+Threat
+Required control
+Verification
+Student grants themselves
+admin
+Server-owned role records; restricted provisioning
+Direct API and metadata tampering
+denied
+ED Cell admin sees
+esports finances
+Organizer and event scope on reads/writes/exports
+Cross-scope negative tests
+Revoked volunteer
+continues scanning
+Active role and duty checked on every command
+Revoke during session, next scan
+denied
+Fake screenshot creates
+pass
+Reconcile actual credit; independent finance role
+Forged receipt stays unverified
+One transfer pays two
+orders
+Unique settled-credit allocation
+Concurrent approval collision tested
+Copied or revoked QR
+Opaque random tokens, expiry, revocation, server lookup, identity
+check
+Replay and old-pass tests
+Hidden malicious upload
+Extension plus decoded content validation, size limits, quarantine
+Invalid MIME, SVG script and
+oversized files rejected
+Client changes fees or
+score
+Server calculation, versioned rules, bounded marks
+Manipulated request rejected
+Attacker brute-forces IDs or
+OTP
+Rate limits, cooldown, generic account responses
+Automated abuse tests
+Admin tampers with
+published result
+Locked source scores, dual-stage publication, append-only
+revisions
+Correction produces new revision
+and notification
+Authentication and application hardening
+Managed identity handles password hashing, verification and reset. Student email verification is the proposed baseline,
+with a college help-desk process for delivery failures; never silently bypass verification. Require MFA for all staff
+actions; a UI prompt without server enforcement is insufficient. Supabase reference:
+https://supabase.com/docs/guides/auth/auth-mfa.
+Prefer server-mediated sessions using Secure, HttpOnly, SameSite cookies where the chosen architecture supports
+them. Document the session model in an implementation decision before coding. Add CSRF protection for
+cookie-authenticated mutations, strict allowed origins, content security policy, clickjacking protection, TLS, safe
+redirects and output encoding. Avoid arbitrary HTML in event descriptions; sanitize any permitted rich text. Validate
+every request and use parameterized database operations. No service-role credentials or email-provider secrets in
+browser bundles.
+Payment uploads initially allow JPEG, PNG and PDF up to a proposed 5 MB limit; verify real type, strip unnecessary
+metadata where feasible, quarantine until validated, disallow executables/HTML/SVG and scan supported content
+before staff download. Reject files that cannot be safely inspected rather than treating their filename as proof. Evidence
+
+
+PAGE 18
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+18
+is not publicly addressable. Reference:
+https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html.
+Data minimization and consent
+Collect the minimum to identify and contact participants: name, verified email, phone where operationally needed,
+college and course/year. College-ID number or visual ID inspection must have a stated eligibility purpose; do not collect
+Aadhaar or bank credentials. Keep player IDs only for esports when approved rules require them. Do not collect face
+recognition data or continuous location.
+Registration terms explain organizer identity, selected event, fees, team-member consent, payment verification,
+cancellation/refund policy, conduct, contact and data use. Separate optional publicity/photo consent from required
+registration acceptance. Captains cannot give optional consent for teammates. Public results use team/display names
+only unless participants have been informed and consent where appropriate.
+Proposed retention: payment evidence 90 days after final reconciliation, participant contact records 180 days after
+event closure, and audit/financial records according to the college's approved obligations and policy. These are
+proposals, not legal retention claims. The college privacy owner must approve retention, deletion requests, dispute
+holds and treatment of any under-18 participants before launch. Age eligibility is not stated in the sources; add a gate
+rather than invent a minimum age or consent rule.
+Privileged changes and recovery
+Payment destination changes require two different named super admins and recent MFA. Notify both organizer leads
+and finance on activation. Role grants, bulk exports, refunds and result corrections require reasons and are auditable.
+Prevent self-approval and changing grants to bypass a review conflict. Staff who also compete may not judge or
+reconcile their own event entry.
+Recovery uses a named college owner, independent identity verification, recorded reason and session revocation. Do
+not email passwords or share recovery codes through event groups. Lost volunteer device: suspend duty and revoke
+sessions immediately; reissue access on a verified replacement device. Leaked pass: revoke and issue a new version.
+Suspected beneficiary compromise: pause checkout immediately, preserve logs, verify account with college finance,
+notify affected participants using approved communication.
+Incident runbook
+Detect and record an incident ID, severity and owner. Contain by revoking sessions, pausing affected workflow or
+disabling a track. Preserve relevant audit/evidence without broad data export. Assess affected records, recover from
+tested backups if needed, notify authorized college leads, and communicate factually to affected users under college
+policy. Record resolution and preventative action. A frontend rollback alone does not undo financial or database
+changes.
+Release security gate
+No production launch with a known privilege escalation, cross-scope data leak, duplicate-credit allocation, invalid pass
+acceptance, exposed secret or unrecoverable data loss. Require reviewed policies for every private table/storage
+bucket, a secret scan, dependency review, role tests and an incident rehearsal. Do not promise penetration-test
+certification; commission an independent review if required by the college.
+
+
+PAGE 19
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+19
+Notification design and message catalogue
+Use durable in-app messages as the primary record and verified email for transactional alerts. SMS/WhatsApp are
+optional channels requiring an approved provider, budget, consent and tested delivery; they are not assumed
+operational. Never call a message delivered merely because an API accepted it.
+Delivery rules
+Write the event and outbox row in the same database transaction as the business action. Worker sends at least once; a
+deduplication key of business event, recipient, template version and channel prevents repeated user-facing sends.
+Save queued, attempted, accepted, delivered where a provider proves it, bounced and failed separately. Track in-app
+read state separately from email delivery. Do not expose tokens or payment evidence in messages.
+Proposed email retry schedule: 1 minute, 5 minutes, 30 minutes and 2 hours for transient failures; permanent failures
+go directly to the support queue. Honor provider rate limits. Staff dashboard alerts on exhausted attempts; a retried
+notification must not repeat the underlying payment or registration action. Cancellation suppresses obsolete scheduled
+reminders. Send one current schedule change summary instead of every intermediate draft.
+Trigger matrix
+Trigger
+Recipients
+Channel
+Content and action
+Account verification
+Account owner
+Managed auth
+email
+Expiring single-use verification link
+Team invitation
+Named invitee
+In-app and email
+Event, captain, price model, accept/decline
+Roster changed
+Every affected member
+In-app and email
+Change summary and consent action
+Payment details received
+Payer/captain
+In-app and email
+Under review; no pass promise
+Evidence correction required
+Payer/captain
+In-app and email
+Safe reason and deadline
+Payment verified, allocation
+pending
+Individual applicant
+In-app and email
+Payment received; team assignment still needed
+Registration confirmed
+Each member
+In-app and email
+Event and authenticated pass link
+Waitlist offer
+Applicant/captain
+In-app and email
+Expiry and action; do not auto-charge
+Schedule/venue changed
+Confirmed affected
+participants and assigned
+staff
+In-app and email
+Old/new details, IST, acknowledgement if critical
+Event reminder
+Confirmed participants
+In-app and email
+Approved reporting time and required ID
+Duty assigned/changed
+Volunteer/judge/teacher
+In-app and email
+Scope, shift, supervisor and acknowledgement
+Review backlog or delivery
+failure
+Assigned admin/finance
+In-app; email
+escalation
+Queue link, no private evidence attached
+Cancellation/refund update
+Affected payer and
+members
+In-app and email
+Actual status and support route
+Results published/corrected
+Participants and assigned
+staff
+In-app and email
+Published revision link
+Role or beneficiary changed
+Security owner, finance
+and impacted staff
+In-app and email
+Actor, change summary, escalation contact
+
+
+PAGE 20
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+20
+Example templates
+Payment received: “We received payment details for {event_name}, registration {reference}. Status: under review. This
+is not a payment confirmation. View the status securely in your account.”
+Confirmation: “Your {event_name} registration is confirmed. Organizer: {organizer}. Reporting:
+{published_reporting_time_IST_or_TBA}. Sign in to view your individual entry pass. Share your pass only with event
+staff.”
+Correction: “Action required for {reference}: {safe_reason}. Please open your registration and provide the requested
+correction by {deadline_IST}. Do not send passwords or banking credentials.”
+Schedule change: “{event_name} has moved from {old_time_venue} to {new_time_venue}. All times are IST. Your
+registration remains {status}. View the latest schedule before travelling.”
+Refund update: “Refund for {reference}: {actual_state}. Amount: {amount}. {completed_bank_reference_if_available}.
+Contact {approved_support_contact} if you need help.”
+Duty assignment: “You are assigned to {event}, {station}, {shift_IST}. Review your duties and acknowledge the shift.
+Your access is limited to this assignment.”
+Broadcasts and service targets
+Admins draft broadcasts for their organizer/events and preview recipient count. Critical all-festival notices require
+super-admin approval. Validate recipients, prevent duplicate sends, escape inserted values and log
+sender/template/audience. Never display student email lists to recipients. Operational notices cannot be switched off in
+a way that hides material event changes; optional promotional messages have separate consent/preferences.
+Proposed processing target: routine in-app messages within 10 seconds and email submission within 2 minutes after
+committed action, subject to provider availability. These are engineering targets, not guaranteed inbox arrival.
+Registration launch requires verified sender DNS, SPF/DKIM/DMARC as applicable, reset/verification delivery tests
+and a monitored reply/support mailbox.
+
+
+PAGE 21
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+21
+Event programme and operations
+The event dates are documented as 13–14 November 2026. The times and venue labels below are a proposed
+programme for organizer review, not a published timetable. Confirm rooms, match durations, staffing, ceremony
+availability and participant overlap before release. Store all displayed times in Asia/Kolkata and persist timestamps in
+UTC.
+Proposed two day programme
+Date and time IST
+Activity
+Operational dependency
+13 Nov 08:00–09:00
+Staff briefing, stalls/demo setup, scanner and network checks
+Venue handover, safety inspection,
+duty roster
+13 Nov 09:00–10:00
+Participant reporting and identity/help desks
+Confirmed passes and payment
+exception desk
+13 Nov 10:00–10:30
+Shared opening and organizer introductions
+College programme approval
+13 Nov 10:30–11:30
+e-Trivia
+Quiz rules, evaluator and answer
+capture ready
+13 Nov 11:45–13:15
+Brand War
+Rubric, jury and candidate slots
+locked
+13 Nov 13:15–14:00
+Break and transition
+No meal entitlement implied
+13 Nov 14:00–16:30
+IPL Auction
+Pool count, player rules and scoring
+supplement approved
+13 Nov 10:30–16:30
+Bazar and Exhibition open in parallel
+Entry staffing; presentation slots
+avoid competitors' conflicts
+13 Nov 11:00–16:30
+Provisional esports qualifier window in separate arena
+Srustiprosar confirms game rules,
+timing and capacity
+13 Nov 16:30–17:00
+Daily close, reconciliation and next-day notices
+Resolve unsettled
+attendance/payment issues
+14 Nov 08:30–09:30
+Staff checks and participant reporting
+Refresh duty assignments and
+session-specific attendance
+14 Nov 09:30–11:00
+Treasure Hunt
+Route safety, checkpoint marshals
+and clue test complete
+14 Nov 11:15–13:00
+Exhibition demos and Bazar jury visits
+Judge conflicts checked; demos
+scheduled
+14 Nov 11:15–14:30
+Provisional esports final window
+Final match format and reporting
+times confirmed
+14 Nov 13:00–14:00
+Break and open stalls
+Confirm venue availability
+14 Nov 14:00–15:00
+Reserve slot, verified poll close and dispute review
+Official Instagram voting window
+separately approved
+14 Nov 15:00–16:00
+Score reconciliation and result approval
+Locked scores, tie decisions and
+finance/prize check
+14 Nov 16:00–17:00
+Awards and closing
+College approval, winner verification,
+prize process
+
+
+PAGE 22
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+22
+Date and time IST
+Activity
+Operational dependency
+14 Nov 17:00–18:00
+Venue handback and financial close preparation
+Inventory, incident log and
+outstanding actions
+This proposal avoids direct overlap among the four E-Fest games, but Bazar, Exhibition and esports run in parallel. At
+registration, detect confirmed participant schedule conflicts across both organizers. If schedule is unpublished, show
+that compatibility is pending. After a schedule change, notify affected participants and route conflicts to coordinators.
+Do not promise unrestricted participation in every event.
+Staffing proposal
+Appoint an institution programme lead and two named super admins; one event lead per organizer; at least two distinct
+authorized finance reviewers to avoid self-review deadlocks; a technical lead and support deputy. Suggested campus
+duties: two welcome/check-in desks with two volunteers each, one help/payment-exception desk, a station lead for
+each active venue, dedicated marshals at every treasure checkpoint and a separate esports room lead. Actual counts
+depend on venue distances and attendance.
+External evaluators are required by the sources for IPL, Brand War, Bazar and Exhibition; internal evaluators for trivia
+and treasure hunt. Assign judges explicitly, declare conflicts, test score entry and provide a documented paper fallback.
+A teacher can fill these roles only when assigned. Staff duties have location, time window, supervisor and
+acknowledgement.
+Programme preparation
+Before registration opens: approve pricing modes, rules, privacy/refund terms, eligibility, capacities and official
+beneficiary. Before one week to event: verify venue layout, power, internet, registration throughput and accessibility.
+Before one day to event: freeze roster changes except supervised corrections, publish reporting instructions, prepare
+exception ledgers and print contact sheets for authorized supervisors.
+Every morning: count staffed desks, test a valid/invalid/revoked QR on real phones, verify network and backup
+connectivity, review outstanding payments, confirm judges and announce changes. At close: reconcile attendance
+exceptions, outstanding credits, score drafts and unresolved incidents; revoke completed shifts and secure devices.
+Payment desk procedure
+Verify identity and registration reference, locate the actual payment state, and direct unresolved bank-credit cases to
+finance. Volunteers cannot approve screenshots. Finance checks authorized bank records, records the decision and
+confirms the correct event/roster. If no slot remains after a late credit, escalate reallocation/refund. End-of-day report
+separates billed amount, verified receipts, pending evidence, unmatched credits and actual completed refunds; none
+are reported as interchangeable revenue figures.
+Judge and results procedure
+Publish rubric and tie-break version before activity; train judges with test candidates. Judges draft scores, check them,
+submit and lock. Event admin reviews completeness and anomalies without silently changing judge marks. A correction
+requires authorized reopening, reason, judge revision and renewed lock. Admin proposes results; super admin
+publishes after score/tie verification. Show published revision/time. A later correction creates a new revision and notifies
+affected participants. Record winner identity and prize disbursement separately from the public leaderboard.
+For Bazar popularity, save official poll window and verified evidence; no fake vote or web poll stand-in. For Treasure
+Hunt, verify checkpoint order, correctness, finish times and penalties; discipline selection uses its own rubric. For IPL
+and esports, do not run scoring without an approved formula.
+
+
+PAGE 23
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+23
+Disruptions and fallback
+Network outage: pause online success confirmations, use numbered paper attendance records under supervisor
+control, and reconcile against server uniqueness constraints when restored. Power failure: protect devices, use
+approved backup connectivity, update reporting times and keep crowd flow safe. Missing volunteer: supervisor
+reassigns duty through an audited command. Safety incident: follow college emergency procedures and local trained
+responders; the app records incident status but does not replace campus safety authority.
+Payment fraud concern: do not accuse a participant based on a screenshot; quarantine the claim for finance review.
+Data exposure: suspend affected access and invoke the security runbook. Weather or venue closure: programme lead
+approves rescheduling/cancellation, super admin publishes and notifications go to affected registrants. Refunds follow
+the approved policy, not ad hoc volunteer promises.
+Closure outputs
+Produce per-event confirmed registrations, attendance, final results, award records, finance reconciliation, unresolved
+refund list, incident summary and staff handover. Remove expired permissions, archive the published programme,
+retain records according to approved policy and schedule deletion of unnecessary evidence. Optional certificates
+require confirmed participation criteria, approved signatories and a separate issuance register.
+
+
+PAGE 24
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+24
+Testing delivery and release readiness
+The following plan is relative to 27 October 2026, with the documented festival starting 13 November. It is a proposed
+sequence, not a delivery guarantee. Do not compress finance, access-control or live-device testing to meet an arbitrary
+visual-demo deadline.
+Delivery phases
+Phase
+Proposed window
+Deliverable and exit condition
+0 Decisions and review
+27–28 Oct
+Approve this pack; identify payment,
+rules, staffing and sender owners
+1 Foundation
+29–30 Oct
+Separate environments; verified
+identity; tested role/scope policies;
+catalogue
+2 Registration and finance
+31 Oct–3 Nov
+Team consent, capacities, payment
+review, exceptions, passes and audit
+3 Operations and
+communications
+4–6 Nov
+Staff duties, scanning, judging,
+results and durable notifications
+4 Experience and
+integration
+7–8 Nov
+Final source assets, mobile layouts,
+accessibility and end-to-end flows
+5 College acceptance
+9–10 Nov
+Real-device rehearsal,
+payment/sender tests, load and
+restore checks
+6 Controlled launch
+11 Nov target
+Signed release checklist; monitored
+registration; rollback ready
+7 Event readiness
+12 Nov
+Roster review, devices, duties,
+runbooks and support rehearsal
+This leaves a short public intake window if launch waits until 11 November. College must decide whether to open a
+tested registration core earlier or revise the schedule. Any phased launch must still pass identity, finance, privacy and
+pass-integrity gates. Freeze nonessential effects or optional features before weakening a required control.
+Work packages
+P0: authentication, event content, scope permissions, team registration, payment reconciliation, pass issuance, online
+check-in, core notifications, audit and support. P1 before event where required: judging, result approval, waitlist,
+programme changes, finance reports, restore rehearsal. P2 only after core stability: cinematic effects, optional
+certificates, optional meals, advanced analytics and game telemetry. Results may use a documented controlled manual
+calculation only if college explicitly accepts that changed scope; do not claim full scoring automation then.
+Acceptance scenarios
+ID
+Scenario
+Pass condition
+T01
+Desktop and phone hero
+Both organizers are identifiable; each CTA opens its own route
+T02
+External-college student
+Non-Srusti verified email can complete eligible profile and registration
+T03
+Teacher sign-in selection
+No role elevation; unassigned teacher sees request/access status
+
+
+PAGE 25
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+25
+ID
+Scenario
+Pass condition
+T04
+Invalid team size
+Backend rejects 1/5 members for a 2–4 event and 4 for Brand War
+T05
+Invitation replay or impersonation
+Expired/reused/wrong-recipient invite cannot add a member
+T06
+Duplicate event membership
+Same student cannot enter two active teams for one event
+T07
+Team versus solo fee
+Valid team pays ₹99 once; solo mode follows approved ₹59 policy
+T08
+Unknown esports fee
+No checkout or ₹0 default; information page remains usable
+T09
+Final slot race
+One valid reservation; other request gets waitlist/conflict
+T10
+Client fee tampering
+Server returns approved fee and rejects unsupported changes
+T11
+Fake receipt
+No confirmed payment/pass without independent credit reconciliation
+T12
+Duplicate credit
+One settled bank transaction cannot fund two orders
+T13
+Self-review
+Staff payer/team member cannot verify their own transaction
+T14
+Late payment after expiry
+Exception queue; no over-capacity auto-confirmation
+T15
+Rejected evidence correction
+Version history retained; safe correction path and notification
+T16
+Underpayment/overpayment
+Explicit finance resolution; no silent amount substitution
+T17
+Refund retry
+One refund action/reference; total refund never exceeds permitted amount
+T18
+Pass privacy
+QR payload contains no personal/payment data; token not logged
+T19
+Concurrent duplicate scans
+Exactly one attendance record; second response is duplicate
+T20
+Revoked or old pass
+Denied immediately after reissue/revocation
+T21
+Wrong event or off-duty scanner
+Denied on server; no attendee record exposure
+T22
+Two-day sessions
+Valid day-two action distinct from day-one attendance
+T23
+Offline or camera denied
+Clear not-recorded state; authorized manual fallback works
+T24
+Cross-organizer access
+ED Cell admin cannot read or mutate Srustiprosar private records
+T25
+MFA and revoked role
+Missing MFA or revoked assignment blocks protected action
+T26
+Beneficiary change
+Two different approved actors required; every change versioned
+T27
+Malicious file
+Forged type/oversize/script payload rejected; private storage stays private
+T28
+Judge bounds and locks
+Invalid score rejected; locked score cannot be silently overwritten
+T29
+Result correction
+New approved revision and affected-user notifications
+T30
+Notification outage
+Outbox retries; no duplicate registration/payment action or noisy repeat
+T31
+Schedule conflict
+Overlap detected; change alerts target affected participants
+T32
+Accessibility
+Keyboard, screen reader, focus, contrast and reduced motion pass review
+T33
+Performance
+Approved device/network/load profile meets documented budgets
+T34
+Restore and rollback
+Staging restore verified with measured RPO/RTO and schema compatibility
+T35
+Secret exposure
+No privileged key in public assets, logs, repository or built bundle
+T36
+Export access
+Logged, scoped and purpose-limited; formula injection neutralized in CSV
+T37
+Last super admin
+Cannot remove sole active authority without approved replacement
+
+
+PAGE 26
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+26
+ID
+Scenario
+Pass condition
+T38
+Stale edits and retries
+Version conflict surfaced; idempotency prevents duplicate writes
+T39
+Registration closure
+New orders blocked; existing paid exceptions routed correctly
+T40
+Source correctness
+Fee/prize totals and rubric maxima match approved source/version
+Test layers and evidence
+Domain tests cover transitions, fee modes, rubric totals and timing. Database integration tests use separate identities
+and concurrent transactions to exercise RLS, uniqueness and roles. End-to-end tests complete both student and staff
+journeys using synthetic records. Live-device UAT includes Android Chrome and iPhone Safari, camera permission,
+low light, poor network, keyboard and screen reader behavior. The college witnesses a test payment under its control
+and verified email delivery before collecting real registrations.
+Store test ID, build commit, environment, tester, timestamp, actual result, evidence link and defect reference. No test in
+this pack is marked passed; these are future acceptance criteria. Asset/document integrity checks are separate from
+application testing. Re-test changed or failed flows; do not imply that a static mockup proves a backend works.
+Launch checklist
+• College confirms organizer names, dates, eligibility, capacities, fee modes, event rules and award names.
+ 
+• Official payment profile verified by two approvers; refunds and exception ownership approved.
+ 
+• Named super admins, admins, finance reviewers, judges and volunteers invited and trained.
+ 
+• Private-data access policies, staff MFA, audit, bank-credit uniqueness and scan replay tests pass.
+ 
+• Production sender, reset links, support contact, notification monitoring and bounce handling work.
+ 
+• Approved schedule, venue, maps, rule supplements and public copy are published.
+ 
+• No blocking security/finance defect; staging UAT signed by college operations and technical leads.
+ 
+• Backup restoration, incident response, duty reassignment and paper fallback rehearsed.
+ 
+• Deployment owner, rollback procedure, monitoring window and event-day support coverage assigned.
+ 
+Ownership and cost planning
+College sponsor approves scope and public policies; organizer leads approve event rules; finance owns bank
+verification/refunds; technical owner owns deployments, backups and incident response; independent reviewer checks
+access/payment tests. Budget categories are domain/hosting, database/storage and recovery plan, email delivery,
+optional SMS, event network/devices, support staffing and independent security review. Obtain current vendor quotes
+before a rupee estimate; none is invented here.
+
+
+PAGE 27
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+27
+Decisions risks and source register
+Facts from the supplied files and the user's decisions are distinguished from recommended defaults. Unresolved items
+below prevent only their dependent production workflows; they do not prevent preparing the specification and artwork.
+Confirmed decisions
+• The user requested planning documents and assets before development; this delivery does not deploy an application.
+ 
+• Participants may come from other colleges, confirmed in this chat.
+ 
+• ED Cell organizes E-Fest; Srustiprosar organizes esports, per user direction.
+ 
+• Use source fees where known and brochure artwork/colors; do not invent unknown esports fees.
+ 
+• Provide student and teacher sign-in, admin/super-admin control, volunteers, QR management and notifications.
+ 
+Decision register
+ID
+Decision needed
+Proposed handling
+Owner and gate
+D01
+Official QR, beneficiary and UPI details
+Keep payment collection disabled until supplied
+and independently checked
+College finance; before checkout
+D02
+Esports fees, rules, capacity and
+prizes
+Publish info only; Free Fire/BGMI fee null and
+checkout disabled
+Srustiprosar; before esports intake
+D03
+Individual ₹59 team allocation
+Consent-based coordinator allocation with no
+additional team charge
+ED Cell; before individual
+checkout
+D04
+Exhibition award labels
+Prefer summary labels after written
+confirmation
+ED Cell/jury; before public awards
+D05
+Timetable, reporting, rooms and
+esports dates
+Review proposed two-day programme and
+conflicts
+Programme lead; before schedule
+publication
+D06
+Refund/cancellation policy and
+settlement SLA
+Explicit policy and accountable finance queue
+College finance; before payments
+D07
+Student eligibility, age and ID checks
+Open colleges confirmed; remaining eligibility
+to be defined
+College authority; before
+registration
+D08
+Staff roster and two approvers
+Named, individually verified accounts and MFA
+College authority; before staff
+activation
+D09
+Sender domain and support contact
+Verified email plus in-app; optional SMS
+deferred
+IT/communications; before
+notifications
+D10
+Hosting, domain, budget and restore
+capability
+New isolated project; proposed Supabase plus
+Vercel
+IT owner; before provisioning
+D11
+Pool counts and unspecified
+team/capacity limits
+Do not infer IPL total capacity or stall-member
+limits
+Event leads; before related intake
+D12
+Judge aggregation, ties and
+conditional criteria
+Publish versioned calculation policy before
+scoring
+Evaluators; before event play
+D13
+Retention, publicity and under-18
+handling
+Approve purpose/retention/consent policy
+College privacy owner; before
+launch
+D14
+Optional meals/certificates
+Disabled unless funded and approved
+College sponsor; before
+advertising
+
+
+PAGE 28
+FIRE & FLAMES  /  PREDEVELOPMENT SPECIFICATION  /  27 OCT 2026
+28
+ID
+Decision needed
+Proposed handling
+Owner and gate
+D15
+Official Instagram page and poll
+window
+Record verified link/window and evidence
+procedure
+ED Cell; before Bazar voting
+D16
+Official logo masters and naming
+Use extracted images now; confirm
+Srustiprosar spelling and high-res marks
+Communications; before final
+branding
+Key risks
+Unverified QR risks payment misdirection; address through two-person verification and versioned settings. The short
+calendar risks rushed testing; release core workflows first only after their gates pass. Shared campuses and
+simultaneous events risk conflicts; use schedule checks and explicit allocation. Weak connectivity risks duplicate or
+missing attendance; use transactional scans plus controlled fallback. Manual reconciliation risks backlog; assign at
+least two reviewers and clear escalation. Unclear individual-fee allocation risks collecting money without valid teams;
+gate it until approved. Low-resolution source logos limit large-format output; preserve fidelity and request masters when
+needed.
+Source register
+S01: C:/Fire&Flames/ABOUT.pdf, 26 pages. Page 1 identity/ED Cell; page 4 promotional pools; pages 7–8 IPL; 10–11 trivia; 13–14
+treasure; 16–17 Brand War; 19–20 Bazar; 21 esports identity; 22 background-only; 24–25 Exhibition; 26 ₹36,000 summary. Extracted text
+and page images were reviewed. Embedded artwork is preserved with source-page references in the manifest.
+S02: C:/Fire&Flames/E-Fest GAME RULES & RUBRICS-1 (1).docx. Opening date 13–14 November 2026; full rules, fees, judging weights
+and prize summary. Use headings as locators; Word page numbers are not asserted without a verified render. The source DOCX was read,
+not edited.
+S03: User instructions in this chat on 27 October 2026: platform scope, two organizers, premium appearance, official QR and cross-college
+participation.
+S04: Crossfire local reference, read-only review of C:/CrossFire/README.md, src/pages/LandingPage.tsx, src/index.css and package.json.
+Reusable ideas: event cards, mobile navigation, reduced-motion handling and scoped staff operations. No assumption that its live
+deployment, credentials, rules, free entry, meals, dates or school eligibility apply here. This was not a security audit of Crossfire.
+Technical references checked during planning
+• OWASP Authorization Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
+• OWASP File Upload Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html
+• Supabase Row Level Security: https://supabase.com/docs/guides/database/postgres/row-level-security
+• Supabase Multi Factor Authentication: https://supabase.com/docs/guides/auth/auth-mfa
+• W3C WCAG 2.2: https://www.w3.org/TR/WCAG22/
+• W3C target size explanation: https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum
+• Web performance thresholds: https://web.dev/articles/defining-core-web-vitals-thresholds
+These references support design targets, not a compliance certification. Validate current SDK behavior and service plans when
+implementation begins. No legal, hosting-cost or banking-integration capability is assumed from a generic reference.
+Approval record template
+Record decision ID, selected option, approver name/role, date/time, evidence location and affected specification
+version. College review should sign product scope, event catalogue, operational policies, access matrix, design
+direction and release gates. Keep subsequent changes in a versioned change log with impact on fees, participants and
+tests. Never backdate approval or label this draft as college-approved.

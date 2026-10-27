@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "updated_date": "2026-10-27",
+  "timezone": "Asia/Kolkata",
+  "updated_by": "Codex",
+  "phase": "predevelopment_handoff",
+  "active_task": "Antigravity to inspect workspace and start app foundation",
+  "application_created": false,
+  "cloud_resources_linked": false,
+  "schema_design": {
+    "status": "verified_local",
+    "tables": 57,
+    "foreign_keys": 130,
+    "evidence": "handoff/database/verification.json",
+    "scope": "Disposable PostgreSQL DDL and selected structural checks only"
+  },
+  "features": {
+    "app_foundation": "not_started",
+    "supabase_migrations_and_rpc": "not_started",
+    "auth_and_staff_mfa": "not_started",
+    "dual_track_public_pages": "not_started",
+    "student_teacher_workspaces": "not_started",
+    "team_invites_and_consent": "not_started",
+    "capacity_and_waitlist": "not_started",
+    "payments_and_reconciliation": "not_started",
+    "passes_and_qr_scanning": "not_started",
+    "admin_super_admin": "not_started",
+    "judging_and_results": "not_started",
+    "esports_operations": "not_started",
+    "notifications_and_workers": "not_started",
+    "storage_and_exports": "not_started",
+    "live_acceptance_tests": "not_started",
+    "vercel_deployment": "not_started"
+  },
+  "external_dependencies": [
+    "Verified Supabase and Vercel target projects and secure credentials",
+    "Official college payment QR and verified beneficiary",
+    "BGMI fee/device/substitute/identity/scoring/prize-distribution decisions; Free Fire details",
+    "Approved individual allocation refund eligibility and timetable policies",
+    "Named staff and approved transactional sender"
+  ],
+  "next_action": "Read handoff/ANTIGRAVITY_PROMPT.md, inspect actual files and Git state, then create the isolated app foundation without modifying source documents.",
+  "latest_requirements_addendum": "handoff/ESPORTS_CLIENT_UPDATE.md",
+  "audio_transcription_status": "unavailable; not transcribed",
+  "esports_database_extensions": "specified_not_implemented"
+}

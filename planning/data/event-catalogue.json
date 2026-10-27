@@ -1,0 +1,324 @@
+{
+  "schema_version": 1,
+  "status": "planning handoff only; not production seed",
+  "prepared_date": "2026-10-27",
+  "timezone": "Asia/Kolkata",
+  "e_fest_dates": [
+    "2026-11-13",
+    "2026-11-14"
+  ],
+  "esports_session_dates": null,
+  "external_colleges_allowed": true,
+  "published_e_fest_pool_paise": 3600000,
+  "advertised_esports_combined_pool_paise": 2000000,
+  "combined_festival_pool_confirmed": false,
+  "events": [
+    {
+      "slug": "ipl-auction",
+      "name": "IPL Auction",
+      "organizer": "ED Cell",
+      "track": "e-fest",
+      "source_status": "documented with unresolved policies",
+      "publication_state": "draft",
+      "registration_enabled": false,
+      "team_min": 2,
+      "team_max": 4,
+      "capacity": null,
+      "capacity_unit": "entry",
+      "pool_team_count": 8,
+      "currency": "INR",
+      "price_options": [
+        {
+          "mode": "team",
+          "amount_paise": 9900
+        },
+        {
+          "mode": "individual",
+          "amount_paise": 5900,
+          "requires_policy_approval": true
+        }
+      ],
+      "prize_pool_paise": 800000,
+      "award_amounts_paise": [
+        400000,
+        250000,
+        150000
+      ],
+      "award_note": null,
+      "gates": [
+        "official_payment_profile",
+        "eligibility_and_rules_approval",
+        "published_schedule"
+      ]
+    },
+    {
+      "slug": "e-trivia",
+      "name": "e-Trivia",
+      "organizer": "ED Cell",
+      "track": "e-fest",
+      "source_status": "documented with unresolved policies",
+      "publication_state": "draft",
+      "registration_enabled": false,
+      "team_min": 2,
+      "team_max": 4,
+      "capacity": null,
+      "capacity_unit": "entry",
+      "pool_team_count": null,
+      "currency": "INR",
+      "price_options": [
+        {
+          "mode": "team",
+          "amount_paise": 9900
+        },
+        {
+          "mode": "individual",
+          "amount_paise": 5900,
+          "requires_policy_approval": true
+        }
+      ],
+      "prize_pool_paise": 450000,
+      "award_amounts_paise": [
+        200000,
+        150000,
+        100000
+      ],
+      "award_note": null,
+      "gates": [
+        "official_payment_profile",
+        "eligibility_and_rules_approval",
+        "published_schedule"
+      ]
+    },
+    {
+      "slug": "treasure-hunt",
+      "name": "Treasure Hunt",
+      "organizer": "ED Cell",
+      "track": "e-fest",
+      "source_status": "documented with unresolved policies",
+      "publication_state": "draft",
+      "registration_enabled": false,
+      "team_min": 2,
+      "team_max": 4,
+      "capacity": null,
+      "capacity_unit": "entry",
+      "pool_team_count": null,
+      "currency": "INR",
+      "price_options": [
+        {
+          "mode": "team",
+          "amount_paise": 9900
+        },
+        {
+          "mode": "individual",
+          "amount_paise": 5900,
+          "requires_policy_approval": true
+        }
+      ],
+      "prize_pool_paise": 700000,
+      "award_amounts_paise": [
+        300000,
+        250000,
+        150000
+      ],
+      "award_note": "Third amount is discretionary discipline award, not third finisher",
+      "gates": [
+        "official_payment_profile",
+        "eligibility_and_rules_approval",
+        "published_schedule"
+      ]
+    },
+    {
+      "slug": "brand-war",
+      "name": "Brand War",
+      "organizer": "ED Cell",
+      "track": "e-fest",
+      "source_status": "documented with unresolved policies",
+      "publication_state": "draft",
+      "registration_enabled": false,
+      "team_min": 2,
+      "team_max": 3,
+      "capacity": null,
+      "capacity_unit": "entry",
+      "pool_team_count": null,
+      "currency": "INR",
+      "price_options": [
+        {
+          "mode": "team",
+          "amount_paise": 9900
+        },
+        {
+          "mode": "individual",
+          "amount_paise": 5900,
+          "requires_policy_approval": true
+        }
+      ],
+      "prize_pool_paise": 450000,
+      "award_amounts_paise": [
+        200000,
+        150000,
+        100000
+      ],
+      "award_note": null,
+      "gates": [
+        "official_payment_profile",
+        "eligibility_and_rules_approval",
+        "published_schedule"
+      ]
+    },
+    {
+      "slug": "srusti-bazar",
+      "name": "Srusti Bazar",
+      "organizer": "ED Cell",
+      "track": "e-fest",
+      "source_status": "documented with unresolved policies",
+      "publication_state": "draft",
+      "registration_enabled": false,
+      "team_min": null,
+      "team_max": null,
+      "capacity": 10,
+      "capacity_unit": "stall",
+      "pool_team_count": null,
+      "currency": "INR",
+      "price_options": [
+        {
+          "mode": "stall",
+          "amount_paise": 29900
+        }
+      ],
+      "prize_pool_paise": 300000,
+      "award_amounts_paise": [
+        100000,
+        100000,
+        100000
+      ],
+      "award_note": null,
+      "gates": [
+        "official_payment_profile",
+        "eligibility_and_rules_approval",
+        "published_schedule"
+      ]
+    },
+    {
+      "slug": "srusti-exhibition",
+      "name": "Srusti Exhibition",
+      "organizer": "ED Cell",
+      "track": "e-fest",
+      "source_status": "documented with unresolved policies",
+      "publication_state": "draft",
+      "registration_enabled": false,
+      "team_min": null,
+      "team_max": null,
+      "capacity": 10,
+      "capacity_unit": "entry",
+      "pool_team_count": null,
+      "currency": "INR",
+      "price_options": [
+        {
+          "mode": "entry",
+          "amount_paise": 19900
+        }
+      ],
+      "prize_pool_paise": 900000,
+      "award_amounts_paise": [
+        300000,
+        300000,
+        300000
+      ],
+      "award_note": "Names conflict in source; see decision D04",
+      "gates": [
+        "official_payment_profile",
+        "eligibility_and_rules_approval",
+        "published_schedule"
+      ]
+    },
+    {
+      "slug": "free-fire",
+      "name": "Free Fire",
+      "organizer": "Srustiprosar",
+      "organizer_source": "user instruction",
+      "track": "esports",
+      "publication_state": "draft",
+      "registration_enabled": false,
+      "team_min": null,
+      "team_max": null,
+      "capacity": null,
+      "currency": "INR",
+      "price_options": null,
+      "prize_pool_paise": null,
+      "gates": [
+        "esports_fees",
+        "game_rules",
+        "prize_allocation",
+        "capacity",
+        "official_payment_profile",
+        "eligibility_and_rules_approval",
+        "published_schedule"
+      ]
+    },
+    {
+      "slug": "bgmi",
+      "name": "Kalinga BGMI Clash — Season 1",
+      "organizer": "Srustiprosar",
+      "organizer_source": "user instruction",
+      "track": "esports",
+      "publication_state": "draft",
+      "registration_enabled": false,
+      "team_min": null,
+      "team_max": 5,
+      "capacity": 24,
+      "currency": "INR",
+      "price_options": null,
+      "prize_pool_paise": 1000000,
+      "gates": [
+        "esports_fees",
+        "official_payment_profile",
+        "device_policy",
+        "substitute_policy",
+        "identity_verification_policy",
+        "approved_declaration",
+        "complete_match_and_scoring_rules",
+        "prize_distribution",
+        "published_schedule"
+      ],
+      "display_name_status": "provisional normalization of supplied heading",
+      "source_alias": "KALINGA CLASH 2K26",
+      "dates": [
+        "2026-11-13",
+        "2026-11-14"
+      ],
+      "format": "offline venue-based",
+      "capacity_unit": "team",
+      "starters_required": 4,
+      "substitute_slots": 1,
+      "substitute_required": null,
+      "igl_required": 1,
+      "leader_phone_only": true,
+      "query_phone": "8260555312",
+      "prize_distribution": null,
+      "source_status": "latest written client brief; audio unverified",
+      "placement_points": {
+        "1": 10,
+        "2": 6,
+        "3": 5,
+        "4": 4,
+        "5": 3,
+        "6": 2,
+        "7": 1,
+        "8": 1,
+        "9": 0,
+        "10": 0,
+        "11": 0,
+        "12": 0,
+        "13": 0,
+        "14": 0,
+        "15": 0,
+        "16": 0
+      },
+      "kill_points": null,
+      "tie_breaks": null,
+      "lobby_size": null
+    }
+  ],
+  "latest_esports_source": "handoff/ESPORTS_CLIENT_UPDATE.md",
+  "esports_session_dates_note": "BGMI dates supplied on event record; Free Fire/session timetable still unknown."
+}

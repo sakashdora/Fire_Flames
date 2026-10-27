@@ -1,0 +1,285 @@
+PAGE 1
+FIRE & FLAMES  /  DESIGN REVIEW
+Two organizers. One clear entrance.
+Desktop landing concept • Source artwork and brochure colors • Both choices visible without a carousel
+BOARD 01
+SRUSTI  /  FIRE & FLAMES
+Events     Programme     Rules     Help
+Student sign in
+Teacher sign in
+13–14 NOVEMBER 2026  /  E-FEST
+Choose your arena.
+Open to students from other colleges. Explore the event, then register with confidence.
+ORGANIZED BY ED CELL
+Fire & Flames
+THE E-FEST
+Ideas, enterprise and competition. Six activities spanning strategy,
+creativity and student innovation.
+6 ACTIVITIES
+₹36,000 ACTIVITY POOL
+Explore E-Fest  →
+ORGANIZED BY SRUSTIPROSAR
+Free Fire and BGMI. A dedicated esports experience with its own rules,
+registration and operations.
+FEES TO BE ANNOUNCED
+₹20,000 POOL
+Explore Esports  →
+Fast first load. Optional motion. Clear organizer identity at every step.
+Hero copy is live text in the future site. Esports checkout remains closed until its configuration is approved.
+STATIC CONCEPT  •  v1
+
+
+PAGE 2
+FIRE & FLAMES  /  DESIGN REVIEW
+A readable mobile journey
+Three phone concepts • No blocking intro • Organizer and fee stay visible through checkout
+BOARD 02
+01  DISCOVER
+SRUSTI
+Account
+02  REVIEW
+SRUSTI
+Account
+03  PAYMENT
+SRUSTI
+Account
+Find your event.
+13–14 Nov 2026  •  E-Fest
+ED CELL
+Fire & Flames
+Six events  •  ₹36,000 pool
+Explore E-Fest  →
+SRUSTIPROSAR
+Free Fire & BGMI
+Registration details coming soon
+Explore Esports  →
+Review registration
+E-Fest  /  IPL Auction
+STEP 4 OF 6
+Registration mode
+Team
+Team members
+3 accepted
+Organizer
+ED Cell
+Amount due
+₹99 per team
+Your roster and fee are saved with this
+registration. Each member receives their own
+pass after confirmation.
+I accept the event rules and terms
+Continue to payment  →
+Pay the college
+IPL Auction  /  ₹99 total
+OFFICIAL QR
+REQUIRED
+Not a payment code
+The approved college beneficiary and exact
+amount must appear here before checkout is
+enabled.
+Transaction reference
+Attach payment evidence
+Submit details for review
+Illustrative review state. No real payment QR, student record or transaction is displayed.
+STATIC CONCEPT  •  v1
+
+
+PAGE 3
+FIRE & FLAMES  /  DESIGN REVIEW
+Volunteer operations built for the gate
+Duty-bound scanning • Clear server-confirmed results • No payment approval authority
+BOARD 03
+VOLUNTEER WORKSPACE
+IPL Auction · Entry desk
+Assigned session and shift required
+Camera preview
+Scan an individual event pass
+Start camera
+Use support reference
+No connection? Attendance is not recorded. Contact
+the station supervisor.
+SCAN RESULT
+Recorded
+Identity matched • Correct session • First valid check-in
+SCAN RESULT
+Already checked in
+Show the original time. Do not create another attendance record.
+SCAN RESULT
+Not recorded
+Wrong event, revoked pass or unavailable connection. Show the next action.
+Server validates the current pass, role, duty, event and duplicate constraint before returning success.
+STATIC CONCEPT  •  v1
+
+
+PAGE 4
+FIRE & FLAMES  /  DESIGN REVIEW
+Admin work starts with the next action
+Scoped operational queues • Auditable finance reviews • Super-admin approval where required
+BOARD 04
+ED CELL
+Event admin
+Overview
+Registrations
+Payment review
+Events & schedule
+Staff duties
+Judging & results
+Notifications
+Audit history
+Payment review
+Finance permission required • ED Cell records only
+SAMPLE DATA
+12
+Awaiting review
+03
+Needs correction
+02
+Late credit exceptions
+REFERENCE
+EVENT
+AMOUNT
+STATUS
+SAMPLE-001
+IPL Auction
+₹99
+Under review
+SAMPLE-002
+Srusti Bazar
+₹299
+Needs information
+SAMPLE-003
+Exhibition
+₹199
+Late credit
+Open a record to match the actual bank credit, review evidence and record an attributable decision.
+No screenshot-only approval
+Reviewers cannot verify their own payments. A verified credit is allocated once; every decision is audited.
+Super admin: institution-wide scope, named role grants, beneficiary approvals, result publication and recovery.
+STATIC CONCEPT  •  v1
+
+
+PAGE 5
+FIRE & FLAMES  /  DESIGN REVIEW
+A coherent asset system
+Original PDF artwork • Named source copies • Responsive exports • One new decorative background
+BOARD 05
+IPL Auction
+e-Trivia
+Treasure Hunt
+Brand War
+Srusti Bazar
+Srusti Exhibition
+CANVAS
+#0B0B0D
+SURFACE
+#161619
+RAISED
+#222226
+TEXT
+#F7F2E8
+MUTED
+#C4BFB5
+EMBER
+#FF781F
+GOLD
+#F5BF42
+RED
+#9B1C17
+Source origins, dimensions, hashes and optimized derivatives are recorded in assets/manifest.json.
+STATIC CONCEPT  •  v1
+
+
+PAGE 6
+FIRE & FLAMES  /  DESIGN REVIEW
+Approval and operational flow
+Design review companion • Resolve the listed dependencies before enabling their production workflows
+BOARD 06
+01
+Choose event
+Organizer, rules and fee
+02
+Confirm identity
+College profile and consent
+03
+Review payment
+Actual credited funds
+04
+Issue passes
+Eligible roster confirmed
+05
+Record attendance
+Scoped online scan
+Decisions required from the college
+FINANCE
+Official QR and beneficiary; two approvers; refund policy.
+ED CELL
+Individual entry allocation, final award names, timetable and rules.
+SRUSTIPROSAR
+Game fees, format, squad sizes, scoring, sessions and prize split.
+IT AND OPERATIONS
+Named staff, sender domain, hosting ownership, support and rehearsal.
+The master plan includes responsibilities, state transitions, source conflicts and 40 future acceptance tests.
+STATIC CONCEPT  •  v1
+
+
+PAGE 7
+FIRE & FLAMES  /  DESIGN REVIEW
+Super admin oversight and approvals
+Institution-wide visibility • Separate organizer scopes • No self-approval of sensitive changes
+BOARD 07
+Institution control
+MFA VERIFIED
+ED Cell + Srustiprosar
+Staff authority
+Named roles with scope and expiry
+Critical approvals
+Beneficiary, refunds and publication
+Audit and recovery
+Trace changes and revoke access
+Payment profile activation
+STATE: AWAITING INDEPENDENT APPROVAL
+The official QR, decoded destination and beneficiary must be checked against college finance
+records. The proposer cannot approve their own change.
+1   Finance evidence and test transfer recorded
+2   Different authorized approver verifies the destination
+3   Activation creates a new version and security notification
+Access review
+Grant only the required organizer scope
+Require recent MFA for privilege changes
+Revoke active duties and sessions promptly
+Protect the last active super admin
+Record a reason for every override
+A teacher or student may hold an assigned staff role. Sign-in choice, email suffix or a hidden menu never grants that authority.
+Illustrative control layout. Payment profile remains inactive until the official college details are supplied and verified.
+STATIC CONCEPT  •  v1
+
+
+PAGE 8
+FIRE & FLAMES  /  DESIGN REVIEW
+Clear workspaces for students and teachers
+One identity can have several approved roles • Student data and staff authority remain separate
+BOARD 08
+My registrations
+Student workspace  /  Any eligible college
+IPL Auction · ED Cell
+Payment under review
+We will notify you after payment and eligibility checks. Your pass is not ready yet.
+Exhibition · ED Cell
+Confirmed
+View my event pass
+Esports registrations appear here separately once the game rules and
+registration settings are approved.
+Profile   •   Team invites   •   Notifications   •   Help
+Teacher workspace
+Verified identity  /  Explicit assignments
+Assigned judging
+Brand War  /  ED Cell
+Score assigned candidates using the approved rubric.
+Open assigned rubric
+No assignment yet?
+Request an assignment from the organizer. A teacher account alone cannot
+manage events, review payments or grant staff access.
+Switch workspace only when another approved role exists. An active staff
+session still requires MFA.
+Names, counts and statuses on all boards are sample concepts. They are not live records or implemented functionality.
+STATIC CONCEPT  •  v1

@@ -1,0 +1,101 @@
+const fs=require('node:fs');
+const path=require('node:path');
+const {randomUUID}=require('node:crypto');
+const modulePath=process.env.PGLITE_MODULE_PATH || 'C:/CrossFire/node_modules/@electric-sql/pglite/dist/index.cjs';
+const {PGlite}=require(modulePath);
+const root=__dirname;
+const checks=[];
+async function main(){
+ const db=new PGlite();
+ await db.exec('create role anon; create role authenticated; create role service_role; create schema auth; create table auth.users(id uuid primary key);');
+ await db.exec(fs.readFileSync(path.join(root,'001_schema_design.sql'),'utf8'));
+ checks.push({test:'Apply entire schema to disposable PostgreSQL engine',result:'PASS'});
+ async function insert(table,data){const keys=Object.keys(data);const r=await db.query(`insert into app.${table} (${keys.join(',')}) values (${keys.map((_,i)=>'$'+(i+1)).join(',')}) returning id`,keys.map(k=>data[k]));return r.rows[0].id;}
+ async function reject(name,sql,args,code){try{await db.query(sql,args);throw new Error('Unexpected success: '+name);}catch(e){if(e.code!==code)throw e;checks.push({test:name,result:'PASS',expected_sqlstate:code});}}
+ const institution=await insert('institutions',{name:'TEST college'});
+ const org=await insert('organizers',{institution_id:institution,slug:'test-ed',name:'TEST ED'});
+ const orgB=await insert('organizers',{institution_id:institution,slug:'test-esports',name:'TEST esports'});
+ const people=[];
+ for(let i=0;i<5;i++){let id=randomUUID();await db.query('insert into auth.users values($1)',[id]);await insert('profiles',{id,display_name:'TEST '+i,contact_email:`test${i}@example.invalid`,affiliation:'student'});people.push(id);}
+ const [p1,p2,p3,admin,reviewer]=people;
+ const event=await insert('events',{organizer_id:org,slug:'test-ipl',name:'TEST IPL',track:'e-fest'});
+ const eventB=await insert('events',{organizer_id:orgB,slug:'test-bgmi',name:'TEST BGMI',track:'esports'});
+ const version=await insert('event_versions',{event_id:event,version:1,public_description:'TEST',rules_text:'TEST',team_min:2,team_max:4});
+ const versionB=await insert('event_versions',{event_id:eventB,version:1,public_description:'TEST',rules_text:'TEST'});
+ const price=await insert('price_options',{event_version_id:version,event_id:event,mode:'team',amount_paise:9900});
+ const solo=await insert('price_options',{event_version_id:version,event_id:event,mode:'individual',amount_paise:5900});
+ const unknown=await insert('price_options',{event_version_id:versionB,event_id:eventB,mode:'team'});
+ await reject('Unknown fee cannot be enabled','update app.price_options set enabled=true where id=$1',[unknown],'23514');
+ await reject('Negative fee rejected','update app.price_options set amount_paise=-1 where id=$1',[price],'23514');
+ await reject('Cross event publication rejected','update app.events set published_version_id=$1 where id=$2',[versionB,event],'23503');
+ await reject('Registration cannot open without published version','update app.events set registration_enabled=true where id=$1',[event],'23514');
+ await reject('Invalid team limits rejected','update app.event_versions set team_min=5 where id=$1',[version],'23514');
+ const entry=await insert('competition_entries',{event_id:event,event_version_id:version,captain_id:p1,display_name:'TEST team',kind:'team'});
+ const entryB=await insert('competition_entries',{event_id:eventB,event_version_id:versionB,captain_id:p3,display_name:'TEST other',kind:'team'});
+ const reg=await insert('registrations',{reference:'TEST-R1',owner_id:p1,event_id:event,event_version_id:version,price_option_id:price,mode:'team',entry_id:entry});
+ const reg2=await insert('registrations',{reference:'TEST-R2',owner_id:p2,event_id:event,event_version_id:version,price_option_id:solo,mode:'individual',entry_id:entry});
+ await reject('Registration cannot use another events entry','update app.registrations set entry_id=$1 where id=$2',[entryB,reg],'23503');
+ await reject('Registration mode must match price option','update app.registrations set mode=$1 where id=$2',['individual',reg],'23503');
+ const member=await insert('registration_members',{registration_id:reg,event_id:event,profile_id:p1,state:'accepted',consented_at:new Date().toISOString(),rules_version_id:version});
+ const member2=await insert('registration_members',{registration_id:reg2,event_id:event,profile_id:p2,state:'accepted',consented_at:new Date().toISOString(),rules_version_id:version});
+ await reject('Duplicate accepted event membership rejected','insert into app.registration_members(registration_id,event_id,profile_id,state,consented_at,rules_version_id) values($1,$2,$3,\'accepted\',now(),$4)',[reg2,event,p1,version],'23505');
+ await reject('Membership cannot be accepted without consent','insert into app.registration_members(registration_id,event_id,profile_id,state) values($1,$2,$3,\'accepted\')',[reg,event,p3],'23514');
+ const part=await insert('entry_participants',{entry_id:entry,registration_id:reg,member_id:member,event_id:event,profile_id:p1});
+ await insert('entry_participants',{entry_id:entry,registration_id:reg2,member_id:member2,event_id:event,profile_id:p2});
+ checks.push({test:'Separate payable registrations can fund members of one competition entry',result:'PASS'});
+ await reject('Participant identity must match membership','update app.entry_participants set profile_id=$1 where id=$2',[p3,part],'23503');
+ const file=await insert('files',{owner_id:admin,organizer_id:org,bucket:'official-payment-qr',object_path:'test.png',purpose:'official_qr',mime_type:'image/png',size_bytes:10});
+ const profile=await insert('payment_profiles',{institution_id:institution,version:1,beneficiary_name:'TEST only',upi_id:'test@example.invalid',receiving_account_reference:'TEST-ACCOUNT',qr_file_id:file,qr_sha256:'a'.repeat(64),proposed_by:admin});
+ const reservation=await insert('reservations',{entry_id:entry,event_id:event,expires_at:'2030-01-01T00:00:00Z'});
+ await reject('Only one live reservation per entry','insert into app.reservations(entry_id,event_id,expires_at) values($1,$2,\'2030-01-01\')',[entry,event],'23505');
+ const order=await insert('orders',{registration_id:reg,event_id:event,entry_id:entry,reservation_id:reservation,payment_profile_id:profile,reference:'TEST-O1',total_paise:9900,price_snapshot:'{}',beneficiary_snapshot:'{}'});
+ const order2=await insert('orders',{registration_id:reg2,event_id:event,entry_id:entry,reservation_id:reservation,payment_profile_id:profile,reference:'TEST-O2',total_paise:5900,price_snapshot:'{}',beneficiary_snapshot:'{}'});
+ const credit=await insert('bank_credits',{payment_profile_id:profile,receiving_account_reference:'TEST-ACCOUNT',settled_transaction_id:'TEST-BANK-1',amount_paise:9900,credited_at:new Date().toISOString(),verified_source_reference:'TEST evidence',recorded_by:reviewer});
+ await reject('Same settled credit cannot be imported twice','insert into app.bank_credits(payment_profile_id,receiving_account_reference,settled_transaction_id,amount_paise,credited_at,verified_source_reference,recorded_by) values($1,\'TEST-ACCOUNT\',\'TEST-BANK-1\',9900,now(),\'TEST\',$2)',[profile,reviewer],'23505');
+ await insert('credit_allocations',{order_id:order,credit_id:credit,payment_profile_id:profile,allocated_by:reviewer,amount_paise:9900});
+ await reject('Same bank credit cannot fund two orders','insert into app.credit_allocations(order_id,credit_id,payment_profile_id,allocated_by,amount_paise) values($1,$2,$3,$4,5900)',[order2,credit,profile,reviewer],'23505');
+ await reject('Bank credits are append only','update app.bank_credits set amount_paise=1 where id=$1',[credit],'55000');
+ await reject('Self approved refund rejected','insert into app.refunds(order_id,amount_paise,reason,requested_by,approved_by) values($1,1,\'TEST\',$2,$2)',[order,p1],'23514');
+ const pass=await insert('passes',{entry_participant_id:part,event_id:event,profile_id:p1,version:1,token_hash:'b'.repeat(64),token_ciphertext:'TEST-CIPHERTEXT-FIXTURE',token_key_version:1,support_reference:'TEST-PASS',expires_at:'2030-01-01'});
+ await reject('Only one unrevoked pass per participant','insert into app.passes(entry_participant_id,event_id,profile_id,version,token_hash,token_ciphertext,token_key_version,support_reference,expires_at) values($1,$2,$3,2,$4,\'TEST\',1,\'TEST-PASS2\',\'2030-01-01\')',[part,event,p1,'c'.repeat(64)],'23505');
+ const session=await insert('sessions',{event_id:event,label:'TEST day1',starts_at:'2026-11-13T09:00:00Z',ends_at:'2026-11-13T10:00:00Z'});
+ const station=await insert('stations',{event_id:event,name:'TEST gate',kind:'entry'});
+ const assignment=await insert('staff_assignments',{profile_id:reviewer,institution_id:institution,organizer_id:org,event_id:event,role:'volunteer',starts_at:'2026-11-01',ends_at:'2026-11-15',granted_by:admin,reason:'TEST'});
+ const duty=await insert('duties',{staff_assignment_id:assignment,profile_id:reviewer,event_id:event,session_id:session,station_id:station,starts_at:'2026-11-13T08:00:00Z',ends_at:'2026-11-13T11:00:00Z'});
+ await insert('attendance',{pass_id:pass,event_id:event,participant_id:p1,session_id:session,station_id:station,duty_id:duty,actor_id:reviewer,action:'check_in',method:'qr'});
+ await reject('Duplicate attendance rejected','insert into app.attendance(pass_id,event_id,participant_id,session_id,station_id,duty_id,actor_id,action,method) values($1,$2,$3,$4,$5,$6,$7,\'check_in\',\'qr\')',[pass,event,p1,session,station,duty,reviewer],'23505');
+ await reject('Scan actor must be assigned duty holder','insert into app.attendance(pass_id,event_id,participant_id,session_id,station_id,duty_id,actor_id,action,method) values($1,$2,$3,$4,$5,$6,$7,\'check_out\',\'qr\')',[pass,event,p1,session,station,duty,p3],'23503');
+ await reject('Wrong organizer staff assignment rejected','insert into app.staff_assignments(profile_id,institution_id,organizer_id,event_id,role,starts_at,ends_at,granted_by,reason) values($1,$2,$3,$4,\'event_admin\',\'2026-11-01\',\'2026-11-15\',$1,\'TEST\')',[admin,institution,orgB,event],'23503');
+ const rubric=await insert('rubrics',{event_version_id:version,event_id:event,name:'TEST rubric',max_marks:25});
+ const criterion=await insert('rubric_criteria',{rubric_id:rubric,label:'TEST criterion',max_marks:25,position:1});
+ const judge=await insert('judge_assignments',{staff_assignment_id:assignment,judge_id:reviewer,entry_id:entry,event_id:event,rubric_id:rubric});
+ const card=await insert('scorecards',{judge_assignment_id:judge,rubric_id:rubric});
+ await reject('Marks above maximum rejected','insert into app.scores(scorecard_id,rubric_id,criterion_id,marks) values($1,$2,$3,26)',[card,rubric,criterion],'23514');
+ await insert('scores',{scorecard_id:card,rubric_id:rubric,criterion_id:criterion,marks:20});
+ await db.query('update app.scorecards set state=\'locked\',locked_at=now() where id=$1',[card]);
+ await reject('Locked score cannot be edited','update app.scores set marks=21 where scorecard_id=$1',[card],'55000');
+ await reject('Locked score cannot be deleted','delete from app.scores where scorecard_id=$1',[card],'55000');
+ await insert('audit_log',{institution_id:institution,organizer_id:org,event_id:event,actor_id:admin,action:'TEST',entity_type:'test',correlation_id:randomUUID()});
+ await reject('Audit records cannot be deleted','delete from app.audit_log',[],'55000');
+ for(const role of ['anon','authenticated','service_role']){
+    await db.exec('set role '+role);
+    await reject(role+' cannot directly read domain tables','select * from app.profiles',[],'42501');
+    await db.exec('reset role');
+ }
+ const tables=(await db.query("select c.relname,c.relrowsecurity from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='app' and c.relkind='r' order by c.relname")).rows;
+ if(tables.length!==57 || tables.some(t=>!t.relrowsecurity))throw new Error('Unexpected table count or missing RLS');
+ checks.push({test:'All 57 domain tables have RLS enabled',result:'PASS'});
+ const columns=(await db.query("select table_name,column_name,data_type,is_nullable,column_default from information_schema.columns where table_schema='app' order by table_name,ordinal_position")).rows;
+ const constraints=(await db.query("select c.conrelid::regclass::text as table_name,c.conname,c.contype,pg_get_constraintdef(c.oid) as definition,c.confrelid::regclass::text as target from pg_constraint c join pg_namespace n on n.oid=c.connamespace where n.nspname='app' order by table_name,conname")).rows;
+ fs.writeFileSync(path.join(root,'schema-metadata.json'),JSON.stringify({tables,columns,constraints},null,2));
+ let dict='# Database dictionary\n\nGenerated from the applied disposable schema, not from a live Supabase database. Columns and keys are structural facts; command-level invariants are specified separately.\n';
+ for(const t of tables){dict+='\n## '+t.relname+'\n\n| Column | Type | Nullable | Default |\n|---|---|---|---|\n';for(const col of columns.filter(c=>c.table_name===t.relname))dict+=`| ${col.column_name} | ${col.data_type} | ${col.is_nullable} | ${(col.column_default||'').replaceAll('|',' / ')} |\n`;dict+='\nConstraints:\n';for(const co of constraints.filter(c=>c.table_name==='app.'+t.relname))dict+='- `'+co.definition+'`\n';}
+ fs.writeFileSync(path.join(root,'DATA_DICTIONARY.md'),dict);
+ let er='# Complete database relationships\n\nGenerated from actual foreign keys. An edge means one parent can have many children; unique keys may further restrict cardinality. Optional links are defined in the dictionary. The diagram does not imply cascade deletion.\n\n```mermaid\nerDiagram\n';
+ const seen=new Set();
+ for(const co of constraints.filter(c=>c.contype==='f')){const from=co.table_name.replaceAll('.','_'),to=co.target.replaceAll('.','_');const key=from+'|'+to;if(seen.has(key))continue;seen.add(key);er+=`  ${to} ||--o{ ${from} : references\n`;}
+ er+='```\n\nFor implementation, use the domain diagrams in DATABASE_MODEL.md and the exact composite foreign keys in 001_schema_design.sql.\n';fs.writeFileSync(path.join(root,'ERD.md'),er);
+ const evidence={status:'PASS',engine:'PGlite disposable embedded PostgreSQL',auth:'minimal auth.users fixture only; not Supabase Auth',cloud_changes:false,concurrency_tested:false,checks,limitations:['No live Supabase Auth/Storage/RLS RPC integration','No live Vercel/email/bank tests','No application commands implemented','No multi-connection concurrency test; unique constraints only','No claim of production readiness']};
+ fs.writeFileSync(path.join(root,'verification.json'),JSON.stringify(evidence,null,2));console.log(JSON.stringify({checks:checks.length,tables:tables.length,foreign_keys:constraints.filter(c=>c.contype==='f').length,status:'PASS',limits:evidence.limitations},null,2));await db.close();
+}
+main().catch(e=>{console.error(e);process.exitCode=1;});

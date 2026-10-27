@@ -1,0 +1,24 @@
+flowchart TD
+  Browse[Select organizer and event] --> Rules[Read rules fee and requirements]
+  Rules --> Login[Verify student identity and college profile]
+  Login --> Mode{Approved registration mode}
+  Mode -->|Team| Consent[Valid roster and member consent]
+  Mode -->|Individual policy approved| Solo[Individual intake]
+  Consent --> Capacity{Capacity available}
+  Solo --> Capacity
+  Capacity -->|No| Waitlist[Waitlist without payment]
+  Capacity -->|Yes| Hold[Atomic reservation and fee snapshot]
+  Hold --> Pay[Pay verified official college destination]
+  Pay --> Evidence[Submit payment evidence]
+  Evidence --> Review{Finance matches actual credit}
+  Review -->|Needs correction| Correct[Action required]
+  Correct --> Evidence
+  Review -->|Verified| Eligible{Roster and eligibility ready}
+  Eligible -->|No| Allocation[Resolve allocation or exception]
+  Allocation --> Eligible
+  Eligible -->|Yes| Confirm[Confirm registration and issue member passes]
+  Confirm --> Scan[On duty volunteer scans]
+  Scan --> Check{Server validates scope pass and uniqueness}
+  Check -->|Valid first use| Recorded[Attendance recorded]
+  Check -->|Duplicate| Duplicate[Already checked in]
+  Check -->|Invalid or offline| Denied[Not recorded and supervised resolution]

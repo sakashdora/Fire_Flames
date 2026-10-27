@@ -1,0 +1,21 @@
+{
+  "Fire-and-Flames-Design-Boards.pdf": {
+    "pages": 8,
+    "empty_text_pages": [],
+    "sha256": "c8593cf69819ac68d4a099ed7b086f6bcaaae74cc9310e5e6b51371d9fde0411"
+  },
+  "Fire-and-Flames-Master-Plan.pdf": {
+    "pages": 28,
+    "empty_text_pages": [],
+    "sha256": "e55c79a7c309b5c05be5a25ba8767f235563c2318e6633c49738f3be9512d412"
+  },
+  "integrity": {
+    "missing_assets": [],
+    "unique_embedded_images": 28,
+    "manifest_records": 53,
+    "markdown_specs": 11,
+    "acceptance_cases": 40,
+    "e_fest_pool_inr": 36000,
+    "all_application_tests": "NOT RUN; predevelopment delivery"
+  }
+}

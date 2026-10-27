@@ -1,0 +1,5 @@
+# Generated hero background
+
+Tool: built-in image_gen. Mode: new image. Output: ember-hero.png. Intended use: decorative public hero background; official identities remain separate source images and accessible text.
+
+Final prompt: Use case: stylized-concept. Asset type: ultra-wide premium university event website hero background, landscape 16:9. Create an original charcoal-black volcanic fine-textured backdrop with very restrained glowing amber gold embers, a low red-orange glow concentrated along the bottom edge, and a subtle soft overhead spotlight. The aesthetic is the Fire & Flames college E-Fest brochure: black, metallic gold, orange flame and deep red. Cinematic but clean and elegant, almost black central and upper 70 percent with abundant space for two side-by-side website event panels and accessible live HTML text. No text, no logos, no icons, no people, no weapons, no cards or UI. Avoid busy particle clouds, bright center, blue, purple, or gradients that overpower text. This is a background asset only, not a website screenshot.

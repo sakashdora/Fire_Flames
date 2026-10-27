@@ -1,0 +1,954 @@
+[
+  {
+    "file": "assets/source-embedded/p01-image01.jpg",
+    "pages": [
+      1,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "dimensions": [
+      2068,
+      1380
+    ],
+    "sha256": "53f7c18cc534d59b16f18b7d8c8ea01a8f6884e262b9fa6d575f901fc3e3b9e7",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p01-image02.png",
+    "pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      23,
+      24,
+      25,
+      26
+    ],
+    "dimensions": [
+      1404,
+      1020
+    ],
+    "sha256": "de4b344b0a28207d8e6a75c8f27e65801ce475eaf4d8b037692f318fe1263d97",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p01-image03.png",
+    "pages": [
+      1
+    ],
+    "dimensions": [
+      160,
+      160
+    ],
+    "sha256": "cc555e1a9feb0159c36eb21d052363f393c6f90ee2f44bc1683d1325eba66ab3",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p01-image04.png",
+    "pages": [
+      1,
+      4,
+      9,
+      15,
+      18,
+      21
+    ],
+    "dimensions": [
+      1600,
+      771
+    ],
+    "sha256": "b0429cad17229b6efc307f79117ac7cee86efb752cd2f1d34eb11493d0cb9a6a",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p01-image05.png",
+    "pages": [
+      1,
+      4,
+      9,
+      18,
+      23
+    ],
+    "dimensions": [
+      1713,
+      952
+    ],
+    "sha256": "144e0fd8d6d9487ad0e95fd2c39d754170237675f64df51d1cb5179c727fe9ed",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p02-image01.jpg",
+    "pages": [
+      2
+    ],
+    "dimensions": [
+      2584,
+      1724
+    ],
+    "sha256": "a12fa6bb81fe53fbbc6217c68bedb5c61f804924657858cfab434e781440d75f",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p02-image02.png",
+    "pages": [
+      2
+    ],
+    "dimensions": [
+      878,
+      878
+    ],
+    "sha256": "4bfb98bb73570292643134b5a784ef6e6c7870bb375e181dd52d42c25621a1df",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p02-image03.png",
+    "pages": [
+      2
+    ],
+    "dimensions": [
+      878,
+      878
+    ],
+    "sha256": "b6463bdf04c929008935ba0630571e18db1f347ae114b7ce8682175dda89f781",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p03-image03.png",
+    "pages": [
+      3
+    ],
+    "dimensions": [
+      819,
+      1230
+    ],
+    "sha256": "e15dacb7417bfee5ec54979864f224500ca882b396b358c3f053fa69e8bcd1c8",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p04-image05.png",
+    "pages": [
+      4,
+      21
+    ],
+    "dimensions": [
+      615,
+      410
+    ],
+    "sha256": "7527f7ac6f3ae1508e49bba0fa5de037896c7a677347e7251cf3a319e4b94926",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p04-image06.png",
+    "pages": [
+      4,
+      21
+    ],
+    "dimensions": [
+      675,
+      675
+    ],
+    "sha256": "d45d016a3302ebc3e3862124ce68f5fe7521963935298a41ac113bc4d5ed28f8",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p05-image03.png",
+    "pages": [
+      5
+    ],
+    "dimensions": [
+      924,
+      916
+    ],
+    "sha256": "05a22cdc9ff77578a731c24c165e698eaee1477658aff7b69b22b90f97813bed",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p06-image03.png",
+    "pages": [
+      6
+    ],
+    "dimensions": [
+      1004,
+      1004
+    ],
+    "sha256": "16a094502e4d4d43055fbed229adcae39c137455f999dc46a5a783b3867c201b",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p06-image04.png",
+    "pages": [
+      6,
+      6
+    ],
+    "dimensions": [
+      1162,
+      775
+    ],
+    "sha256": "506fc5393c8e463e0cd72de59e69fe6519687bce4efd296084e3de897a0a419b",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p09-image03.png",
+    "pages": [
+      9
+    ],
+    "dimensions": [
+      1229,
+      1229
+    ],
+    "sha256": "ebc0371f95e8cb382e9bdfebe6f62078980b39345f5ea1239773987a8095e77a",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p09-image06.png",
+    "pages": [
+      9
+    ],
+    "dimensions": [
+      615,
+      615
+    ],
+    "sha256": "cc2179bdf3f4844b9c77505afca010335f425e124a7a9605195db74cad244589",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p12-image01.png",
+    "pages": [
+      12
+    ],
+    "dimensions": [
+      1004,
+      1004
+    ],
+    "sha256": "cc7dfe0686ad2d4f6cfa68b957607ab37397843861cc50ea8a20f0b1264ff667",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p15-image03.png",
+    "pages": [
+      15
+    ],
+    "dimensions": [
+      3426,
+      1904
+    ],
+    "sha256": "fd04926feb2dc75eb5fc9fe5ede25deecbd2dd2baaa70995940d57f47d805553",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p15-image05.png",
+    "pages": [
+      15
+    ],
+    "dimensions": [
+      1004,
+      1004
+    ],
+    "sha256": "aab53859ace6e2e1ad3c0dfe043f954434e5dc14b019e0fcaa852c5f92b2107b",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p18-image02.png",
+    "pages": [
+      18
+    ],
+    "dimensions": [
+      1290,
+      904
+    ],
+    "sha256": "3d4f14eedb0fe1fd6d3a0080ce3ae6f92f41f67d755407bc3956164a1e3a26f9",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p18-image03.png",
+    "pages": [
+      18
+    ],
+    "dimensions": [
+      878,
+      878
+    ],
+    "sha256": "187b60f97e4336458eb4a49c579d1ec583f33a28eeb73ecd7779df0963cbe503",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p18-image04.png",
+    "pages": [
+      18
+    ],
+    "dimensions": [
+      878,
+      878
+    ],
+    "sha256": "9407507a81691804c1d8302e11adb6737b523b864daddfe67c288bb9d06496f5",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p21-image03.png",
+    "pages": [
+      21
+    ],
+    "dimensions": [
+      172,
+      145
+    ],
+    "sha256": "dc5257accaeaebf148dff43328a98cce9a029bd14fa1a2038930752c11d80026",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p21-image06.png",
+    "pages": [
+      21
+    ],
+    "dimensions": [
+      2855,
+      1586
+    ],
+    "sha256": "231e045956aa0ecab4cc276b9eb4f104276bb9631b5f954f9b9717d97e76c549",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p21-image08.png",
+    "pages": [
+      21
+    ],
+    "dimensions": [
+      1004,
+      1004
+    ],
+    "sha256": "c246b692f360f4971098159b0473888b15c3f5d1311cace20fcd696054591f45",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p23-image03.png",
+    "pages": [
+      23
+    ],
+    "dimensions": [
+      2800,
+      1400
+    ],
+    "sha256": "44f8ed850a84bc60dc32c3cf1b154f84043f1c118d60786070f404522e9f3844",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p23-image05.png",
+    "pages": [
+      23
+    ],
+    "dimensions": [
+      1119,
+      1000
+    ],
+    "sha256": "d6cce9617a46b54dce635ee179fcd22dceb19ecae4cebe323634940e77485afd",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-embedded/p23-image06.png",
+    "pages": [
+      23
+    ],
+    "dimensions": [
+      878,
+      878
+    ],
+    "sha256": "521d7a29d93202281215c0eaa25696a9a1612768f010af85751c2c0acdad5657",
+    "origin": "ABOUT.pdf embedded image",
+    "status": "source artwork; no AI reconstruction"
+  },
+  {
+    "file": "assets/source-pages/fire-and-flames-cover.png",
+    "pages": [
+      1
+    ],
+    "dimensions": [
+      1224,
+      1224
+    ],
+    "origin": "ABOUT.pdf full-page render",
+    "web_variants": [
+      "assets/web/fire-and-flames-cover-480.webp",
+      "assets/web/fire-and-flames-cover-960.webp"
+    ],
+    "status": "faithful source artwork; background retained"
+  },
+  {
+    "file": "assets/source-pages/ipl-auction.png",
+    "pages": [
+      6
+    ],
+    "dimensions": [
+      1224,
+      1224
+    ],
+    "origin": "ABOUT.pdf full-page render",
+    "web_variants": [
+      "assets/web/ipl-auction-480.webp",
+      "assets/web/ipl-auction-960.webp"
+    ],
+    "status": "faithful source artwork; background retained"
+  },
+  {
+    "file": "assets/source-pages/e-trivia.png",
+    "pages": [
+      9
+    ],
+    "dimensions": [
+      1224,
+      1224
+    ],
+    "origin": "ABOUT.pdf full-page render",
+    "web_variants": [
+      "assets/web/e-trivia-480.webp",
+      "assets/web/e-trivia-960.webp"
+    ],
+    "status": "faithful source artwork; background retained"
+  },
+  {
+    "file": "assets/source-pages/treasure-hunt.png",
+    "pages": [
+      12
+    ],
+    "dimensions": [
+      1224,
+      1224
+    ],
+    "origin": "ABOUT.pdf full-page render",
+    "web_variants": [
+      "assets/web/treasure-hunt-480.webp",
+      "assets/web/treasure-hunt-960.webp"
+    ],
+    "status": "faithful source artwork; background retained"
+  },
+  {
+    "file": "assets/source-pages/brand-war.png",
+    "pages": [
+      15
+    ],
+    "dimensions": [
+      1224,
+      1224
+    ],
+    "origin": "ABOUT.pdf full-page render",
+    "web_variants": [
+      "assets/web/brand-war-480.webp",
+      "assets/web/brand-war-960.webp"
+    ],
+    "status": "faithful source artwork; background retained"
+  },
+  {
+    "file": "assets/source-pages/srusti-bazar.png",
+    "pages": [
+      18
+    ],
+    "dimensions": [
+      1224,
+      1224
+    ],
+    "origin": "ABOUT.pdf full-page render",
+    "web_variants": [
+      "assets/web/srusti-bazar-480.webp",
+      "assets/web/srusti-bazar-960.webp"
+    ],
+    "status": "faithful source artwork; background retained"
+  },
+  {
+    "file": "assets/source-pages/kurukshetra-esports.png",
+    "pages": [
+      21
+    ],
+    "dimensions": [
+      1224,
+      1224
+    ],
+    "origin": "ABOUT.pdf full-page render",
+    "web_variants": [
+      "assets/web/kurukshetra-esports-480.webp",
+      "assets/web/kurukshetra-esports-960.webp"
+    ],
+    "status": "faithful source artwork; background retained"
+  },
+  {
+    "file": "assets/source-pages/black-texture.png",
+    "pages": [
+      22
+    ],
+    "dimensions": [
+      1224,
+      1224
+    ],
+    "origin": "ABOUT.pdf full-page render",
+    "web_variants": [
+      "assets/web/black-texture-480.webp",
+      "assets/web/black-texture-960.webp"
+    ],
+    "status": "faithful source artwork; background retained"
+  },
+  {
+    "file": "assets/source-pages/srusti-exhibition.png",
+    "pages": [
+      23
+    ],
+    "dimensions": [
+      1224,
+      1224
+    ],
+    "origin": "ABOUT.pdf full-page render",
+    "web_variants": [
+      "assets/web/srusti-exhibition-480.webp",
+      "assets/web/srusti-exhibition-960.webp"
+    ],
+    "status": "faithful source artwork; background retained"
+  },
+  {
+    "file": "assets/brand/ed-cell-logo.png",
+    "source": "assets/source-embedded/p01-image03.png",
+    "pages": [
+      1
+    ],
+    "dimensions": [
+      160,
+      160
+    ],
+    "sha256": "cc555e1a9feb0159c36eb21d052363f393c6f90ee2f44bc1683d1325eba66ab3",
+    "origin": "named source copy",
+    "web_variants": [
+      "assets/web/ed-cell-logo-320.webp",
+      "assets/web/ed-cell-logo-640.webp"
+    ],
+    "visible_bounds": [
+      2,
+      1,
+      159,
+      160
+    ]
+  },
+  {
+    "file": "assets/brand/srustiprosar-logo.png",
+    "source": "assets/source-embedded/p04-image06.png",
+    "pages": [
+      4,
+      21
+    ],
+    "dimensions": [
+      675,
+      675
+    ],
+    "sha256": "d45d016a3302ebc3e3862124ce68f5fe7521963935298a41ac113bc4d5ed28f8",
+    "origin": "named source copy",
+    "web_variants": [
+      "assets/web/srustiprosar-logo-320.webp",
+      "assets/web/srustiprosar-logo-640.webp"
+    ],
+    "visible_bounds": [
+      114,
+      188,
+      561,
+      444
+    ]
+  },
+  {
+    "file": "assets/brand/esports-wordmark.png",
+    "source": "assets/source-embedded/p04-image05.png",
+    "pages": [
+      4,
+      21
+    ],
+    "dimensions": [
+      615,
+      410
+    ],
+    "sha256": "7527f7ac6f3ae1508e49bba0fa5de037896c7a677347e7251cf3a319e4b94926",
+    "origin": "named source copy",
+    "web_variants": [
+      "assets/web/esports-wordmark-320.webp",
+      "assets/web/esports-wordmark-640.webp"
+    ],
+    "visible_bounds": [
+      27,
+      131,
+      598,
+      279
+    ]
+  },
+  {
+    "file": "assets/brand/ipl-auction.png",
+    "source": "assets/source-embedded/p06-image03.png",
+    "pages": [
+      6
+    ],
+    "dimensions": [
+      1004,
+      1004
+    ],
+    "sha256": "16a094502e4d4d43055fbed229adcae39c137455f999dc46a5a783b3867c201b",
+    "origin": "named source copy",
+    "web_variants": [
+      "assets/web/ipl-auction-320.webp",
+      "assets/web/ipl-auction-640.webp"
+    ],
+    "visible_bounds": [
+      116,
+      146,
+      940,
+      818
+    ]
+  },
+  {
+    "file": "assets/brand/e-trivia.png",
+    "source": "assets/source-embedded/p09-image03.png",
+    "pages": [
+      9
+    ],
+    "dimensions": [
+      1229,
+      1229
+    ],
+    "sha256": "ebc0371f95e8cb382e9bdfebe6f62078980b39345f5ea1239773987a8095e77a",
+    "origin": "named source copy",
+    "web_variants": [
+      "assets/web/e-trivia-320.webp",
+      "assets/web/e-trivia-640.webp"
+    ],
+    "visible_bounds": [
+      230,
+      300,
+      1013,
+      824
+    ]
+  },
+  {
+    "file": "assets/brand/treasure-hunt.png",
+    "source": "assets/source-embedded/p12-image01.png",
+    "pages": [
+      12
+    ],
+    "dimensions": [
+      1004,
+      1004
+    ],
+    "sha256": "cc7dfe0686ad2d4f6cfa68b957607ab37397843861cc50ea8a20f0b1264ff667",
+    "origin": "named source copy",
+    "web_variants": [
+      "assets/web/treasure-hunt-320.webp",
+      "assets/web/treasure-hunt-640.webp"
+    ],
+    "visible_bounds": [
+      0,
+      0,
+      1004,
+      1004
+    ]
+  },
+  {
+    "file": "assets/brand/brand-war.png",
+    "source": "assets/source-embedded/p15-image05.png",
+    "pages": [
+      15
+    ],
+    "dimensions": [
+      1004,
+      1004
+    ],
+    "sha256": "aab53859ace6e2e1ad3c0dfe043f954434e5dc14b019e0fcaa852c5f92b2107b",
+    "origin": "named source copy",
+    "web_variants": [
+      "assets/web/brand-war-320.webp",
+      "assets/web/brand-war-640.webp"
+    ],
+    "visible_bounds": [
+      70,
+      77,
+      922,
+      888
+    ]
+  },
+  {
+    "file": "assets/brand/srusti-bazar.png",
+    "source": "assets/source-embedded/p18-image04.png",
+    "pages": [
+      18
+    ],
+    "dimensions": [
+      878,
+      878
+    ],
+    "sha256": "9407507a81691804c1d8302e11adb6737b523b864daddfe67c288bb9d06496f5",
+    "origin": "named source copy",
+    "web_variants": [
+      "assets/web/srusti-bazar-320.webp",
+      "assets/web/srusti-bazar-640.webp"
+    ],
+    "visible_bounds": [
+      37,
+      82,
+      850,
+      750
+    ]
+  },
+  {
+    "file": "assets/brand/kurukshetra.png",
+    "source": "assets/source-embedded/p21-image08.png",
+    "pages": [
+      21
+    ],
+    "dimensions": [
+      1004,
+      1004
+    ],
+    "sha256": "c246b692f360f4971098159b0473888b15c3f5d1311cace20fcd696054591f45",
+    "origin": "named source copy",
+    "web_variants": [
+      "assets/web/kurukshetra-320.webp",
+      "assets/web/kurukshetra-640.webp"
+    ],
+    "visible_bounds": [
+      28,
+      353,
+      993,
+      693
+    ]
+  },
+  {
+    "file": "assets/brand/srusti-exhibition.png",
+    "source": "assets/source-embedded/p23-image06.png",
+    "pages": [
+      23
+    ],
+    "dimensions": [
+      878,
+      878
+    ],
+    "sha256": "521d7a29d93202281215c0eaa25696a9a1612768f010af85751c2c0acdad5657",
+    "origin": "named source copy",
+    "web_variants": [
+      "assets/web/srusti-exhibition-320.webp",
+      "assets/web/srusti-exhibition-640.webp"
+    ],
+    "visible_bounds": [
+      69,
+      41,
+      804,
+      717
+    ]
+  },
+  {
+    "file": "assets/brand/campus-photo.png",
+    "source": "assets/source-embedded/p03-image03.png",
+    "pages": [
+      3
+    ],
+    "dimensions": [
+      819,
+      1230
+    ],
+    "sha256": "e15dacb7417bfee5ec54979864f224500ca882b396b358c3f053fa69e8bcd1c8",
+    "origin": "named source copy",
+    "web_variants": [
+      "assets/web/campus-photo-320.webp",
+      "assets/web/campus-photo-640.webp"
+    ],
+    "visible_bounds": [
+      0,
+      0,
+      819,
+      1230
+    ]
+  },
+  {
+    "file": "assets/brand/black-texture.jpg",
+    "source": "assets/source-embedded/p01-image01.jpg",
+    "pages": [
+      1,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "dimensions": [
+      2068,
+      1380
+    ],
+    "sha256": "53f7c18cc534d59b16f18b7d8c8ea01a8f6884e262b9fa6d575f901fc3e3b9e7",
+    "origin": "named source copy",
+    "web_variants": [],
+    "visible_bounds": [
+      0,
+      0,
+      2068,
+      1380
+    ]
+  },
+  {
+    "file": "assets/brand/ember-overlay.png",
+    "source": "assets/source-embedded/p01-image05.png",
+    "pages": [
+      1,
+      4,
+      9,
+      18,
+      23
+    ],
+    "dimensions": [
+      1713,
+      952
+    ],
+    "sha256": "144e0fd8d6d9487ad0e95fd2c39d754170237675f64df51d1cb5179c727fe9ed",
+    "origin": "named source copy",
+    "web_variants": [],
+    "visible_bounds": [
+      0,
+      0,
+      1713,
+      952
+    ]
+  },
+  {
+    "file": "assets/brand/warm-glow.png",
+    "source": "assets/source-embedded/p01-image04.png",
+    "pages": [
+      1,
+      4,
+      9,
+      15,
+      18,
+      21
+    ],
+    "dimensions": [
+      1600,
+      771
+    ],
+    "sha256": "b0429cad17229b6efc307f79117ac7cee86efb752cd2f1d34eb11493d0cb9a6a",
+    "origin": "named source copy",
+    "web_variants": [],
+    "visible_bounds": [
+      0,
+      0,
+      1600,
+      771
+    ]
+  },
+  {
+    "file": "assets/generated/ember-hero.png",
+    "origin": "generated decorative artwork",
+    "dimensions": [
+      1672,
+      941
+    ],
+    "prompt": "assets/generated/PROMPT.md",
+    "web_variants": [
+      "assets/web/ember-hero-640.webp",
+      "assets/web/ember-hero-1280.webp",
+      "assets/web/ember-hero-1920.webp"
+    ],
+    "sha256": "96544a4bbb00e0e1adb3457183f0d1243e0b949fa9b5ed801ed550d7ded09ee8"
+  },
+  {
+    "file": "assets/brand/fire-and-flames-wordmark-source.png",
+    "origin": "PDF text region render",
+    "pages": [
+      1
+    ],
+    "crop_removed_left_bottom_right_top_pdf_units": [
+      61.2,
+      257.03999999999996,
+      61.2,
+      238.68
+    ],
+    "dimensions": [
+      1468,
+      347
+    ],
+    "sha256": "b537424baa03c19c2fc274d200267cc537c3c680ab8fcf81cb59b65ef4bdc8f9",
+    "web_variants": [
+      "assets/web/fire-and-flames-wordmark-source-480.webp",
+      "assets/web/fire-and-flames-wordmark-source-960.webp"
+    ],
+    "status": "source background retained; not a transparent logo"
+  }
+]

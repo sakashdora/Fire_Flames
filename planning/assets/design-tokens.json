@@ -1,0 +1,20 @@
+{
+  "status": "proposed web equivalents; not exact source hex values",
+  "colors": {
+    "canvas": "#0B0B0D",
+    "surface": "#161619",
+    "raised": "#222226",
+    "text": "#F7F2E8",
+    "muted": "#C4BFB5",
+    "ember": "#FF781F",
+    "gold": "#F5BF42",
+    "red": "#9B1C17",
+    "border": "#3A3530",
+    "success": "#91E6B5",
+    "warning": "#FFD57A",
+    "error": "#FFB4AB"
+  },
+  "spacing_base_px": 8,
+  "body_min_px": 16,
+  "target_control_px": 44
+}
