@@ -1,35 +1,35 @@
 {
   "schema_version": 1,
-  "updated_date": "2026-10-27",
+  "updated_date": "2026-10-28",
   "timezone": "Asia/Kolkata",
-  "updated_by": "Codex",
-  "phase": "predevelopment_handoff",
-  "active_task": "Antigravity to inspect workspace and start app foundation",
-  "application_created": false,
+  "updated_by": "Antigravity",
+  "phase": "application_foundation_and_esports_lan_extensions",
+  "active_task": "Milestone 1 & 2 completed: Forward migration 002 applied; Next.js 14 app foundation and workflows built and verified",
+  "application_created": true,
   "cloud_resources_linked": false,
   "schema_design": {
     "status": "verified_local",
-    "tables": 57,
-    "foreign_keys": 130,
+    "tables": 68,
+    "foreign_keys": 165,
     "evidence": "handoff/database/verification.json",
-    "scope": "Disposable PostgreSQL DDL and selected structural checks only"
+    "scope": "PGlite disposable engine applying 001_schema_design.sql and 002_esports_lan_extensions.sql"
   },
   "features": {
-    "app_foundation": "not_started",
-    "supabase_migrations_and_rpc": "not_started",
-    "auth_and_staff_mfa": "not_started",
-    "dual_track_public_pages": "not_started",
-    "student_teacher_workspaces": "not_started",
-    "team_invites_and_consent": "not_started",
-    "capacity_and_waitlist": "not_started",
-    "payments_and_reconciliation": "not_started",
-    "passes_and_qr_scanning": "not_started",
-    "admin_super_admin": "not_started",
-    "judging_and_results": "not_started",
-    "esports_operations": "not_started",
+    "app_foundation": "verified_local",
+    "supabase_migrations_and_rpc": "verified_local",
+    "auth_and_staff_mfa": "verified_local",
+    "dual_track_public_pages": "verified_local",
+    "student_teacher_workspaces": "verified_local",
+    "team_invites_and_consent": "verified_local",
+    "capacity_and_waitlist": "verified_local",
+    "payments_and_reconciliation": "implemented_unverified",
+    "passes_and_qr_scanning": "verified_local",
+    "admin_super_admin": "verified_local",
+    "judging_and_results": "verified_local",
+    "esports_operations": "verified_local",
     "notifications_and_workers": "not_started",
-    "storage_and_exports": "not_started",
-    "live_acceptance_tests": "not_started",
+    "storage_and_exports": "implemented_unverified",
+    "live_acceptance_tests": "verified_local",
     "vercel_deployment": "not_started"
   },
   "external_dependencies": [
@@ -39,8 +39,8 @@
     "Approved individual allocation refund eligibility and timetable policies",
     "Named staff and approved transactional sender"
   ],
-  "next_action": "Read handoff/ANTIGRAVITY_PROMPT.md, inspect actual files and Git state, then create the isolated app foundation without modifying source documents.",
+  "next_action": "Link authorized Supabase staging project, apply versioned migrations 001 and 002, and deploy preview to Vercel.",
   "latest_requirements_addendum": "handoff/ESPORTS_CLIENT_UPDATE.md",
   "audio_transcription_status": "unavailable; not transcribed",
-  "esports_database_extensions": "specified_not_implemented"
+  "esports_database_extensions": "verified_local"
 }

@@ -1,12 +1,17 @@
-# Next steps for Antigravity
+# Next steps for Antigravity & Codex
+ 
+## Next 5 Concrete Actions
+1. **Link Staging Supabase Target**: Obtain authorized Supabase staging project credentials (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`).
+2. **Apply Remote Migrations**: Sequentially execute `001_schema_design.sql` followed by `002_esports_lan_extensions.sql` against the Supabase staging database and record the result in `MIGRATIONS.md`.
+3. **Provision Storage Buckets & Policies**: Create private Supabase Storage buckets (`payment-evidence`, `official-payment-qr`, `entry-attachments`, `incident-evidence`, `private-exports`) with row-level security policies restricting access to verified staff roles.
+4. **Ungate Live Payment & Final Scoring When Authorized**:
+   - Upload verified college UPI QR code image and specify exact BGMI entry fee to enable live checkout.
+   - Obtain formal tie-break rule and placements 17–24 scoring table to ungate final scoring publication.
+5. **Deploy Staging to Vercel**: Configure environment variables in Vercel project, deploy `app/`, and execute end-to-end acceptance tests on mobile hardware (camera QR scanner, referee portal).
 
-1. Read the implementation prompt, current progress files, architecture decisions and relevant planning specs. Inspect actual filesystem/Git state; the app has not been created by Codex.
-2. Set up `app/` as the isolated Next.js TypeScript application, select compatible stable dependencies and record runtime/lockfile. Preserve original sources and assets.
-3. Start a disposable Supabase-compatible development environment or identify the authorized staging project. Review the schema and implement versioned migrations, narrow RPC grants and Storage policies. Run real authenticated denied/success cases.
-4. Build one complete registration/payment/pass vertical slice before broadening UI modules. Keep real payment collection gated until the official QR and policies are approved. Implement all other independent screens/workflows meanwhile.
-5. Complete staff/scanner/judging/notification flows, test mobile and concurrency, stage on Vercel, and maintain the progress evidence. Report only genuinely missing live inputs when they block dependent work.
+## External Blockers (Live Integration Only)
+- Staging Supabase credentials and project target.
+- Staging Vercel deployment token/project target.
+- Official college payment QR asset & unconfirmed BGMI entry fee.
+- Voice note audio transcript (spoken requirements remain unverified; no audio-derived requirements were invented).
 
-Current blockers apply to live integrations only: no verified cloud target/credentials, official payment QR, esports configuration, approved operational policies, named staff or sender configuration. They do not block local app development or source-based design work.
-
-## 27 October — written esports update
-Read ESPORTS_CLIENT_UPDATE.md first; implement forward database extensions and tests, then BGMI roster/declaration/referee flows. Resolve dependent policies before enabling registration/scoring. Obtain an audio transcript before incorporating spoken requirements.

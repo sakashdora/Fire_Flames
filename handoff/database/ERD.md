@@ -39,9 +39,23 @@ erDiagram
   app_competition_entries ||--o{ app_esports_match_entries : references
   app_esports_matches ||--o{ app_esports_match_entries : references
   app_profiles ||--o{ app_esports_match_entries : references
+  app_esports_matches ||--o{ app_esports_match_result_revisions : references
+  app_profiles ||--o{ app_esports_match_result_revisions : references
+  app_esports_scoring_versions ||--o{ app_esports_match_result_revisions : references
   app_events ||--o{ app_esports_matches : references
   app_event_versions ||--o{ app_esports_matches : references
   app_sessions ||--o{ app_esports_matches : references
+  app_esports_scoring_versions ||--o{ app_esports_placement_points : references
+  app_competition_entries ||--o{ app_esports_roster_members : references
+  app_profiles ||--o{ app_esports_roster_members : references
+  app_esports_rosters ||--o{ app_esports_roster_members : references
+  app_competition_entries ||--o{ app_esports_rosters : references
+  app_profiles ||--o{ app_esports_rosters : references
+  app_registrations ||--o{ app_esports_rosters : references
+  app_event_versions ||--o{ app_esports_rules_versions : references
+  app_profiles ||--o{ app_esports_scoring_versions : references
+  app_events ||--o{ app_esports_scoring_versions : references
+  app_event_versions ||--o{ app_esports_scoring_versions : references
   app_profiles ||--o{ app_event_versions : references
   app_events ||--o{ app_event_versions : references
   app_organizers ||--o{ app_events : references
@@ -53,12 +67,22 @@ erDiagram
   app_organizers ||--o{ app_files : references
   app_profiles ||--o{ app_files : references
   app_profiles ||--o{ app_idempotency_records : references
+  app_events ||--o{ app_identity_verifications : references
+  app_files ||--o{ app_identity_verifications : references
+  app_profiles ||--o{ app_identity_verifications : references
   app_profiles ||--o{ app_incidents : references
   app_events ||--o{ app_incidents : references
   app_organizers ||--o{ app_incidents : references
   app_competition_entries ||--o{ app_judge_assignments : references
   app_rubrics ||--o{ app_judge_assignments : references
   app_staff_assignments ||--o{ app_judge_assignments : references
+  app_profiles ||--o{ app_match_substitute_activations : references
+  app_competition_entries ||--o{ app_match_substitute_activations : references
+  app_esports_matches ||--o{ app_match_substitute_activations : references
+  app_esports_roster_members ||--o{ app_match_substitute_activations : references
+  app_competition_entries ||--o{ app_match_technical_logs : references
+  app_esports_matches ||--o{ app_match_technical_logs : references
+  app_profiles ||--o{ app_match_technical_logs : references
   app_outbox ||--o{ app_notification_deliveries : references
   app_events ||--o{ app_notifications : references
   app_profiles ||--o{ app_notifications : references
@@ -115,8 +139,16 @@ erDiagram
   app_profiles ||--o{ app_staff_assignments : references
   app_institutions ||--o{ app_staff_assignments : references
   app_organizers ||--o{ app_staff_assignments : references
+  app_events ||--o{ app_station_hardware_checks : references
+  app_profiles ||--o{ app_station_hardware_checks : references
+  app_sessions ||--o{ app_station_hardware_checks : references
+  app_stations ||--o{ app_station_hardware_checks : references
   app_events ||--o{ app_stations : references
   app_venues ||--o{ app_stations : references
+  app_events ||--o{ app_team_declarations : references
+  app_profiles ||--o{ app_team_declarations : references
+  app_registrations ||--o{ app_team_declarations : references
+  app_event_versions ||--o{ app_team_declarations : references
   app_profiles ||--o{ app_team_invitations : references
   app_registrations ||--o{ app_team_invitations : references
   app_institutions ||--o{ app_venues : references
@@ -124,4 +156,4 @@ erDiagram
   app_competition_entries ||--o{ app_waitlist_entries : references
 ```
 
-For implementation, use the domain diagrams in DATABASE_MODEL.md and the exact composite foreign keys in 001_schema_design.sql.
+For implementation, use the domain diagrams in DATABASE_MODEL.md and the exact composite foreign keys in 001_schema_design.sql and 002_esports_lan_extensions.sql.

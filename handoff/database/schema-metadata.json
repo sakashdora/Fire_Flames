@@ -61,7 +61,31 @@
       "relrowsecurity": true
     },
     {
+      "relname": "esports_match_result_revisions",
+      "relrowsecurity": true
+    },
+    {
       "relname": "esports_matches",
+      "relrowsecurity": true
+    },
+    {
+      "relname": "esports_placement_points",
+      "relrowsecurity": true
+    },
+    {
+      "relname": "esports_roster_members",
+      "relrowsecurity": true
+    },
+    {
+      "relname": "esports_rosters",
+      "relrowsecurity": true
+    },
+    {
+      "relname": "esports_rules_versions",
+      "relrowsecurity": true
+    },
+    {
+      "relname": "esports_scoring_versions",
       "relrowsecurity": true
     },
     {
@@ -85,6 +109,10 @@
       "relrowsecurity": true
     },
     {
+      "relname": "identity_verifications",
+      "relrowsecurity": true
+    },
+    {
       "relname": "incidents",
       "relrowsecurity": true
     },
@@ -94,6 +122,14 @@
     },
     {
       "relname": "judge_assignments",
+      "relrowsecurity": true
+    },
+    {
+      "relname": "match_substitute_activations",
+      "relrowsecurity": true
+    },
+    {
+      "relname": "match_technical_logs",
       "relrowsecurity": true
     },
     {
@@ -205,7 +241,15 @@
       "relrowsecurity": true
     },
     {
+      "relname": "station_hardware_checks",
+      "relrowsecurity": true
+    },
+    {
       "relname": "stations",
+      "relrowsecurity": true
+    },
+    {
+      "relname": "team_declarations",
       "relrowsecurity": true
     },
     {
@@ -1267,6 +1311,83 @@
       "column_default": "now()"
     },
     {
+      "table_name": "esports_match_result_revisions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "esports_match_result_revisions",
+      "column_name": "match_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_match_result_revisions",
+      "column_name": "event_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_match_result_revisions",
+      "column_name": "scoring_version_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_match_result_revisions",
+      "column_name": "revision",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "1"
+    },
+    {
+      "table_name": "esports_match_result_revisions",
+      "column_name": "state",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'draft'::text"
+    },
+    {
+      "table_name": "esports_match_result_revisions",
+      "column_name": "recorded_by",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_match_result_revisions",
+      "column_name": "reviewed_by",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_match_result_revisions",
+      "column_name": "reviewed_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_match_result_revisions",
+      "column_name": "results_payload",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "column_default": "'[]'::jsonb"
+    },
+    {
+      "table_name": "esports_match_result_revisions",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
       "table_name": "esports_matches",
       "column_name": "id",
       "data_type": "uuid",
@@ -1324,6 +1445,433 @@
     },
     {
       "table_name": "esports_matches",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "esports_placement_points",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "esports_placement_points",
+      "column_name": "scoring_version_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_placement_points",
+      "column_name": "place",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_placement_points",
+      "column_name": "points",
+      "data_type": "numeric",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_placement_points",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "esports_roster_members",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "esports_roster_members",
+      "column_name": "roster_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_roster_members",
+      "column_name": "entry_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_roster_members",
+      "column_name": "event_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_roster_members",
+      "column_name": "profile_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_roster_members",
+      "column_name": "slot_type",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_roster_members",
+      "column_name": "slot_index",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_roster_members",
+      "column_name": "ign",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_roster_members",
+      "column_name": "player_uid",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_roster_members",
+      "column_name": "is_igl",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "false"
+    },
+    {
+      "table_name": "esports_roster_members",
+      "column_name": "active",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "true"
+    },
+    {
+      "table_name": "esports_roster_members",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "esports_rosters",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "esports_rosters",
+      "column_name": "entry_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_rosters",
+      "column_name": "event_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_rosters",
+      "column_name": "registration_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_rosters",
+      "column_name": "revision",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "1"
+    },
+    {
+      "table_name": "esports_rosters",
+      "column_name": "state",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'draft'::text"
+    },
+    {
+      "table_name": "esports_rosters",
+      "column_name": "locked_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_rosters",
+      "column_name": "locked_by",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_rosters",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "event_version_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "event_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "game",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "tournament_name",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'KALINGA BGMI CLASH SEASON 1'::text"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "source_alias",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": "'KALINGA CLASH 2K26'::text"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "dates",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "column_default": "'[\"2026-11-13\", \"2026-11-14\"]'::jsonb"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "team_capacity",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "24"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "starters_count",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "4"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "substitute_slots",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "1"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "substitute_required",
+      "data_type": "boolean",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "igl_required",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": "1"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "leader_phone_only",
+      "data_type": "boolean",
+      "is_nullable": "NO",
+      "column_default": "true"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "query_phone",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": "'8260555312'::text"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "prize_pool_paise",
+      "data_type": "bigint",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "prize_distribution",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "entry_fee_status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'pending'::text"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "device_policy_status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'pending'::text"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "scoring_rules_status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'pending_complete_rules'::text"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "approved_id_types",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "column_default": "'[\"aadhaar\", \"pan\", \"voter_id\"]'::jsonb"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "declaration_text_ref",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'draft_v1'::text"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "scoring_reference",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'BGIS 2026 partial placement chart'::text"
+    },
+    {
+      "table_name": "esports_rules_versions",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "esports_scoring_versions",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "esports_scoring_versions",
+      "column_name": "event_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_scoring_versions",
+      "column_name": "rules_version_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_scoring_versions",
+      "column_name": "version",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_scoring_versions",
+      "column_name": "name",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'BGIS 2026 Points System'::text"
+    },
+    {
+      "table_name": "esports_scoring_versions",
+      "column_name": "kill_multiplier",
+      "data_type": "numeric",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_scoring_versions",
+      "column_name": "tie_break_policy",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_scoring_versions",
+      "column_name": "lobby_size",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_scoring_versions",
+      "column_name": "approval_state",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'draft'::text"
+    },
+    {
+      "table_name": "esports_scoring_versions",
+      "column_name": "approved_by",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_scoring_versions",
+      "column_name": "approved_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "esports_scoring_versions",
       "column_name": "created_at",
       "data_type": "timestamp with time zone",
       "is_nullable": "NO",
@@ -1771,6 +2319,97 @@
       "column_default": "now()"
     },
     {
+      "table_name": "identity_verifications",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "identity_verifications",
+      "column_name": "event_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "identity_verifications",
+      "column_name": "profile_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "identity_verifications",
+      "column_name": "proof_type",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "identity_verifications",
+      "column_name": "method",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "identity_verifications",
+      "column_name": "status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": "'pending'::text"
+    },
+    {
+      "table_name": "identity_verifications",
+      "column_name": "reviewer_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "identity_verifications",
+      "column_name": "verified_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "identity_verifications",
+      "column_name": "file_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "identity_verifications",
+      "column_name": "rejection_reason",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "identity_verifications",
+      "column_name": "expires_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "identity_verifications",
+      "column_name": "deleted_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "identity_verifications",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
       "table_name": "incidents",
       "column_name": "id",
       "data_type": "uuid",
@@ -1954,6 +2593,174 @@
     },
     {
       "table_name": "judge_assignments",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "match_substitute_activations",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "match_substitute_activations",
+      "column_name": "match_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "match_substitute_activations",
+      "column_name": "event_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "match_substitute_activations",
+      "column_name": "entry_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "match_substitute_activations",
+      "column_name": "starter_member_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "match_substitute_activations",
+      "column_name": "substitute_member_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "match_substitute_activations",
+      "column_name": "authorized_by",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "match_substitute_activations",
+      "column_name": "reason",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "match_substitute_activations",
+      "column_name": "activated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "match_substitute_activations",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "match_technical_logs",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "match_technical_logs",
+      "column_name": "match_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "match_technical_logs",
+      "column_name": "event_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "match_technical_logs",
+      "column_name": "entry_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "match_technical_logs",
+      "column_name": "official_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "match_technical_logs",
+      "column_name": "request_type",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "match_technical_logs",
+      "column_name": "decision",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "match_technical_logs",
+      "column_name": "reason",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "match_technical_logs",
+      "column_name": "pause_started_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "match_technical_logs",
+      "column_name": "pause_ended_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "match_technical_logs",
+      "column_name": "duration_seconds",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "match_technical_logs",
+      "column_name": "penalty_points",
+      "data_type": "numeric",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "match_technical_logs",
+      "column_name": "evidence_notes",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "match_technical_logs",
       "column_name": "created_at",
       "data_type": "timestamp with time zone",
       "is_nullable": "NO",
@@ -3801,6 +4608,83 @@
       "column_default": "now()"
     },
     {
+      "table_name": "station_hardware_checks",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "station_hardware_checks",
+      "column_name": "station_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "station_hardware_checks",
+      "column_name": "event_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "station_hardware_checks",
+      "column_name": "session_id",
+      "data_type": "uuid",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "station_hardware_checks",
+      "column_name": "asset_code",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "station_hardware_checks",
+      "column_name": "config_version",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "station_hardware_checks",
+      "column_name": "inspector_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "station_hardware_checks",
+      "column_name": "result",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "station_hardware_checks",
+      "column_name": "reason",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "station_hardware_checks",
+      "column_name": "checked_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "station_hardware_checks",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
       "table_name": "stations",
       "column_name": "id",
       "data_type": "uuid",
@@ -3844,6 +4728,83 @@
     },
     {
       "table_name": "stations",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "team_declarations",
+      "column_name": "id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()"
+    },
+    {
+      "table_name": "team_declarations",
+      "column_name": "registration_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "team_declarations",
+      "column_name": "event_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "team_declarations",
+      "column_name": "rules_version_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "team_declarations",
+      "column_name": "leader_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "team_declarations",
+      "column_name": "declaration_text_version",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "team_declarations",
+      "column_name": "declaration_hash",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "column_default": null
+    },
+    {
+      "table_name": "team_declarations",
+      "column_name": "ip_address",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "team_declarations",
+      "column_name": "user_agent",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "column_default": null
+    },
+    {
+      "table_name": "team_declarations",
+      "column_name": "accepted_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "column_default": "now()"
+    },
+    {
+      "table_name": "team_declarations",
       "column_name": "created_at",
       "data_type": "timestamp with time zone",
       "is_nullable": "NO",
@@ -5602,6 +6563,139 @@
       "target": "-"
     },
     {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_check",
+      "contype": "c",
+      "definition": "CHECK (((reviewed_by IS NULL) OR (reviewed_by <> recorded_by)))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_check1",
+      "contype": "c",
+      "definition": "CHECK ((NOT ((state = ANY (ARRAY['reviewed'::text, 'published'::text])) AND ((reviewed_by IS NULL) OR (reviewed_at IS NULL)))))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_created_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL created_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_event_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL event_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_match_id_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (match_id, event_id) REFERENCES app.esports_matches(id, event_id)",
+      "target": "app.esports_matches"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_match_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL match_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_match_id_revision_key",
+      "contype": "u",
+      "definition": "UNIQUE (match_id, revision)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_recorded_by_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (recorded_by) REFERENCES app.profiles(id)",
+      "target": "app.profiles"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_recorded_by_not_null",
+      "contype": "n",
+      "definition": "NOT NULL recorded_by",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_results_payload_not_null",
+      "contype": "n",
+      "definition": "NOT NULL results_payload",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_reviewed_by_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (reviewed_by) REFERENCES app.profiles(id)",
+      "target": "app.profiles"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_revision_check",
+      "contype": "c",
+      "definition": "CHECK ((revision > 0))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_revision_not_null",
+      "contype": "n",
+      "definition": "NOT NULL revision",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_scoring_version_id_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (scoring_version_id, event_id) REFERENCES app.esports_scoring_versions(id, event_id)",
+      "target": "app.esports_scoring_versions"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_scoring_version_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL scoring_version_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_state_check",
+      "contype": "c",
+      "definition": "CHECK ((state = ANY (ARRAY['draft'::text, 'reviewed'::text, 'published'::text, 'superseded'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_match_result_revisions",
+      "conname": "esports_match_result_revisions_state_not_null",
+      "contype": "n",
+      "definition": "NOT NULL state",
+      "target": "-"
+    },
+    {
       "table_name": "app.esports_matches",
       "conname": "esports_matches_created_at_not_null",
       "contype": "n",
@@ -5704,6 +6798,685 @@
       "conname": "esports_matches_state_not_null",
       "contype": "n",
       "definition": "NOT NULL state",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_placement_points",
+      "conname": "esports_placement_points_created_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL created_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_placement_points",
+      "conname": "esports_placement_points_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_placement_points",
+      "conname": "esports_placement_points_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_placement_points",
+      "conname": "esports_placement_points_place_check",
+      "contype": "c",
+      "definition": "CHECK (((place >= 1) AND (place <= 24)))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_placement_points",
+      "conname": "esports_placement_points_place_not_null",
+      "contype": "n",
+      "definition": "NOT NULL place",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_placement_points",
+      "conname": "esports_placement_points_points_check",
+      "contype": "c",
+      "definition": "CHECK ((points >= (0)::numeric))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_placement_points",
+      "conname": "esports_placement_points_points_not_null",
+      "contype": "n",
+      "definition": "NOT NULL points",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_placement_points",
+      "conname": "esports_placement_points_scoring_version_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (scoring_version_id) REFERENCES app.esports_scoring_versions(id)",
+      "target": "app.esports_scoring_versions"
+    },
+    {
+      "table_name": "app.esports_placement_points",
+      "conname": "esports_placement_points_scoring_version_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL scoring_version_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_placement_points",
+      "conname": "esports_placement_points_scoring_version_id_place_key",
+      "contype": "u",
+      "definition": "UNIQUE (scoring_version_id, place)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_active_not_null",
+      "contype": "n",
+      "definition": "NOT NULL active",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_check",
+      "contype": "c",
+      "definition": "CHECK ((((slot_type = 'starter'::text) AND ((slot_index >= 1) AND (slot_index <= 4))) OR ((slot_type = 'substitute'::text) AND (slot_index = 5))))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_check1",
+      "contype": "c",
+      "definition": "CHECK (((NOT is_igl) OR (slot_type = 'starter'::text)))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_created_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL created_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_entry_id_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (entry_id, event_id) REFERENCES app.competition_entries(id, event_id)",
+      "target": "app.competition_entries"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_entry_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL entry_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_event_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL event_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_ign_check",
+      "contype": "c",
+      "definition": "CHECK ((length(TRIM(BOTH FROM ign)) > 0))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_ign_not_null",
+      "contype": "n",
+      "definition": "NOT NULL ign",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_is_igl_not_null",
+      "contype": "n",
+      "definition": "NOT NULL is_igl",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_player_uid_check",
+      "contype": "c",
+      "definition": "CHECK ((length(TRIM(BOTH FROM player_uid)) > 0))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_player_uid_not_null",
+      "contype": "n",
+      "definition": "NOT NULL player_uid",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_profile_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (profile_id) REFERENCES app.profiles(id)",
+      "target": "app.profiles"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_profile_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL profile_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_roster_id_entry_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (roster_id, entry_id) REFERENCES app.esports_rosters(id, entry_id)",
+      "target": "app.esports_rosters"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_roster_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL roster_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_slot_index_check",
+      "contype": "c",
+      "definition": "CHECK (((slot_index >= 1) AND (slot_index <= 5)))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_slot_index_not_null",
+      "contype": "n",
+      "definition": "NOT NULL slot_index",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_slot_type_check",
+      "contype": "c",
+      "definition": "CHECK ((slot_type = ANY (ARRAY['starter'::text, 'substitute'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_roster_members",
+      "conname": "esports_roster_members_slot_type_not_null",
+      "contype": "n",
+      "definition": "NOT NULL slot_type",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_created_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL created_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_entry_id_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (entry_id, event_id) REFERENCES app.competition_entries(id, event_id)",
+      "target": "app.competition_entries"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_entry_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL entry_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_entry_id_revision_key",
+      "contype": "u",
+      "definition": "UNIQUE (entry_id, revision)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_event_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL event_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_id_entry_id_key",
+      "contype": "u",
+      "definition": "UNIQUE (id, entry_id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_id_event_id_key",
+      "contype": "u",
+      "definition": "UNIQUE (id, event_id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_locked_by_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (locked_by) REFERENCES app.profiles(id)",
+      "target": "app.profiles"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_registration_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (registration_id) REFERENCES app.registrations(id)",
+      "target": "app.registrations"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_registration_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL registration_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_revision_check",
+      "contype": "c",
+      "definition": "CHECK ((revision > 0))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_revision_not_null",
+      "contype": "n",
+      "definition": "NOT NULL revision",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_state_check",
+      "contype": "c",
+      "definition": "CHECK ((state = ANY (ARRAY['draft'::text, 'submitted'::text, 'locked'::text, 'archived'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rosters",
+      "conname": "esports_rosters_state_not_null",
+      "contype": "n",
+      "definition": "NOT NULL state",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_approved_id_types_not_null",
+      "contype": "n",
+      "definition": "NOT NULL approved_id_types",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_created_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL created_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_dates_not_null",
+      "contype": "n",
+      "definition": "NOT NULL dates",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_declaration_text_ref_not_null",
+      "contype": "n",
+      "definition": "NOT NULL declaration_text_ref",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_device_policy_status_check",
+      "contype": "c",
+      "definition": "CHECK ((device_policy_status = ANY (ARRAY['pending'::text, 'approved'::text, 'active'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_device_policy_status_not_null",
+      "contype": "n",
+      "definition": "NOT NULL device_policy_status",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_entry_fee_status_check",
+      "contype": "c",
+      "definition": "CHECK ((entry_fee_status = ANY (ARRAY['pending'::text, 'approved'::text, 'active'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_entry_fee_status_not_null",
+      "contype": "n",
+      "definition": "NOT NULL entry_fee_status",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_event_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL event_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_event_version_id_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (event_version_id, event_id) REFERENCES app.event_versions(id, event_id)",
+      "target": "app.event_versions"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_event_version_id_key",
+      "contype": "u",
+      "definition": "UNIQUE (event_version_id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_event_version_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL event_version_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_game_check",
+      "contype": "c",
+      "definition": "CHECK ((game = ANY (ARRAY['bgmi'::text, 'free-fire'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_game_not_null",
+      "contype": "n",
+      "definition": "NOT NULL game",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_id_event_id_key",
+      "contype": "u",
+      "definition": "UNIQUE (id, event_id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_igl_required_check",
+      "contype": "c",
+      "definition": "CHECK ((igl_required = 1))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_igl_required_not_null",
+      "contype": "n",
+      "definition": "NOT NULL igl_required",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_leader_phone_only_not_null",
+      "contype": "n",
+      "definition": "NOT NULL leader_phone_only",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_prize_pool_paise_check",
+      "contype": "c",
+      "definition": "CHECK (((prize_pool_paise IS NULL) OR (prize_pool_paise >= 0)))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_scoring_reference_not_null",
+      "contype": "n",
+      "definition": "NOT NULL scoring_reference",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_scoring_rules_status_check",
+      "contype": "c",
+      "definition": "CHECK ((scoring_rules_status = ANY (ARRAY['pending_complete_rules'::text, 'approved'::text, 'active'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_scoring_rules_status_not_null",
+      "contype": "n",
+      "definition": "NOT NULL scoring_rules_status",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_starters_count_check",
+      "contype": "c",
+      "definition": "CHECK ((starters_count = 4))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_starters_count_not_null",
+      "contype": "n",
+      "definition": "NOT NULL starters_count",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_substitute_slots_check",
+      "contype": "c",
+      "definition": "CHECK ((substitute_slots = 1))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_substitute_slots_not_null",
+      "contype": "n",
+      "definition": "NOT NULL substitute_slots",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_team_capacity_check",
+      "contype": "c",
+      "definition": "CHECK ((team_capacity > 0))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_team_capacity_not_null",
+      "contype": "n",
+      "definition": "NOT NULL team_capacity",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_rules_versions",
+      "conname": "esports_rules_versions_tournament_name_not_null",
+      "contype": "n",
+      "definition": "NOT NULL tournament_name",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_approval_state_check",
+      "contype": "c",
+      "definition": "CHECK ((approval_state = ANY (ARRAY['draft'::text, 'approved'::text, 'superseded'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_approval_state_not_null",
+      "contype": "n",
+      "definition": "NOT NULL approval_state",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_approved_by_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (approved_by) REFERENCES app.profiles(id)",
+      "target": "app.profiles"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_check",
+      "contype": "c",
+      "definition": "CHECK ((NOT ((approval_state = 'approved'::text) AND ((kill_multiplier IS NULL) OR (tie_break_policy IS NULL) OR (approved_by IS NULL) OR (approved_at IS NULL)))))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_created_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL created_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (event_id) REFERENCES app.events(id)",
+      "target": "app.events"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_event_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL event_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_event_id_version_key",
+      "contype": "u",
+      "definition": "UNIQUE (event_id, version)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_id_event_id_key",
+      "contype": "u",
+      "definition": "UNIQUE (id, event_id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_kill_multiplier_check",
+      "contype": "c",
+      "definition": "CHECK (((kill_multiplier IS NULL) OR (kill_multiplier >= (0)::numeric)))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_lobby_size_check",
+      "contype": "c",
+      "definition": "CHECK (((lobby_size IS NULL) OR (lobby_size > 0)))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_name_not_null",
+      "contype": "n",
+      "definition": "NOT NULL name",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_rules_version_id_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (rules_version_id, event_id) REFERENCES app.event_versions(id, event_id)",
+      "target": "app.event_versions"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_rules_version_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL rules_version_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_version_check",
+      "contype": "c",
+      "definition": "CHECK ((version > 0))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.esports_scoring_versions",
+      "conname": "esports_scoring_versions_version_not_null",
+      "contype": "n",
+      "definition": "NOT NULL version",
       "target": "-"
     },
     {
@@ -6309,6 +8082,139 @@
       "target": "-"
     },
     {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_check",
+      "contype": "c",
+      "definition": "CHECK (((reviewer_id IS NULL) OR (reviewer_id <> profile_id)))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_check1",
+      "contype": "c",
+      "definition": "CHECK ((((status = 'pending'::text) AND (verified_at IS NULL) AND (reviewer_id IS NULL)) OR ((status = ANY (ARRAY['verified'::text, 'rejected'::text])) AND (reviewer_id IS NOT NULL) AND (verified_at IS NOT NULL))))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_check2",
+      "contype": "c",
+      "definition": "CHECK (((method <> 'upload'::text) OR (file_id IS NOT NULL)))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_created_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL created_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (event_id) REFERENCES app.events(id)",
+      "target": "app.events"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_event_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL event_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_event_id_profile_id_proof_type_key",
+      "contype": "u",
+      "definition": "UNIQUE (event_id, profile_id, proof_type)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_file_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (file_id) REFERENCES app.files(id)",
+      "target": "app.files"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_method_check",
+      "contype": "c",
+      "definition": "CHECK ((method = ANY (ARRAY['in_person'::text, 'upload'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_method_not_null",
+      "contype": "n",
+      "definition": "NOT NULL method",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_profile_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (profile_id) REFERENCES app.profiles(id)",
+      "target": "app.profiles"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_profile_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL profile_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_proof_type_check",
+      "contype": "c",
+      "definition": "CHECK ((proof_type = ANY (ARRAY['aadhaar'::text, 'pan'::text, 'voter_id'::text, 'college_id'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_proof_type_not_null",
+      "contype": "n",
+      "definition": "NOT NULL proof_type",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_reviewer_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (reviewer_id) REFERENCES app.profiles(id)",
+      "target": "app.profiles"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_status_check",
+      "contype": "c",
+      "definition": "CHECK ((status = ANY (ARRAY['pending'::text, 'verified'::text, 'rejected'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.identity_verifications",
+      "conname": "identity_verifications_status_not_null",
+      "contype": "n",
+      "definition": "NOT NULL status",
+      "target": "-"
+    },
+    {
       "table_name": "app.incidents",
       "conname": "incidents_assigned_to_fkey",
       "contype": "f",
@@ -6537,6 +8443,230 @@
       "conname": "judge_assignments_staff_assignment_id_not_null",
       "contype": "n",
       "definition": "NOT NULL staff_assignment_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_activated_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL activated_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_authorized_by_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (authorized_by) REFERENCES app.profiles(id)",
+      "target": "app.profiles"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_authorized_by_not_null",
+      "contype": "n",
+      "definition": "NOT NULL authorized_by",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_created_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL created_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_entry_id_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (entry_id, event_id) REFERENCES app.competition_entries(id, event_id)",
+      "target": "app.competition_entries"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_entry_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL entry_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_event_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL event_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_match_id_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (match_id, event_id) REFERENCES app.esports_matches(id, event_id)",
+      "target": "app.esports_matches"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_match_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL match_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_reason_not_null",
+      "contype": "n",
+      "definition": "NOT NULL reason",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_starter_member_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (starter_member_id) REFERENCES app.esports_roster_members(id)",
+      "target": "app.esports_roster_members"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_starter_member_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL starter_member_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_substitute_member_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (substitute_member_id) REFERENCES app.esports_roster_members(id)",
+      "target": "app.esports_roster_members"
+    },
+    {
+      "table_name": "app.match_substitute_activations",
+      "conname": "match_substitute_activations_substitute_member_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL substitute_member_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_created_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL created_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_decision_check",
+      "contype": "c",
+      "definition": "CHECK ((decision = ANY (ARRAY['granted'::text, 'denied'::text, 'penalty'::text, 'disqualification'::text, 'restarted'::text, 'resumed'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_decision_not_null",
+      "contype": "n",
+      "definition": "NOT NULL decision",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_duration_seconds_check",
+      "contype": "c",
+      "definition": "CHECK (((duration_seconds IS NULL) OR (duration_seconds >= 0)))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_entry_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (entry_id) REFERENCES app.competition_entries(id)",
+      "target": "app.competition_entries"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_event_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL event_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_match_id_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (match_id, event_id) REFERENCES app.esports_matches(id, event_id)",
+      "target": "app.esports_matches"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_match_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL match_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_official_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (official_id) REFERENCES app.profiles(id)",
+      "target": "app.profiles"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_official_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL official_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_penalty_points_check",
+      "contype": "c",
+      "definition": "CHECK (((penalty_points IS NULL) OR (penalty_points >= (0)::numeric)))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_reason_not_null",
+      "contype": "n",
+      "definition": "NOT NULL reason",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_request_type_check",
+      "contype": "c",
+      "definition": "CHECK ((request_type = ANY (ARRAY['pause'::text, 'disconnect'::text, 'restart'::text, 'integrity'::text, 'penalty'::text, 'disqualification'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.match_technical_logs",
+      "conname": "match_technical_logs_request_type_not_null",
+      "contype": "n",
+      "definition": "NOT NULL request_type",
       "target": "-"
     },
     {
@@ -9340,6 +11470,111 @@
       "target": "-"
     },
     {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_asset_code_not_null",
+      "contype": "n",
+      "definition": "NOT NULL asset_code",
+      "target": "-"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_checked_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL checked_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_config_version_not_null",
+      "contype": "n",
+      "definition": "NOT NULL config_version",
+      "target": "-"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_created_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL created_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (event_id) REFERENCES app.events(id)",
+      "target": "app.events"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_event_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL event_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_inspector_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (inspector_id) REFERENCES app.profiles(id)",
+      "target": "app.profiles"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_inspector_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL inspector_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_result_check",
+      "contype": "c",
+      "definition": "CHECK ((result = ANY (ARRAY['passed'::text, 'failed'::text, 'flagged'::text])))",
+      "target": "-"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_result_not_null",
+      "contype": "n",
+      "definition": "NOT NULL result",
+      "target": "-"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_session_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (session_id) REFERENCES app.sessions(id)",
+      "target": "app.sessions"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_station_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (station_id) REFERENCES app.stations(id)",
+      "target": "app.stations"
+    },
+    {
+      "table_name": "app.station_hardware_checks",
+      "conname": "station_hardware_checks_station_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL station_id",
+      "target": "-"
+    },
+    {
       "table_name": "app.stations",
       "conname": "stations_active_not_null",
       "contype": "n",
@@ -9415,6 +11650,111 @@
       "contype": "f",
       "definition": "FOREIGN KEY (venue_id) REFERENCES app.venues(id)",
       "target": "app.venues"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_accepted_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL accepted_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_created_at_not_null",
+      "contype": "n",
+      "definition": "NOT NULL created_at",
+      "target": "-"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_declaration_hash_not_null",
+      "contype": "n",
+      "definition": "NOT NULL declaration_hash",
+      "target": "-"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_declaration_text_version_not_null",
+      "contype": "n",
+      "definition": "NOT NULL declaration_text_version",
+      "target": "-"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (event_id) REFERENCES app.events(id)",
+      "target": "app.events"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_event_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL event_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_leader_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (leader_id) REFERENCES app.profiles(id)",
+      "target": "app.profiles"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_leader_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL leader_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_pkey",
+      "contype": "p",
+      "definition": "PRIMARY KEY (id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_registration_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (registration_id) REFERENCES app.registrations(id)",
+      "target": "app.registrations"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_registration_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL registration_id",
+      "target": "-"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_registration_id_rules_version_id_key",
+      "contype": "u",
+      "definition": "UNIQUE (registration_id, rules_version_id)",
+      "target": "-"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_rules_version_id_event_id_fkey",
+      "contype": "f",
+      "definition": "FOREIGN KEY (rules_version_id, event_id) REFERENCES app.event_versions(id, event_id)",
+      "target": "app.event_versions"
+    },
+    {
+      "table_name": "app.team_declarations",
+      "conname": "team_declarations_rules_version_id_not_null",
+      "contype": "n",
+      "definition": "NOT NULL rules_version_id",
+      "target": "-"
     },
     {
       "table_name": "app.team_invitations",

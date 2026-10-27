@@ -20,3 +20,17 @@ Delivered: linked schema design, database dictionary and diagrams, command/acces
 
 ## Changes during implementation
 Append a dated ADR whenever Antigravity changes data relationships, permissions, fee handling, technology, security or agreed UI behavior. Include old behavior, new behavior, reason, migration impact, affected tests and any college decision required. Routine bug fixes should be logged but do not need a fresh user approval unless the action itself requires it.
+
+## ADR 007 BGMI/LAN Operations Extensions and Next.js Isolated Application Foundation
+Date: 28 October 2026
+Status: Implemented and locally verified
+
+### Context
+`handoff/ESPORTS_CLIENT_UPDATE.md` established confirmed tournament facts: Kalinga BGMI Clash Season 1 on 13–14 November 2026, 24 teams capacity, ₹10,000 prize pool, 4 starters + 1 substitute slot, 1 IGL, leader contact only, and BGIS 2026 placement scoring (1..16). Unresolved settings (entry fee, official payment QR, mobile vs PC device rules, kill multipliers, tie-breaks) must remain gated. Baseline 57-table schema was preserved without editing.
+
+### Decision
+1. Implemented forward database migration `handoff/database/002_esports_lan_extensions.sql` introducing 11 new operational tables, append-only audit triggers, and 8 explicit SECURITY DEFINER RPCs (`rpc_esports_submit_roster`, `rpc_esports_accept_team_declaration`, `rpc_esports_verify_identity`, `rpc_esports_signoff_hardware`, `rpc_esports_log_pause_incident`, `rpc_esports_activate_substitute`, `rpc_esports_approve_scoring`, `rpc_esports_record_match_result`, and capacity-guarded `rpc_reserve_entry`).
+2. Created isolated Next.js 14 App Router application in `app/` with dual-track organizer hero experiences (ED Cell E-Fest & Srustiprosar Kurukshetra Esports), student & teacher login entrances (teacher login explicitly denies unverified role escalation), student dashboard, roster submission workflow, referee LAN operations console, jury scorecard, and admin governance console.
+3. Implemented ADR 004 AES-256-GCM cryptographic envelope utilities for QR pass redisplay.
+4. Regenerated `DATA_DICTIONARY.md`, `ERD.md`, `schema-metadata.json`, and `verification.json` reflecting all 68 domain tables and 165 foreign keys.
+

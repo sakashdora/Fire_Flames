@@ -1,6 +1,6 @@
 # Database dictionary
 
-Generated from the applied disposable schema, not from a live Supabase database. Columns and keys are structural facts; command-level invariants are specified separately.
+Generated from the applied disposable schema (001 baseline + 002 esports extensions), not from a live Supabase database. Columns and keys are structural facts; command-level invariants are specified separately.
 
 ## attendance
 
@@ -465,6 +465,43 @@ Constraints:
 - `FOREIGN KEY (reviewed_by) REFERENCES app.profiles(id)`
 - `CHECK ((slot > 0))`
 
+## esports_match_result_revisions
+
+| Column | Type | Nullable | Default |
+|---|---|---|---|
+| id | uuid | NO | gen_random_uuid() |
+| match_id | uuid | NO |  |
+| event_id | uuid | NO |  |
+| scoring_version_id | uuid | NO |  |
+| revision | integer | NO | 1 |
+| state | text | NO | 'draft'::text |
+| recorded_by | uuid | NO |  |
+| reviewed_by | uuid | YES |  |
+| reviewed_at | timestamp with time zone | YES |  |
+| results_payload | jsonb | NO | '[]'::jsonb |
+| created_at | timestamp with time zone | NO | now() |
+
+Constraints:
+- `CHECK (((reviewed_by IS NULL) OR (reviewed_by <> recorded_by)))`
+- `CHECK ((NOT ((state = ANY (ARRAY['reviewed'::text, 'published'::text])) AND ((reviewed_by IS NULL) OR (reviewed_at IS NULL)))))`
+- `NOT NULL created_at`
+- `NOT NULL event_id`
+- `NOT NULL id`
+- `FOREIGN KEY (match_id, event_id) REFERENCES app.esports_matches(id, event_id)`
+- `NOT NULL match_id`
+- `UNIQUE (match_id, revision)`
+- `PRIMARY KEY (id)`
+- `FOREIGN KEY (recorded_by) REFERENCES app.profiles(id)`
+- `NOT NULL recorded_by`
+- `NOT NULL results_payload`
+- `FOREIGN KEY (reviewed_by) REFERENCES app.profiles(id)`
+- `CHECK ((revision > 0))`
+- `NOT NULL revision`
+- `FOREIGN KEY (scoring_version_id, event_id) REFERENCES app.esports_scoring_versions(id, event_id)`
+- `NOT NULL scoring_version_id`
+- `CHECK ((state = ANY (ARRAY['draft'::text, 'reviewed'::text, 'published'::text, 'superseded'::text])))`
+- `NOT NULL state`
+
 ## esports_matches
 
 | Column | Type | Nullable | Default |
@@ -495,6 +532,199 @@ Constraints:
 - `FOREIGN KEY (session_id, event_id) REFERENCES app.sessions(id, event_id)`
 - `CHECK ((state = ANY (ARRAY['draft'::text, 'scheduled'::text, 'running'::text, 'completed'::text, 'cancelled'::text])))`
 - `NOT NULL state`
+
+## esports_placement_points
+
+| Column | Type | Nullable | Default |
+|---|---|---|---|
+| id | uuid | NO | gen_random_uuid() |
+| scoring_version_id | uuid | NO |  |
+| place | integer | NO |  |
+| points | numeric | NO |  |
+| created_at | timestamp with time zone | NO | now() |
+
+Constraints:
+- `NOT NULL created_at`
+- `NOT NULL id`
+- `PRIMARY KEY (id)`
+- `CHECK (((place >= 1) AND (place <= 24)))`
+- `NOT NULL place`
+- `CHECK ((points >= (0)::numeric))`
+- `NOT NULL points`
+- `FOREIGN KEY (scoring_version_id) REFERENCES app.esports_scoring_versions(id)`
+- `NOT NULL scoring_version_id`
+- `UNIQUE (scoring_version_id, place)`
+
+## esports_roster_members
+
+| Column | Type | Nullable | Default |
+|---|---|---|---|
+| id | uuid | NO | gen_random_uuid() |
+| roster_id | uuid | NO |  |
+| entry_id | uuid | NO |  |
+| event_id | uuid | NO |  |
+| profile_id | uuid | NO |  |
+| slot_type | text | NO |  |
+| slot_index | integer | NO |  |
+| ign | text | NO |  |
+| player_uid | text | NO |  |
+| is_igl | boolean | NO | false |
+| active | boolean | NO | true |
+| created_at | timestamp with time zone | NO | now() |
+
+Constraints:
+- `NOT NULL active`
+- `CHECK ((((slot_type = 'starter'::text) AND ((slot_index >= 1) AND (slot_index <= 4))) OR ((slot_type = 'substitute'::text) AND (slot_index = 5))))`
+- `CHECK (((NOT is_igl) OR (slot_type = 'starter'::text)))`
+- `NOT NULL created_at`
+- `FOREIGN KEY (entry_id, event_id) REFERENCES app.competition_entries(id, event_id)`
+- `NOT NULL entry_id`
+- `NOT NULL event_id`
+- `NOT NULL id`
+- `CHECK ((length(TRIM(BOTH FROM ign)) > 0))`
+- `NOT NULL ign`
+- `NOT NULL is_igl`
+- `PRIMARY KEY (id)`
+- `CHECK ((length(TRIM(BOTH FROM player_uid)) > 0))`
+- `NOT NULL player_uid`
+- `FOREIGN KEY (profile_id) REFERENCES app.profiles(id)`
+- `NOT NULL profile_id`
+- `FOREIGN KEY (roster_id, entry_id) REFERENCES app.esports_rosters(id, entry_id)`
+- `NOT NULL roster_id`
+- `CHECK (((slot_index >= 1) AND (slot_index <= 5)))`
+- `NOT NULL slot_index`
+- `CHECK ((slot_type = ANY (ARRAY['starter'::text, 'substitute'::text])))`
+- `NOT NULL slot_type`
+
+## esports_rosters
+
+| Column | Type | Nullable | Default |
+|---|---|---|---|
+| id | uuid | NO | gen_random_uuid() |
+| entry_id | uuid | NO |  |
+| event_id | uuid | NO |  |
+| registration_id | uuid | NO |  |
+| revision | integer | NO | 1 |
+| state | text | NO | 'draft'::text |
+| locked_at | timestamp with time zone | YES |  |
+| locked_by | uuid | YES |  |
+| created_at | timestamp with time zone | NO | now() |
+
+Constraints:
+- `NOT NULL created_at`
+- `FOREIGN KEY (entry_id, event_id) REFERENCES app.competition_entries(id, event_id)`
+- `NOT NULL entry_id`
+- `UNIQUE (entry_id, revision)`
+- `NOT NULL event_id`
+- `UNIQUE (id, entry_id)`
+- `UNIQUE (id, event_id)`
+- `NOT NULL id`
+- `FOREIGN KEY (locked_by) REFERENCES app.profiles(id)`
+- `PRIMARY KEY (id)`
+- `FOREIGN KEY (registration_id) REFERENCES app.registrations(id)`
+- `NOT NULL registration_id`
+- `CHECK ((revision > 0))`
+- `NOT NULL revision`
+- `CHECK ((state = ANY (ARRAY['draft'::text, 'submitted'::text, 'locked'::text, 'archived'::text])))`
+- `NOT NULL state`
+
+## esports_rules_versions
+
+| Column | Type | Nullable | Default |
+|---|---|---|---|
+| id | uuid | NO | gen_random_uuid() |
+| event_version_id | uuid | NO |  |
+| event_id | uuid | NO |  |
+| game | text | NO |  |
+| tournament_name | text | NO | 'KALINGA BGMI CLASH SEASON 1'::text |
+| source_alias | text | YES | 'KALINGA CLASH 2K26'::text |
+| dates | jsonb | NO | '["2026-11-13", "2026-11-14"]'::jsonb |
+| team_capacity | integer | NO | 24 |
+| starters_count | integer | NO | 4 |
+| substitute_slots | integer | NO | 1 |
+| substitute_required | boolean | YES |  |
+| igl_required | integer | NO | 1 |
+| leader_phone_only | boolean | NO | true |
+| query_phone | text | YES | '8260555312'::text |
+| prize_pool_paise | bigint | YES |  |
+| prize_distribution | jsonb | YES |  |
+| entry_fee_status | text | NO | 'pending'::text |
+| device_policy_status | text | NO | 'pending'::text |
+| scoring_rules_status | text | NO | 'pending_complete_rules'::text |
+| approved_id_types | jsonb | NO | '["aadhaar", "pan", "voter_id"]'::jsonb |
+| declaration_text_ref | text | NO | 'draft_v1'::text |
+| scoring_reference | text | NO | 'BGIS 2026 partial placement chart'::text |
+| created_at | timestamp with time zone | NO | now() |
+
+Constraints:
+- `NOT NULL approved_id_types`
+- `NOT NULL created_at`
+- `NOT NULL dates`
+- `NOT NULL declaration_text_ref`
+- `CHECK ((device_policy_status = ANY (ARRAY['pending'::text, 'approved'::text, 'active'::text])))`
+- `NOT NULL device_policy_status`
+- `CHECK ((entry_fee_status = ANY (ARRAY['pending'::text, 'approved'::text, 'active'::text])))`
+- `NOT NULL entry_fee_status`
+- `NOT NULL event_id`
+- `FOREIGN KEY (event_version_id, event_id) REFERENCES app.event_versions(id, event_id)`
+- `UNIQUE (event_version_id)`
+- `NOT NULL event_version_id`
+- `CHECK ((game = ANY (ARRAY['bgmi'::text, 'free-fire'::text])))`
+- `NOT NULL game`
+- `UNIQUE (id, event_id)`
+- `NOT NULL id`
+- `CHECK ((igl_required = 1))`
+- `NOT NULL igl_required`
+- `NOT NULL leader_phone_only`
+- `PRIMARY KEY (id)`
+- `CHECK (((prize_pool_paise IS NULL) OR (prize_pool_paise >= 0)))`
+- `NOT NULL scoring_reference`
+- `CHECK ((scoring_rules_status = ANY (ARRAY['pending_complete_rules'::text, 'approved'::text, 'active'::text])))`
+- `NOT NULL scoring_rules_status`
+- `CHECK ((starters_count = 4))`
+- `NOT NULL starters_count`
+- `CHECK ((substitute_slots = 1))`
+- `NOT NULL substitute_slots`
+- `CHECK ((team_capacity > 0))`
+- `NOT NULL team_capacity`
+- `NOT NULL tournament_name`
+
+## esports_scoring_versions
+
+| Column | Type | Nullable | Default |
+|---|---|---|---|
+| id | uuid | NO | gen_random_uuid() |
+| event_id | uuid | NO |  |
+| rules_version_id | uuid | NO |  |
+| version | integer | NO |  |
+| name | text | NO | 'BGIS 2026 Points System'::text |
+| kill_multiplier | numeric | YES |  |
+| tie_break_policy | text | YES |  |
+| lobby_size | integer | YES |  |
+| approval_state | text | NO | 'draft'::text |
+| approved_by | uuid | YES |  |
+| approved_at | timestamp with time zone | YES |  |
+| created_at | timestamp with time zone | NO | now() |
+
+Constraints:
+- `CHECK ((approval_state = ANY (ARRAY['draft'::text, 'approved'::text, 'superseded'::text])))`
+- `NOT NULL approval_state`
+- `FOREIGN KEY (approved_by) REFERENCES app.profiles(id)`
+- `CHECK ((NOT ((approval_state = 'approved'::text) AND ((kill_multiplier IS NULL) OR (tie_break_policy IS NULL) OR (approved_by IS NULL) OR (approved_at IS NULL)))))`
+- `NOT NULL created_at`
+- `FOREIGN KEY (event_id) REFERENCES app.events(id)`
+- `NOT NULL event_id`
+- `UNIQUE (event_id, version)`
+- `UNIQUE (id, event_id)`
+- `NOT NULL id`
+- `CHECK (((kill_multiplier IS NULL) OR (kill_multiplier >= (0)::numeric)))`
+- `CHECK (((lobby_size IS NULL) OR (lobby_size > 0)))`
+- `NOT NULL name`
+- `PRIMARY KEY (id)`
+- `FOREIGN KEY (rules_version_id, event_id) REFERENCES app.event_versions(id, event_id)`
+- `NOT NULL rules_version_id`
+- `CHECK ((version > 0))`
+- `NOT NULL version`
 
 ## event_versions
 
@@ -680,6 +910,45 @@ Constraints:
 - `CHECK ((state = ANY (ARRAY['in_progress'::text, 'completed'::text])))`
 - `NOT NULL state`
 
+## identity_verifications
+
+| Column | Type | Nullable | Default |
+|---|---|---|---|
+| id | uuid | NO | gen_random_uuid() |
+| event_id | uuid | NO |  |
+| profile_id | uuid | NO |  |
+| proof_type | text | NO |  |
+| method | text | NO |  |
+| status | text | NO | 'pending'::text |
+| reviewer_id | uuid | YES |  |
+| verified_at | timestamp with time zone | YES |  |
+| file_id | uuid | YES |  |
+| rejection_reason | text | YES |  |
+| expires_at | timestamp with time zone | YES |  |
+| deleted_at | timestamp with time zone | YES |  |
+| created_at | timestamp with time zone | NO | now() |
+
+Constraints:
+- `CHECK (((reviewer_id IS NULL) OR (reviewer_id <> profile_id)))`
+- `CHECK ((((status = 'pending'::text) AND (verified_at IS NULL) AND (reviewer_id IS NULL)) OR ((status = ANY (ARRAY['verified'::text, 'rejected'::text])) AND (reviewer_id IS NOT NULL) AND (verified_at IS NOT NULL))))`
+- `CHECK (((method <> 'upload'::text) OR (file_id IS NOT NULL)))`
+- `NOT NULL created_at`
+- `FOREIGN KEY (event_id) REFERENCES app.events(id)`
+- `NOT NULL event_id`
+- `UNIQUE (event_id, profile_id, proof_type)`
+- `FOREIGN KEY (file_id) REFERENCES app.files(id)`
+- `NOT NULL id`
+- `CHECK ((method = ANY (ARRAY['in_person'::text, 'upload'::text])))`
+- `NOT NULL method`
+- `PRIMARY KEY (id)`
+- `FOREIGN KEY (profile_id) REFERENCES app.profiles(id)`
+- `NOT NULL profile_id`
+- `CHECK ((proof_type = ANY (ARRAY['aadhaar'::text, 'pan'::text, 'voter_id'::text, 'college_id'::text])))`
+- `NOT NULL proof_type`
+- `FOREIGN KEY (reviewer_id) REFERENCES app.profiles(id)`
+- `CHECK ((status = ANY (ARRAY['pending'::text, 'verified'::text, 'rejected'::text])))`
+- `NOT NULL status`
+
 ## incidents
 
 | Column | Type | Nullable | Default |
@@ -760,6 +1029,76 @@ Constraints:
 - `NOT NULL rubric_id`
 - `FOREIGN KEY (staff_assignment_id, judge_id) REFERENCES app.staff_assignments(id, profile_id)`
 - `NOT NULL staff_assignment_id`
+
+## match_substitute_activations
+
+| Column | Type | Nullable | Default |
+|---|---|---|---|
+| id | uuid | NO | gen_random_uuid() |
+| match_id | uuid | NO |  |
+| event_id | uuid | NO |  |
+| entry_id | uuid | NO |  |
+| starter_member_id | uuid | NO |  |
+| substitute_member_id | uuid | NO |  |
+| authorized_by | uuid | NO |  |
+| reason | text | NO |  |
+| activated_at | timestamp with time zone | NO | now() |
+| created_at | timestamp with time zone | NO | now() |
+
+Constraints:
+- `NOT NULL activated_at`
+- `FOREIGN KEY (authorized_by) REFERENCES app.profiles(id)`
+- `NOT NULL authorized_by`
+- `NOT NULL created_at`
+- `FOREIGN KEY (entry_id, event_id) REFERENCES app.competition_entries(id, event_id)`
+- `NOT NULL entry_id`
+- `NOT NULL event_id`
+- `NOT NULL id`
+- `FOREIGN KEY (match_id, event_id) REFERENCES app.esports_matches(id, event_id)`
+- `NOT NULL match_id`
+- `PRIMARY KEY (id)`
+- `NOT NULL reason`
+- `FOREIGN KEY (starter_member_id) REFERENCES app.esports_roster_members(id)`
+- `NOT NULL starter_member_id`
+- `FOREIGN KEY (substitute_member_id) REFERENCES app.esports_roster_members(id)`
+- `NOT NULL substitute_member_id`
+
+## match_technical_logs
+
+| Column | Type | Nullable | Default |
+|---|---|---|---|
+| id | uuid | NO | gen_random_uuid() |
+| match_id | uuid | NO |  |
+| event_id | uuid | NO |  |
+| entry_id | uuid | YES |  |
+| official_id | uuid | NO |  |
+| request_type | text | NO |  |
+| decision | text | NO |  |
+| reason | text | NO |  |
+| pause_started_at | timestamp with time zone | YES |  |
+| pause_ended_at | timestamp with time zone | YES |  |
+| duration_seconds | integer | YES |  |
+| penalty_points | numeric | YES |  |
+| evidence_notes | text | YES |  |
+| created_at | timestamp with time zone | NO | now() |
+
+Constraints:
+- `NOT NULL created_at`
+- `CHECK ((decision = ANY (ARRAY['granted'::text, 'denied'::text, 'penalty'::text, 'disqualification'::text, 'restarted'::text, 'resumed'::text])))`
+- `NOT NULL decision`
+- `CHECK (((duration_seconds IS NULL) OR (duration_seconds >= 0)))`
+- `FOREIGN KEY (entry_id) REFERENCES app.competition_entries(id)`
+- `NOT NULL event_id`
+- `NOT NULL id`
+- `FOREIGN KEY (match_id, event_id) REFERENCES app.esports_matches(id, event_id)`
+- `NOT NULL match_id`
+- `FOREIGN KEY (official_id) REFERENCES app.profiles(id)`
+- `NOT NULL official_id`
+- `CHECK (((penalty_points IS NULL) OR (penalty_points >= (0)::numeric)))`
+- `PRIMARY KEY (id)`
+- `NOT NULL reason`
+- `CHECK ((request_type = ANY (ARRAY['pause'::text, 'disconnect'::text, 'restart'::text, 'integrity'::text, 'penalty'::text, 'disqualification'::text])))`
+- `NOT NULL request_type`
 
 ## notification_deliveries
 
@@ -1613,6 +1952,39 @@ Constraints:
 - `NOT NULL role`
 - `NOT NULL starts_at`
 
+## station_hardware_checks
+
+| Column | Type | Nullable | Default |
+|---|---|---|---|
+| id | uuid | NO | gen_random_uuid() |
+| station_id | uuid | NO |  |
+| event_id | uuid | NO |  |
+| session_id | uuid | YES |  |
+| asset_code | text | NO |  |
+| config_version | text | NO |  |
+| inspector_id | uuid | NO |  |
+| result | text | NO |  |
+| reason | text | YES |  |
+| checked_at | timestamp with time zone | NO | now() |
+| created_at | timestamp with time zone | NO | now() |
+
+Constraints:
+- `NOT NULL asset_code`
+- `NOT NULL checked_at`
+- `NOT NULL config_version`
+- `NOT NULL created_at`
+- `FOREIGN KEY (event_id) REFERENCES app.events(id)`
+- `NOT NULL event_id`
+- `NOT NULL id`
+- `FOREIGN KEY (inspector_id) REFERENCES app.profiles(id)`
+- `NOT NULL inspector_id`
+- `PRIMARY KEY (id)`
+- `CHECK ((result = ANY (ARRAY['passed'::text, 'failed'::text, 'flagged'::text])))`
+- `NOT NULL result`
+- `FOREIGN KEY (session_id) REFERENCES app.sessions(id)`
+- `FOREIGN KEY (station_id) REFERENCES app.stations(id)`
+- `NOT NULL station_id`
+
 ## stations
 
 | Column | Type | Nullable | Default |
@@ -1637,6 +2009,39 @@ Constraints:
 - `NOT NULL name`
 - `PRIMARY KEY (id)`
 - `FOREIGN KEY (venue_id) REFERENCES app.venues(id)`
+
+## team_declarations
+
+| Column | Type | Nullable | Default |
+|---|---|---|---|
+| id | uuid | NO | gen_random_uuid() |
+| registration_id | uuid | NO |  |
+| event_id | uuid | NO |  |
+| rules_version_id | uuid | NO |  |
+| leader_id | uuid | NO |  |
+| declaration_text_version | text | NO |  |
+| declaration_hash | text | NO |  |
+| ip_address | text | YES |  |
+| user_agent | text | YES |  |
+| accepted_at | timestamp with time zone | NO | now() |
+| created_at | timestamp with time zone | NO | now() |
+
+Constraints:
+- `NOT NULL accepted_at`
+- `NOT NULL created_at`
+- `NOT NULL declaration_hash`
+- `NOT NULL declaration_text_version`
+- `FOREIGN KEY (event_id) REFERENCES app.events(id)`
+- `NOT NULL event_id`
+- `NOT NULL id`
+- `FOREIGN KEY (leader_id) REFERENCES app.profiles(id)`
+- `NOT NULL leader_id`
+- `PRIMARY KEY (id)`
+- `FOREIGN KEY (registration_id) REFERENCES app.registrations(id)`
+- `NOT NULL registration_id`
+- `UNIQUE (registration_id, rules_version_id)`
+- `FOREIGN KEY (rules_version_id, event_id) REFERENCES app.event_versions(id, event_id)`
+- `NOT NULL rules_version_id`
 
 ## team_invitations
 

@@ -3,156 +3,138 @@
   "engine": "PGlite disposable embedded PostgreSQL",
   "auth": "minimal auth.users fixture only; not Supabase Auth",
   "cloud_changes": false,
-  "concurrency_tested": false,
-  "checks": [
+  "checks": 28,
+  "tables": 68,
+  "foreign_keys": 165,
+  "details": [
     {
-      "test": "Apply entire schema to disposable PostgreSQL engine",
+      "test": "Apply baseline 001_schema_design.sql to disposable PostgreSQL",
       "result": "PASS"
     },
     {
-      "test": "Unknown fee cannot be enabled",
-      "result": "PASS",
-      "expected_sqlstate": "23514"
-    },
-    {
-      "test": "Negative fee rejected",
-      "result": "PASS",
-      "expected_sqlstate": "23514"
-    },
-    {
-      "test": "Cross event publication rejected",
-      "result": "PASS",
-      "expected_sqlstate": "23503"
-    },
-    {
-      "test": "Registration cannot open without published version",
-      "result": "PASS",
-      "expected_sqlstate": "23514"
-    },
-    {
-      "test": "Invalid team limits rejected",
-      "result": "PASS",
-      "expected_sqlstate": "23514"
-    },
-    {
-      "test": "Registration cannot use another events entry",
-      "result": "PASS",
-      "expected_sqlstate": "23503"
-    },
-    {
-      "test": "Registration mode must match price option",
-      "result": "PASS",
-      "expected_sqlstate": "23503"
-    },
-    {
-      "test": "Duplicate accepted event membership rejected",
-      "result": "PASS",
-      "expected_sqlstate": "23505"
-    },
-    {
-      "test": "Membership cannot be accepted without consent",
-      "result": "PASS",
-      "expected_sqlstate": "23514"
-    },
-    {
-      "test": "Separate payable registrations can fund members of one competition entry",
+      "test": "Apply forward migration 002_esports_lan_extensions.sql cleanly on top of baseline",
       "result": "PASS"
     },
     {
-      "test": "Participant identity must match membership",
-      "result": "PASS",
-      "expected_sqlstate": "23503"
-    },
-    {
-      "test": "Only one live reservation per entry",
-      "result": "PASS",
-      "expected_sqlstate": "23505"
-    },
-    {
-      "test": "Same settled credit cannot be imported twice",
-      "result": "PASS",
-      "expected_sqlstate": "23505"
-    },
-    {
-      "test": "Same bank credit cannot fund two orders",
-      "result": "PASS",
-      "expected_sqlstate": "23505"
-    },
-    {
-      "test": "Bank credits are append only",
-      "result": "PASS",
-      "expected_sqlstate": "55000"
-    },
-    {
-      "test": "Self approved refund rejected",
+      "test": "E02: Unknown fee cannot be enabled for checkout",
       "result": "PASS",
       "expected_sqlstate": "23514"
     },
     {
-      "test": "Only one unrevoked pass per participant",
-      "result": "PASS",
-      "expected_sqlstate": "23505"
+      "test": "E01: BGMI configured with 24 teams, 4 starters, 1 substitute slot, ₹10,000 pool, substitute_required kept null",
+      "result": "PASS"
     },
     {
-      "test": "Duplicate attendance rejected",
-      "result": "PASS",
-      "expected_sqlstate": "23505"
+      "test": "E06: Leader successfully accepted team declaration with immutable hash",
+      "result": "PASS"
     },
     {
-      "test": "Scan actor must be assigned duty holder",
+      "test": "E06: Non-leader cannot accept team declaration",
       "result": "PASS",
-      "expected_sqlstate": "23503"
+      "expected_sqlstate": "42501"
     },
     {
-      "test": "Wrong organizer staff assignment rejected",
+      "test": "E06: Team declarations are append-only (cannot mutate)",
       "result": "PASS",
-      "expected_sqlstate": "23503"
+      "expected_sqlstate": "55000"
     },
     {
-      "test": "Marks above maximum rejected",
+      "test": "E03: Roster submitted successfully with 4 starters, 1 IGL, and 1 substitute slot preserving leading zero UIDs",
+      "result": "PASS"
+    },
+    {
+      "test": "E03: Player UID leading zeros preserved as string",
+      "result": "PASS"
+    },
+    {
+      "test": "E03: Roster rejected when zero IGLs designated",
       "result": "PASS",
       "expected_sqlstate": "23514"
     },
     {
-      "test": "Locked score cannot be edited",
+      "test": "E03: Roster rejected when fewer than 4 starters provided",
+      "result": "PASS",
+      "expected_sqlstate": "23514"
+    },
+    {
+      "test": "E03: Duplicate player UID across active event rosters is rejected",
+      "result": "PASS",
+      "expected_sqlstate": "23505"
+    },
+    {
+      "test": "E05: Participant cannot verify own identity",
+      "result": "PASS",
+      "expected_sqlstate": "23514"
+    },
+    {
+      "test": "E05: Authorized reviewer verified player identity in-person without plaintext national ID",
+      "result": "PASS"
+    },
+    {
+      "test": "E10: Referee signed off station hardware integrity with asset code and config version",
+      "result": "PASS"
+    },
+    {
+      "test": "E10: Station checks are append-only",
       "result": "PASS",
       "expected_sqlstate": "55000"
     },
     {
-      "test": "Locked score cannot be deleted",
+      "test": "E10: Hardware check for station from different event rejected",
       "result": "PASS",
-      "expected_sqlstate": "55000"
+      "expected_sqlstate": "23503"
     },
     {
-      "test": "Audit records cannot be deleted",
-      "result": "PASS",
-      "expected_sqlstate": "55000"
+      "test": "E08: Referee activated in-match substitute switch within locked roster without altering entry capacity",
+      "result": "PASS"
     },
     {
-      "test": "anon cannot directly read domain tables",
-      "result": "PASS",
-      "expected_sqlstate": "42501"
+      "test": "E09: Referee adjudicated technical pause with human decision and audit log (no automated DQ)",
+      "result": "PASS"
     },
     {
-      "test": "authenticated cannot directly read domain tables",
-      "result": "PASS",
-      "expected_sqlstate": "42501"
+      "test": "E07: Configured confirmed 16-tier placement points table exactly matching supplied chart",
+      "result": "PASS"
     },
     {
-      "test": "service_role cannot directly read domain tables",
+      "test": "E07: Scoring approval rejected when kill points or tie-break rules are null",
       "result": "PASS",
-      "expected_sqlstate": "42501"
+      "expected_sqlstate": "23514"
     },
     {
-      "test": "All 57 domain tables have RLS enabled",
+      "test": "E07: Scoring version approved only after complete kill multiplier and tie-break policy provided",
+      "result": "PASS"
+    },
+    {
+      "test": "Match results rejected when scorer and reviewer are the same person",
+      "result": "PASS",
+      "expected_sqlstate": "23514"
+    },
+    {
+      "test": "Match result calculated server-side (10 placement + 7 kills = 17) with distinct scorer and reviewer",
+      "result": "PASS"
+    },
+    {
+      "test": "E04: Capacity reservation successfully reserved initial slot",
+      "result": "PASS"
+    },
+    {
+      "test": "E04: 25th team reservation rejected when 24 team capacity is reached",
+      "result": "PASS",
+      "expected_sqlstate": "23514"
+    },
+    {
+      "test": "E04: Atomic capacity enforcement prevents exceeding 24 confirmed/held team slots",
+      "result": "PASS"
+    },
+    {
+      "test": "All 68 domain tables have RLS enabled",
       "result": "PASS"
     }
   ],
   "limitations": [
-    "No live Supabase Auth/Storage/RLS RPC integration",
+    "No live Supabase Auth/Storage cloud integration (independent local verification)",
     "No live Vercel/email/bank tests",
-    "No application commands implemented",
-    "No multi-connection concurrency test; unique constraints only",
-    "No claim of production readiness"
+    "Unresolved decisions (BGMI fee, official QR, device rules, tie-break policy) gated as pending"
   ]
 }
