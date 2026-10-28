@@ -19,3 +19,10 @@ Final local review server: http://127.0.0.1:3100, NEXT_DIST_DIR=.next-preview, p
 Hero follow-up remains local only; no Vercel deployment.
 
 Latest cinematic hero: local production preview session 22844 on port 3100. Build PASS; no public deployment.
+
+## GitHub Remote Setup — 28 October 2026
+- Remote origin: `https://github.com/sakashdora/Fire_Flames.git`
+- Branch: `main`
+- Pushed commit: `516ef1f` (`feat(ui): complete UI refinement, cinematic hero, unified portal sign-in, and DJ section removal`)
+- Upstream: `origin/main` configured and synced
+

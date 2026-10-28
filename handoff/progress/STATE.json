@@ -6,6 +6,11 @@
   "phase": "public_design_and_motion_refinement",
   "active_task": "Cinematic animated hero complete and verified locally",
   "application_created": true,
+  "git_remote": {
+    "origin": "https://github.com/sakashdora/Fire_Flames.git",
+    "branch": "main",
+    "latest_push_commit": "516ef1f"
+  },
   "cloud_resources_linked": false,
   "schema_design": {
     "status": "verified_local",
