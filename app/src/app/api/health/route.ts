@@ -1,21 +1,19 @@
 import { NextResponse } from 'next/server';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
 
+// Reports what this deployment can actually reach; it never asserts unverified readiness.
 export async function GET() {
+  const supabase = await createSupabaseServerClient();
+  let database: 'not_configured' | 'reachable' | 'unreachable' | 'not_migrated' = 'not_configured';
+  if (supabase) {
+    const { error } = await supabase.rpc('ff_public_catalogue', {});
+    database = !error ? 'reachable' : error.code === 'PGRST202' ? 'not_migrated' : 'unreachable';
+  }
   return NextResponse.json({
-    status: 'ok',
+    status: database === 'reachable' ? 'ok' : 'degraded',
     timestamp: new Date().toISOString(),
-    service: 'fire-and-flames-api',
-    version: '0.1.0',
-    database: {
-      status: 'verified_local',
-      tables: 68,
-      foreign_keys: 165
-    },
-    workflows: {
-      esports_lan_extensions: 'active',
-      bgmi_roster_rules: 'active',
-      gated_payment_checkout: 'pending_official_qr_and_fee',
-      gated_final_scoring: 'pending_tiebreak_policy'
-    }
-  });
+    service: 'fire-and-flames',
+    database,
+    pass_encryption_key: /^[0-9a-f]{64}$/i.test(process.env.PASS_ENCRYPTION_KEY ?? '') ? 'configured' : 'missing',
+  }, { status: database === 'reachable' ? 200 : 503, headers: { 'Cache-Control': 'no-store' } });
 }

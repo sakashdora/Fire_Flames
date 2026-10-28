@@ -1,247 +1,180 @@
 'use client';
 
-import { useState } from 'react';
-import { Shield, Users, CreditCard, Award, CheckCircle2, AlertTriangle, Lock } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { api, type ApiResult } from '@/lib/client/api';
+import { StaffShell, ResultNotice } from '@/components/staff/StaffShell';
+import { formData, useAction, useStaffContext } from '@/components/staff/useStaffContext';
+import { Notice } from '@/components/ui/Notice';
 
-export default function AdminWorkspacePage() {
-  const [activeTab, setActiveTab] = useState<'scoring' | 'beneficiary' | 'capacity'>('scoring');
+interface AdminEvent {
+  slug: string; name: string; track: string; state: string; registration_enabled: boolean; capacity: number | null; capacity_unit: string; reserved: number;
+  registrations: Record<string, number>;
+  version: { version: number; approval_state: string; team_min: number | null; team_max: number | null; public_description: string; rules_text: string; prices: { mode: string; amount_paise: number | null; enabled: boolean }[] };
+}
+interface Overview { is_super_admin: boolean; events: AdminEvent[]; staff: { id: string; name: string; email: string; role: string; event: string | null; ends_at: string }[] }
 
-  // Scoring approval gate
-  const [killMultiplier, setKillMultiplier] = useState('');
-  const [tieBreakPolicy, setTieBreakPolicy] = useState('');
-  const [scoringMsg, setScoringMsg] = useState<string | null>(null);
-  const [scoringError, setScoringError] = useState<string | null>(null);
+const TABS: [string, string][] = [['events', 'Events'], ['staff', 'Staff'], ['operations', 'LAN & judging setup'], ['scoring', 'Esports scoring'], ['payments', 'Payments']];
+const rupees = (p: number | null) => (p === null ? 'not set' : `₹${(p / 100).toLocaleString('en-IN')}`);
 
-  // Two-person beneficiary
-  const [proposer, setProposer] = useState('super-admin-1');
-  const [approver, setApprover] = useState('super-admin-2');
-  const [beneficiaryName, setBeneficiaryName] = useState('Srusti Academy Autonomous');
-  const [upiId, setUpiId] = useState('srustiacademy@sbi');
-  const [beneficiaryMsg, setBeneficiaryMsg] = useState<string | null>(null);
-  const [beneficiaryError, setBeneficiaryError] = useState<string | null>(null);
+export default function AdminConsole() {
+  const [tab, setTab] = useState('events');
+  const [ov, setOv] = useState<Overview | null>(null);
+  const [status, setStatus] = useState<ApiResult | null>(null);
+  const [slug, setSlug] = useState('');
+  const load = useCallback(async () => {
+    const res = await api<Overview>('/api/admin/overview');
+    setStatus(res);
+    if (res.ok && res.data) { setOv(res.data); setSlug(s => s || res.data!.events[0]?.slug || ''); }
+  }, []);
+  useEffect(() => { load(); }, [load]);
+  const { busy, result, setResult, run } = useAction(load);
+  const ev = ov?.events.find(e => e.slug === slug);
+  const opsEvent = slug || 'bgmi';
+  const staffCtx = useStaffContext(tab === 'operations' || tab === 'scoring' ? (tab === 'scoring' ? 'bgmi' : opsEvent) : '');
+  const switchTab = (t: string) => { setTab(t); setResult(null); };
 
-  const handleApproveScoring = (e: React.FormEvent) => {
-    e.preventDefault();
-    setScoringError(null);
-    setScoringMsg(null);
+  const eventPicker = ov && <label className="field" style={{ maxWidth: 420 }}>Event
+    <select value={slug} onChange={e => { setSlug(e.target.value); setResult(null); }}>{ov.events.map(e => <option key={e.slug} value={e.slug}>{e.name} · {e.state}</option>)}</select>
+  </label>;
 
-    // E07 Invariant: incomplete scoring rules cannot be approved!
-    if (!killMultiplier.trim() || !tieBreakPolicy.trim()) {
-      setScoringError('Cannot approve scoring version: kill multiplier and tie-break policy are strictly required. (E07 compliance).');
-      return;
-    }
-
-    setScoringMsg(`Scoring rules approved by Super Admin. Kill multiplier set to ${killMultiplier} and tie-break policy registered.`);
-  };
-
-  const handleApproveBeneficiary = (e: React.FormEvent) => {
-    e.preventDefault();
-    setBeneficiaryError(null);
-    setBeneficiaryMsg(null);
-
-    // ADR 005 Invariant: Proposer != Approver
-    if (proposer === approver) {
-      setBeneficiaryError('ADR 005 Violation: Approver cannot be the same person as the Proposer. Two distinct super admins are required.');
-      return;
-    }
-
-    setBeneficiaryMsg(`New payment profile version activated for ${beneficiaryName} (${upiId}). Proposed by ${proposer}, approved by ${approver}.`);
-  };
-
-  return (
-    <div style={{ maxWidth: '1000px', margin: '2rem auto 4rem', padding: '0 1.5rem' }}>
-      
-      <div style={{ marginBottom: '2rem' }}>
-        <span className="badge-gold" style={{ marginBottom: '0.5rem' }}>ADMINISTRATION • ELEVATED ROLE • MFA</span>
-        <h1 style={{ fontSize: '2.2rem', fontWeight: 900, color: '#ffffff' }}>
-          Event Admin & Governance Console
-        </h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-          Enforce two-person payment approvals, scoring readiness gates, and tournament capacity locks.
-        </p>
-      </div>
-
-      <div style={{ display: 'flex', gap: '0.75rem', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '0.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
-        <button
-          onClick={() => setActiveTab('scoring')}
-          style={{
-            padding: '0.65rem 1.25rem',
-            borderRadius: '8px',
-            background: activeTab === 'scoring' ? 'rgba(217, 119, 6, 0.25)' : 'transparent',
-            border: activeTab === 'scoring' ? '1px solid var(--gold-400)' : 'none',
-            color: activeTab === 'scoring' ? '#ffffff' : 'var(--text-muted)',
-            fontWeight: 700,
-            cursor: 'pointer'
-          }}
-        >
-          Scoring Rules Approval Gate (E07)
-        </button>
-
-        <button
-          onClick={() => setActiveTab('beneficiary')}
-          style={{
-            padding: '0.65rem 1.25rem',
-            borderRadius: '8px',
-            background: activeTab === 'beneficiary' ? 'rgba(217, 119, 6, 0.25)' : 'transparent',
-            border: activeTab === 'beneficiary' ? '1px solid var(--gold-400)' : 'none',
-            color: activeTab === 'beneficiary' ? '#ffffff' : 'var(--text-muted)',
-            fontWeight: 700,
-            cursor: 'pointer'
-          }}
-        >
-          Two-Person Beneficiary Activation (ADR 005)
-        </button>
-
-        <button
-          onClick={() => setActiveTab('capacity')}
-          style={{
-            padding: '0.65rem 1.25rem',
-            borderRadius: '8px',
-            background: activeTab === 'capacity' ? 'rgba(217, 119, 6, 0.25)' : 'transparent',
-            border: activeTab === 'capacity' ? '1px solid var(--gold-400)' : 'none',
-            color: activeTab === 'capacity' ? '#ffffff' : 'var(--text-muted)',
-            fontWeight: 700,
-            cursor: 'pointer'
-          }}
-        >
-          Capacity & Reservation Locks (E04)
-        </button>
-      </div>
-
-      {activeTab === 'scoring' && (
-        <form onSubmit={handleApproveScoring} className="glass-panel" style={{ padding: '2rem' }}>
-          <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.5rem' }}>
-            BGMI Tournament Scoring Approval Gate
-          </h3>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
-            In accordance with E07, BGIS 2026 placement rows (1–16) are transcribed. However, approval is strictly blocked if kill points or tie-break policies are left unspecified.
-          </p>
-
-          {scoringError && (
-            <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem', color: '#fca5a5', fontSize: '0.88rem' }}>
-              ⚠️ {scoringError}
-            </div>
-          )}
-
-          {scoringMsg && (
-            <div style={{ background: 'rgba(34, 197, 94, 0.12)', border: '1px solid rgba(34, 197, 94, 0.3)', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem', color: '#4ade80', fontSize: '0.88rem' }}>
-              ✓ {scoringMsg}
-            </div>
-          )}
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.5rem' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>Kill Point Multiplier (Required for Approval)</label>
-              <input
-                type="number"
-                step="0.5"
-                value={killMultiplier}
-                onChange={e => setKillMultiplier(e.target.value)}
-                placeholder="Leave blank to test rejection, or enter e.g. 1"
-                style={{ width: '100%', padding: '0.7rem', background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: '#ffffff' }}
-              />
-            </div>
-
-            <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>Tie-Break Specification (Required for Approval)</label>
-              <input
-                type="text"
-                value={tieBreakPolicy}
-                onChange={e => setTieBreakPolicy(e.target.value)}
-                placeholder="e.g. Higher WWCDs, then total kill points"
-                style={{ width: '100%', padding: '0.7rem', background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: '#ffffff' }}
-              />
-            </div>
+  return <StaffShell badge="ADMINISTRATION" title="Admin console" status={status} tabs={TABS} tab={tab} onTab={switchTab}
+    intro="Changes take effect immediately and are recorded in the audit log under your account.">
+    {ov && <div className="stack">
+      {tab === 'events' && <>
+        {eventPicker}
+        {ev && <div className="ws-grid">
+          <div className="ws-card">
+            <h2>{ev.name}</h2>
+            <ul className="ws-list">
+              <li><span>Status</span><span className={ev.state === 'published' ? 'badge-verified' : 'badge-gold'}>{ev.state}{ev.registration_enabled ? ' · registration open' : ''}</span></li>
+              <li><span>Capacity</span><span>{ev.capacity ?? 'not approved'} {ev.capacity_unit}s · {ev.reserved} held</span></li>
+              <li><span>Team size</span><span>{ev.version.team_min ?? '—'}–{ev.version.team_max ?? '—'}</span></li>
+              {ev.version.prices.map(p => <li key={p.mode}><span>{p.mode} fee</span><span>{rupees(p.amount_paise)}{p.enabled ? ' · live' : ''}</span></li>)}
+              <li><span>Registrations</span><span>{Object.entries(ev.registrations).map(([k, v]) => `${k}: ${v}`).join(' · ') || 'none'}</span></li>
+            </ul>
+            {ev.state === 'published' && <div className="row" style={{ marginTop: 14 }}>
+              <button className={ev.registration_enabled ? 'btn-secondary' : 'btn-primary'} disabled={busy === 'reg'}
+                onClick={() => run('reg', `/api/admin/events/${ev.slug}`, { action: 'registration', enabled: !ev.registration_enabled })}>
+                {ev.registration_enabled ? 'Close registration' : 'Open registration'}</button>
+            </div>}
           </div>
 
-          <button type="submit" className="btn-primary">
-            Attempt Scoring Rules Approval
-          </button>
+          {ev.version.approval_state === 'draft' && <div className="stack">
+            {ov.is_super_admin && <form className="ws-card stack" onSubmit={e => {
+              e.preventDefault(); const f = formData(e);
+              const prices = Object.fromEntries(ev.version.prices.filter(p => p.mode !== 'individual').map(p => [p.mode, f[`price_${p.mode}`] ? String(Math.round(Number(f[`price_${p.mode}`]) * 100)) : null]));
+              run('cfg', `/api/admin/events/${ev.slug}`, { action: 'configure', capacity: f.capacity, team_min: f.team_min, team_max: f.team_max, prices, reason: f.reason });
+            }}>
+              <h2>Organizer decisions</h2>
+              <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>Enter only values the organizers have confirmed in writing. Leave a field empty if it is still undecided.</p>
+              <div className="row">
+                <label className="field">Capacity<input name="capacity" type="number" min={1} defaultValue={ev.capacity ?? ''} /></label>
+                <label className="field">Min team<input name="team_min" type="number" min={1} defaultValue={ev.version.team_min ?? ''} /></label>
+                <label className="field">Max team<input name="team_max" type="number" min={1} defaultValue={ev.version.team_max ?? ''} /></label>
+              </div>
+              <div className="row">{ev.version.prices.filter(p => p.mode !== 'individual').map(p =>
+                <label key={p.mode} className="field">{p.mode} fee (₹)<input name={`price_${p.mode}`} type="number" min={1} step="1" defaultValue={p.amount_paise === null ? '' : p.amount_paise / 100} /></label>)}</div>
+              <label className="field">Source of decision<small>e.g. “ED Cell circular dated …”</small><input name="reason" required /></label>
+              <button className="btn-secondary" disabled={busy === 'cfg'}>Save decisions</button>
+            </form>}
+            <form className="ws-card stack" onSubmit={e => { e.preventDefault(); const f = formData(e); run('pub', `/api/admin/events/${ev.slug}`, { action: 'publish', ...f }); }}>
+              <h2>Publish with official rules</h2>
+              <label className="field">Public description<textarea name="public_description" required defaultValue={ev.version.public_description} style={{ minHeight: 80 }} /></label>
+              <label className="field">Official rules and declaration<small>Paste the approved text. Teams accept exactly this text; it cannot be edited after publishing.</small><textarea name="rules_text" required minLength={40} /></label>
+              <button className="btn-primary" disabled={busy === 'pub'} onClick={e => { if (!confirm('Publish this event? Fees, capacity and rules become fixed.')) e.preventDefault(); }}>Publish event</button>
+            </form>
+          </div>}
+        </div>}
+      </>}
+
+      {tab === 'staff' && <div className="ws-grid">
+        <form className="ws-card stack" onSubmit={e => { e.preventDefault(); run('grant', '/api/admin/staff', formData(e)); }}>
+          <h2>Grant a role</h2>
+          <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>The person must have signed in and saved a profile first.</p>
+          <label className="field">Email<input name="email" type="email" required /></label>
+          <div className="row">
+            <label className="field">Role<select name="role">
+              {['referee', 'volunteer', 'judge', 'teacher'].map(r => <option key={r}>{r}</option>)}
+              {ov.is_super_admin && ['event_admin', 'finance_reviewer', 'export_operator', 'super_admin'].map(r => <option key={r}>{r}</option>)}
+            </select></label>
+            <label className="field">Event<select name="event_slug"><option value="">All (super admin only)</option>{ov.events.map(e => <option key={e.slug} value={e.slug}>{e.name}</option>)}</select></label>
+            <label className="field">Days<input name="days" type="number" min={1} max={365} defaultValue={30} /></label>
+          </div>
+          <label className="field">Reason<input name="reason" required /></label>
+          <button className="btn-primary" disabled={busy === 'grant'}>Grant role</button>
         </form>
-      )}
-
-      {activeTab === 'beneficiary' && (
-        <form onSubmit={handleApproveBeneficiary} className="glass-panel" style={{ padding: '2rem' }}>
-          <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.5rem' }}>
-            Two-Person Beneficiary Profile Activation
-          </h3>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
-            ADR 005 mandates that official payment profiles require a proposal by one named super admin and independent approval by another. Proposer cannot approve their own proposal.
-          </p>
-
-          {beneficiaryError && (
-            <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem', color: '#fca5a5', fontSize: '0.88rem' }}>
-              ⚠️ {beneficiaryError}
-            </div>
-          )}
-
-          {beneficiaryMsg && (
-            <div style={{ background: 'rgba(34, 197, 94, 0.12)', border: '1px solid rgba(34, 197, 94, 0.3)', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem', color: '#4ade80', fontSize: '0.88rem' }}>
-              ✓ {beneficiaryMsg}
-            </div>
-          )}
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.5rem' }}>
-            <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>Proposer Super Admin ID</label>
-              <input type="text" value={proposer} onChange={e => setProposer(e.target.value)} style={{ width: '100%', padding: '0.7rem', background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: '#ffffff' }} />
-            </div>
-
-            <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>Distinct Approver Super Admin ID</label>
-              <input type="text" value={approver} onChange={e => setApprover(e.target.value)} style={{ width: '100%', padding: '0.7rem', background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: '#ffffff' }} />
-            </div>
-
-            <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>Beneficiary Entity Name</label>
-              <input type="text" value={beneficiaryName} onChange={e => setBeneficiaryName(e.target.value)} style={{ width: '100%', padding: '0.7rem', background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: '#ffffff' }} />
-            </div>
-
-            <div>
-              <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.35rem' }}>Receiving UPI VPA</label>
-              <input type="text" value={upiId} onChange={e => setUpiId(e.target.value)} style={{ width: '100%', padding: '0.7rem', background: 'rgba(0,0,0,0.4)', border: '1px solid var(--border-subtle)', borderRadius: '8px', color: '#ffffff' }} />
-            </div>
-          </div>
-
-          <button type="submit" className="btn-primary">
-            Activate Approved Payment Destination
-          </button>
-        </form>
-      )}
-
-      {activeTab === 'capacity' && (
-        <div className="glass-panel" style={{ padding: '2rem' }}>
-          <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.5rem' }}>
-            Live Capacity & Reservation Monitor
-          </h3>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
-            Real-time tracking of confirmed entries, active held reservations, and concurrency locks.
-          </p>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
-            <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1.25rem', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <div style={{ fontSize: '0.8rem', color: 'var(--ember-400)', fontWeight: 700 }}>KALINGA BGMI CLASH</div>
-              <div style={{ fontSize: '1.75rem', fontWeight: 900, color: '#ffffff', margin: '0.35rem 0' }}>
-                1 / 24 Teams
-              </div>
-              <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                Atomic reservation locks serialized in PostgreSQL. 25th entry submission is rejected by <code>rpc_reserve_entry</code>.
-              </div>
-            </div>
-
-            <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1.25rem', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <div style={{ fontSize: '0.8rem', color: 'var(--gold-400)', fontWeight: 700 }}>IPL AUCTION (E-FEST)</div>
-              <div style={{ fontSize: '1.75rem', fontWeight: 900, color: '#ffffff', margin: '0.35rem 0' }}>
-                4 / 32 Teams
-              </div>
-              <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-                32 entry capacity unit. Solo allocation policy gated pending college authorization.
-              </div>
-            </div>
-          </div>
+        <div className="ws-card">
+          <h2>Active staff</h2>
+          <div className="ws-scroll"><table className="ws-table"><thead><tr><th>Name</th><th>Role</th><th>Event</th><th></th></tr></thead><tbody>
+            {ov.staff.map(s => <tr key={s.id}><td>{s.name}<br /><span className="meta">{s.email}</span></td><td>{s.role}</td><td>{s.event ?? 'All'}</td>
+              <td><button className="btn-secondary btn-small" disabled={busy === s.id} onClick={() => { const reason = prompt('Reason for removing this role?'); if (reason) run(s.id, `/api/admin/staff/${s.id}`, { reason }, 'DELETE'); }}>Revoke</button></td></tr>)}
+          </tbody></table></div>
         </div>
-      )}
+      </div>}
 
-    </div>
-  );
+      {tab === 'operations' && <>
+        {eventPicker}
+        {staffCtx.status && !staffCtx.status.ok ? <ResultNotice result={staffCtx.status} success={() => null} /> : staffCtx.ctx && <div className="ws-grid">
+          <form className="ws-card stack" onSubmit={e => { e.preventDefault(); const f = formData(e); run('session', '/api/admin/operations', { kind: 'session', event_slug: opsEvent, label: f.label, starts_at: new Date(f.starts_at).toISOString(), ends_at: new Date(f.ends_at).toISOString() }).then(staffCtx.reload); }}>
+            <h2>Session</h2>
+            <label className="field">Label<input name="label" required placeholder="Day 1 morning" /></label>
+            <div className="row"><label className="field">Starts<input name="starts_at" type="datetime-local" required /></label><label className="field">Ends<input name="ends_at" type="datetime-local" required /></label></div>
+            <button className="btn-secondary" disabled={!!busy}>Create session</button>
+          </form>
+          <form className="ws-card stack" onSubmit={e => { e.preventDefault(); run('station', '/api/admin/operations', { kind: 'station', event_slug: opsEvent, ...formData(e) }).then(staffCtx.reload); }}>
+            <h2>Station</h2>
+            <label className="field">Name<input name="name" required placeholder="Gate 1 or PC-01" /></label>
+            <label className="field">Type<select name="station_kind"><option value="entry">Entry gate</option><option value="checkpoint">Checkpoint / LAN station</option><option value="helpdesk">Help desk</option></select></label>
+            <button className="btn-secondary" disabled={!!busy}>Create station</button>
+          </form>
+          <form className="ws-card stack" onSubmit={e => { e.preventDefault(); run('duty', '/api/admin/operations', { kind: 'duty', ...formData(e) }); }}>
+            <h2>Assign duty</h2>
+            <label className="field">Volunteer or referee email<input name="email" type="email" required /></label>
+            <div className="row">
+              <label className="field">Session<select name="session_id" required>{staffCtx.ctx.sessions.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}</select></label>
+              <label className="field">Station<select name="station_id" required>{staffCtx.ctx.stations.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}</select></label>
+            </div>
+            <button className="btn-secondary" disabled={!!busy}>Assign duty</button>
+          </form>
+          {ev?.track === 'esports' && <form className="ws-card stack" onSubmit={e => { e.preventDefault(); run('match', '/api/admin/operations', { kind: 'match', event_slug: opsEvent, ...formData(e) }).then(staffCtx.reload); }}>
+            <h2>Match</h2>
+            <div className="row"><label className="field">Round<input name="round_label" required placeholder="Qualifier" /></label><label className="field">Match no.<input name="match_number" type="number" min={1} required /></label></div>
+            <label className="field">Session<select name="session_id"><option value="">—</option>{staffCtx.ctx.sessions.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}</select></label>
+            <button className="btn-secondary" disabled={!!busy}>Create match</button>
+          </form>}
+          {ev?.track === 'e-fest' && <form className="ws-card stack" onSubmit={e => {
+            e.preventDefault(); const f = formData(e);
+            const criteria = f.criteria.split('\n').map(l => l.split('|')).filter(p => p[0]?.trim()).map(([label, max]) => ({ label: label.trim(), max_marks: Number(max) }));
+            run('rubric', '/api/admin/operations', { kind: 'rubric', event_slug: opsEvent, name: f.name, criteria });
+          }}>
+            <h2>Judging rubric</h2>
+            <label className="field">Name<input name="name" required /></label>
+            <label className="field">Criteria<small>One per line: Label | max marks</small><textarea name="criteria" required placeholder={'Innovation | 10\nPresentation | 10'} /></label>
+            <button className="btn-secondary" disabled={!!busy}>Create rubric</button>
+          </form>}
+        </div>}
+        <ResultNotice result={result} success={() => <>Saved.</>} />
+      </>}
+
+      {tab === 'scoring' && (staffCtx.ctx ? <div className="stack">{staffCtx.ctx.scoring_versions.map(v => <form key={v.id} className="ws-card stack" onSubmit={e => {
+        e.preventDefault(); const f = formData(e); run('score', '/api/scoring/approve', { scoring_version_id: v.id, kill_multiplier: f.kill_multiplier, tie_break_policy: f.tie_break_policy }).then(staffCtx.reload);
+      }}>
+        <h2>{v.name} · version {v.version} · {v.approval_state}</h2>
+        <p style={{ fontSize: 13, color: 'var(--text-dim)' }}>Placement points: {v.placement_points.map(p => `${p.place}:${p.points}`).join(' · ')}</p>
+        {v.approval_state === 'draft' ? <>
+          <Notice>Approval needs the organizers’ confirmed kill points and tie-break rule. The system will not guess either.</Notice>
+          <div className="row"><label className="field">Points per kill<input name="kill_multiplier" type="number" min={0} step="0.5" defaultValue={v.kill_multiplier ?? ''} required /></label></div>
+          <label className="field">Tie-break policy<textarea name="tie_break_policy" required defaultValue={v.tie_break_policy ?? ''} style={{ minHeight: 80 }} /></label>
+          <button className="btn-primary" disabled={busy === 'score'}>Save and approve</button>
+        </> : <p>Kill points {v.kill_multiplier} · Tie-break: {v.tie_break_policy}</p>}
+      </form>)}<ResultNotice result={result} success={() => <>Scoring version approved.</>} /></div> : staffCtx.status && <ResultNotice result={staffCtx.status} success={() => null} />)}
+
+      {tab === 'payments' && <div className="ws-card stack">
+        <h2>Payment profile</h2>
+        <Notice>Payments stay closed until the official college payment QR is uploaded to the private evidence bucket and two different super admins verify the beneficiary against college finance records. That storage bucket and upload workflow are not set up yet, so no payment details are shown to participants.</Notice>
+      </div>}
+
+      {tab !== 'operations' && tab !== 'scoring' && <ResultNotice result={result} success={() => <>Saved.</>} />}
+    </div>}
+  </StaffShell>;
 }

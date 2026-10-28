@@ -11,3 +11,9 @@ tmp/
 .env.local
 .env.*.local
 
+.next-build/
+.next-dev/
+.vercel/
+supabase/.temp/
+supabase/.branches/
+!app/.env.example

@@ -59,3 +59,7 @@ Review preview: http://127.0.0.1:3100, isolated .next-preview build (session 251
 Latest visual follow-up: homepage now uses FestivalHero.tsx + festival-hero.css instead of the previous tall arena cards. Both organizer links remain; E-Fest/BGMI dates are accessible and shown on mobile. Ambient motion can be paused and stops offscreen; reduced motion supported. No backend changes in this follow-up.
 
 Cinematic hero final build passed; latest preview session is 22844 at http://127.0.0.1:3100 using .next-preview. Earlier server session IDs are historical.
+
+
+## Claude Code — 28 October 2026 (IST): mockup hero, Supabase command layer, real workflows
+Read supabase/migrations/20261028000300_auth_command_layer.sql first: it is the API contract. App routes in app/src/app/api call public.ff_* through lib/api/command.ts (actor = session user; SQLSTATE mapping in lib/api/errors.ts). Verify with npm run verify:db (repo root) and npm test / npm run build in app/. Local preview: .claude/launch.json config app-dev on port 3200 (NEXT_DIST_DIR=.next-dev). Cloud is blocked only on an authorized Supabase project and the user's Vercel import; follow NEXT_STEPS steps 1-5. Do not use the crossfire project.

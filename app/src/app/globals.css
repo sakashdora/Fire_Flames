@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Cormorant+Garamond:wght@500;600;700&family=League+Gothic&family=DM+Sans:wght@400;500;600;700&display=swap');
 :root {
   --bg-primary:#111110;
   --bg-secondary:#191918;
@@ -171,6 +171,31 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
 .site-nav .nav-signin {
   border:1px solid #55534a;
   padding:0 18px;
+}
+.brand-serif {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:34px;
+  font-weight:600;
+  letter-spacing:.01em;
+  line-height:1;
+  color:#f4ecdc;
+}
+.site-header .site-nav {
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:19px;
+  font-weight:600;
+  gap:46px;
+}
+.site-header.is-home {
+  background:transparent;
+  border-bottom-color:rgba(255,255,255,.16);
+  transition:background .3s;
+}
+.site-header.is-home .nav-inner {
+  height:64px;
+}
+.site-header.is-home.is-solid {
+  background:rgba(11,9,8,.94);
 }
 .menu-toggle {
   display:none;
@@ -1255,4 +1280,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,s
     animation-iteration-count:1!important;
     transition-duration:.01ms!important;
   }
+}
+@media(max-width:1000px) {
+  .site-header .site-nav { gap:28px; font-size:18px; }
+}
+@media(max-width:650px) {
+  .site-header .site-nav { gap:6px; font-size:19px; }
+  .site-header.is-home .nav-inner { height:70px; }
+  .site-header.is-home .site-nav { background:#0f0d0b; }
 }

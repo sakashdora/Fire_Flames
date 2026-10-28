@@ -1,0 +1,470 @@
+{
+  "status": "PASS",
+  "engine": "PGlite (disposable)",
+  "migrations": [
+    "20261027000100_schema_design.sql",
+    "20261028000200_esports_lan_extensions.sql",
+    "20261028000300_auth_command_layer.sql",
+    "20261028000400_catalogue_reference_data.sql"
+  ],
+  "checks": 102,
+  "generated_at": "2026-10-28T08:45:22.194Z",
+  "results": [
+    {
+      "test": "apply 20261027000100_schema_design.sql",
+      "result": "PASS"
+    },
+    {
+      "test": "apply 20261028000200_esports_lan_extensions.sql",
+      "result": "PASS"
+    },
+    {
+      "test": "apply 20261028000300_auth_command_layer.sql",
+      "result": "PASS"
+    },
+    {
+      "test": "apply 20261028000400_catalogue_reference_data.sql",
+      "result": "PASS"
+    },
+    {
+      "test": "catalogue reference data is idempotent (8 events)",
+      "result": "PASS"
+    },
+    {
+      "test": "anon reads public catalogue",
+      "result": "PASS"
+    },
+    {
+      "test": "draft events are closed and hide draft prices",
+      "result": "PASS"
+    },
+    {
+      "test": "anon cannot read a workspace",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "authenticated cannot read app tables directly",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "authenticated cannot call internal app RPCs",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "a request without a session is rejected",
+      "result": "PASS",
+      "sqlstate": "28000"
+    },
+    {
+      "test": "commands require a saved profile",
+      "result": "PASS",
+      "sqlstate": "FFPRF"
+    },
+    {
+      "test": "profile save requires privacy acceptance",
+      "result": "PASS",
+      "sqlstate": "22023"
+    },
+    {
+      "test": "stale profile edit conflicts",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "profile edit with current version",
+      "result": "PASS"
+    },
+    {
+      "test": "bootstrap first super admin from SQL",
+      "result": "PASS"
+    },
+    {
+      "test": "bootstrap refuses a second super admin",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "staff actions need MFA (aal2)",
+      "result": "PASS",
+      "sqlstate": "FFMFA"
+    },
+    {
+      "test": "super admin overview with MFA",
+      "result": "PASS"
+    },
+    {
+      "test": "students cannot open admin overview",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "registration closed before publication",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "cannot open registration for a draft event",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "publishing needs complete rules text",
+      "result": "PASS",
+      "sqlstate": "22023"
+    },
+    {
+      "test": "configure approved capacity before publication",
+      "result": "PASS"
+    },
+    {
+      "test": "publish event with official rules",
+      "result": "PASS"
+    },
+    {
+      "test": "published terms are frozen",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "open registration",
+      "result": "PASS"
+    },
+    {
+      "test": "published catalogue shows open registration and approved fee",
+      "result": "PASS"
+    },
+    {
+      "test": "captain starts a team registration",
+      "result": "PASS"
+    },
+    {
+      "test": "same idempotency key replays the original result",
+      "result": "PASS"
+    },
+    {
+      "test": "same key with a different payload conflicts",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "one entry per person per event",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "individual entries need an allocation policy",
+      "result": "PASS",
+      "sqlstate": "22023"
+    },
+    {
+      "test": "only the captain can invite",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "captain invites a member",
+      "result": "PASS"
+    },
+    {
+      "test": "only the token hash is stored",
+      "result": "PASS"
+    },
+    {
+      "test": "duplicate pending invite rejected",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "invitation bound to recipient email",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "recipient previews invitation",
+      "result": "PASS"
+    },
+    {
+      "test": "recipient accepts invitation",
+      "result": "PASS"
+    },
+    {
+      "test": "invitation is single use",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "reserve requires the declaration",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "members cannot accept the team declaration",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "captain accepts declaration bound to rules hash",
+      "result": "PASS"
+    },
+    {
+      "test": "declaration hash equals SHA-256 of the published rules",
+      "result": "PASS"
+    },
+    {
+      "test": "member reads registration detail",
+      "result": "PASS"
+    },
+    {
+      "test": "non-members cannot read a registration",
+      "result": "PASS",
+      "sqlstate": "P0002"
+    },
+    {
+      "test": "captain reserves a place",
+      "result": "PASS"
+    },
+    {
+      "test": "second team reserves the last place",
+      "result": "PASS"
+    },
+    {
+      "test": "capacity is enforced (third team rejected)",
+      "result": "PASS",
+      "sqlstate": "23514"
+    },
+    {
+      "test": "publish BGMI with official rules",
+      "result": "PASS"
+    },
+    {
+      "test": "open BGMI registration",
+      "result": "PASS"
+    },
+    {
+      "test": "team size cap enforced on invites",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "roster players must be accepted members",
+      "result": "PASS",
+      "sqlstate": "22023"
+    },
+    {
+      "test": "roster needs exactly one IGL",
+      "result": "PASS",
+      "sqlstate": "23514"
+    },
+    {
+      "test": "captain submits BGMI roster",
+      "result": "PASS"
+    },
+    {
+      "test": "player UID leading zeros preserved",
+      "result": "PASS"
+    },
+    {
+      "test": "BGMI reserve blocked while fee unconfirmed",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "cannot grant a role to yourself",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "grant referee 1",
+      "result": "PASS"
+    },
+    {
+      "test": "grant referee 2",
+      "result": "PASS"
+    },
+    {
+      "test": "grant E-Fest event admin",
+      "result": "PASS"
+    },
+    {
+      "test": "event admin cannot grant event_admin",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "event admin is scoped to own event",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "referee is scoped to own event",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "create LAN session",
+      "result": "PASS"
+    },
+    {
+      "test": "create station",
+      "result": "PASS"
+    },
+    {
+      "test": "create match",
+      "result": "PASS"
+    },
+    {
+      "test": "hardware sign-off needs MFA",
+      "result": "PASS",
+      "sqlstate": "FFMFA"
+    },
+    {
+      "test": "students cannot sign off hardware",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "referee signs off hardware",
+      "result": "PASS"
+    },
+    {
+      "test": "sign-off records the authenticated referee, not a request field",
+      "result": "PASS"
+    },
+    {
+      "test": "failed check requires a reason",
+      "result": "PASS",
+      "sqlstate": "22023"
+    },
+    {
+      "test": "referee logs a pause decision",
+      "result": "PASS"
+    },
+    {
+      "test": "referee loads event context",
+      "result": "PASS"
+    },
+    {
+      "test": "referee activates substitute",
+      "result": "PASS"
+    },
+    {
+      "test": "referee verifies identity in person",
+      "result": "PASS"
+    },
+    {
+      "test": "upload verification blocked until storage exists",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "results blocked until scoring approved",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "incomplete scoring cannot be approved",
+      "result": "PASS",
+      "sqlstate": "23514"
+    },
+    {
+      "test": "admin records organizer scoring decisions",
+      "result": "PASS"
+    },
+    {
+      "test": "admin approves complete scoring",
+      "result": "PASS"
+    },
+    {
+      "test": "referee records a match result",
+      "result": "PASS"
+    },
+    {
+      "test": "server computes 10 placement + 7 kill points = 17",
+      "result": "PASS"
+    },
+    {
+      "test": "re-recording creates revision 2",
+      "result": "PASS"
+    },
+    {
+      "test": "recorder cannot review own result",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "superseded revision cannot be reviewed",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "second referee reviews result",
+      "result": "PASS"
+    },
+    {
+      "test": "scan requires an active duty",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "assign referee duty at station",
+      "result": "PASS"
+    },
+    {
+      "test": "referee role cannot scan passes",
+      "result": "PASS",
+      "sqlstate": "42501"
+    },
+    {
+      "test": "event admin creates rubric",
+      "result": "PASS"
+    },
+    {
+      "test": "event admin grants judge",
+      "result": "PASS"
+    },
+    {
+      "test": "participants cannot be assigned as judge",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "assign judge to entry",
+      "result": "PASS"
+    },
+    {
+      "test": "marks above criterion maximum rejected",
+      "result": "PASS",
+      "sqlstate": "23514"
+    },
+    {
+      "test": "judge saves draft marks",
+      "result": "PASS"
+    },
+    {
+      "test": "lock requires every criterion",
+      "result": "PASS",
+      "sqlstate": "22023"
+    },
+    {
+      "test": "judge locks complete scorecard",
+      "result": "PASS"
+    },
+    {
+      "test": "locked scorecard is immutable",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "last super admin cannot be revoked",
+      "result": "PASS",
+      "sqlstate": "FF409"
+    },
+    {
+      "test": "audit trail recorded 51 actor-attributed commands",
+      "result": "PASS"
+    }
+  ]
+}

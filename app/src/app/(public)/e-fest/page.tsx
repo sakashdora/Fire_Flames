@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
-import FestivalMotion from '@/components/FestivalMotion';
+import FestivalMotion from '@/components/motion/FestivalMotion';
 import { EVENT_CATALOGUE } from '@/domain/events';
 export default function EFestPage() {
   const events = EVENT_CATALOGUE.filter(e => e.track === 'e-fest');

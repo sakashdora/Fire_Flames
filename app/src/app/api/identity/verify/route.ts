@@ -1,32 +1,10 @@
-import { NextResponse } from 'next/server';
+import { jsonError, readJson, runCommand, str } from '@/lib/api/command';
 
 export async function POST(request: Request) {
-  try {
-    const body = await request.json();
-    const { event_id, profile_id, proof_type, method, status, reviewer_id } = body;
-
-    if (!event_id || !profile_id || !proof_type) {
-      return NextResponse.json({ error: 'Missing required verification fields' }, { status: 422 });
-    }
-
-    if (reviewer_id && reviewer_id === profile_id) {
-      return NextResponse.json({ error: 'Reviewer cannot verify own identity (E05 invariant)' }, { status: 422 });
-    }
-
-    const validProofTypes = ['aadhaar', 'pan', 'voter_id', 'college_id'];
-    if (!validProofTypes.includes(proof_type)) {
-      return NextResponse.json({ error: 'Invalid proof type' }, { status: 422 });
-    }
-
-    return NextResponse.json({
-      status: status || 'verified',
-      profile_id,
-      proof_type,
-      method: method || 'in_person',
-      verified_at: new Date().toISOString(),
-      note: 'Verified without storing plaintext national ID numbers (Data minimization policy).'
-    });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 400 });
-  }
+  const body = await readJson(request);
+  if (!body) return jsonError(422, 'invalid', 'Send the verification as JSON.');
+  return runCommand('ff_staff_verify_identity', {
+    p_event_slug: str(body.event_slug), p_profile_id: str(body.profile_id), p_proof_type: str(body.proof_type),
+    p_method: str(body.method) ?? 'in_person', p_status: str(body.status), p_rejection_reason: str(body.rejection_reason),
+  });
 }

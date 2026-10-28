@@ -1,109 +1,65 @@
 'use client';
 
-import { useState } from 'react';
-import { Award, Lock, CheckCircle, AlertTriangle } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { api, type ApiResult } from '@/lib/client/api';
+import { StaffShell, ResultNotice } from '@/components/staff/StaffShell';
+import { useAction } from '@/components/staff/useStaffContext';
+import { Notice } from '@/components/ui/Notice';
 
-export default function JudgeWorkspacePage() {
-  const [locked, setLocked] = useState(false);
-  const [scores, setScores] = useState<Record<string, number>>({
-    'c1': 20,
-    'c2': 18,
-    'c3': 22
-  });
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+interface Assignment {
+  assignment_id: string; event_name: string; entry: string; rubric: string; max_marks: number; conflict_declared: boolean;
+  criteria: { id: string; label: string; max_marks: number; conditional: boolean }[];
+  scorecard: { id: string; state: string; revision: number; locked_at: string | null; marks: Record<string, number> } | null;
+}
 
-  const criteria = [
-    { id: 'c1', label: 'Innovation & Feasibility', max: 25 },
-    { id: 'c2', label: 'Commercial Market Potential', max: 25 },
-    { id: 'c3', label: 'Presentation & Q&A Defense', max: 25 }
-  ];
+export default function JudgeWorkspace() {
+  const [items, setItems] = useState<Assignment[]>([]);
+  const [status, setStatus] = useState<ApiResult | null>(null);
+  const [current, setCurrent] = useState('');
+  const [marks, setMarks] = useState<Record<string, string>>({});
+  const load = useCallback(async () => {
+    const res = await api<Assignment[]>('/api/judge/assignments');
+    setStatus(res);
+    if (res.ok && res.data) setItems(res.data);
+  }, []);
+  const { busy, result, setResult, run } = useAction(load);
+  useEffect(() => { load(); }, [load]);
 
-  const handleScoreChange = (id: string, val: number, max: number) => {
-    if (locked) return;
-    setErrorMsg(null);
-    if (val > max) {
-      setErrorMsg(`Score cannot exceed maximum of ${max} marks for this criterion.`);
-      return;
-    }
-    setScores({ ...scores, [id]: val });
-  };
+  const a = items.find(x => x.assignment_id === current);
+  useEffect(() => {
+    setResult(null);
+    setMarks(Object.fromEntries(Object.entries(a?.scorecard?.marks ?? {}).map(([k, v]) => [k, String(v)])));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current, a?.scorecard?.id]);
+  const locked = a?.scorecard?.state === 'locked';
+  const total = Object.values(marks).reduce((s, v) => s + (Number(v) || 0), 0);
 
-  const handleLock = () => {
-    setLocked(true);
-    setSuccessMsg('Scorecard successfully locked. In accordance with database triggers, locked scorecards are append-only and immutable.');
-  };
-
-  const total = Object.values(scores).reduce((a, b) => a + b, 0);
-
-  return (
-    <div style={{ maxWidth: '850px', margin: '2rem auto 4rem', padding: '0 1.5rem' }}>
-      
-      <div style={{ marginBottom: '2rem' }}>
-        <span className="badge-gold" style={{ marginBottom: '0.5rem' }}>JURY WORKSPACE • SCOPED MFA</span>
-        <h1 style={{ fontSize: '2rem', fontWeight: 900, color: '#ffffff' }}>
-          Jury Scorecard & Evaluation
-        </h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-          Assigned Entry: <strong>Team EcoInnovate (Srusti Exhibition)</strong> • Rubric: Working Prototype Rubric
-        </p>
+  return <StaffShell badge="JURY" title="Judge workspace" status={status}
+    intro="Score only the entries assigned to you. Marks save as a draft; locking is final and can only be reopened by an organizer.">
+    {items.length === 0 ? <Notice>You have no judging assignments yet.</Notice> : <div className="ws-grid">
+      <div className="ws-card">
+        <h2>Assigned entries</h2>
+        <ul className="ws-list">{items.map(x => <li key={x.assignment_id}>
+          <span><strong>{x.entry}</strong><br /><span className="meta">{x.event_name} · {x.rubric}</span></span>
+          <span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <span className={x.scorecard?.state === 'locked' ? 'badge-verified' : 'badge-gold'}>{x.scorecard?.state ?? 'not started'}</span>
+            <button className="btn-secondary btn-small" onClick={() => setCurrent(x.assignment_id)}>Open</button>
+          </span>
+        </li>)}</ul>
       </div>
-
-      <div className="glass-panel" style={{ padding: '2rem' }}>
-        
-        {errorMsg && (
-          <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', borderRadius: '8px', padding: '0.9rem', marginBottom: '1.5rem', color: '#fca5a5', fontSize: '0.88rem' }}>
-            ⚠️ {errorMsg}
-          </div>
-        )}
-
-        {successMsg && (
-          <div style={{ background: 'rgba(34, 197, 94, 0.12)', border: '1px solid rgba(34, 197, 94, 0.3)', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem', color: '#4ade80', fontSize: '0.88rem' }}>
-            ✓ {successMsg}
-          </div>
-        )}
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '2rem' }}>
-          {criteria.map((c) => (
-            <div key={c.id} style={{ background: 'rgba(0,0,0,0.3)', padding: '1.25rem', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-              <div>
-                <div style={{ fontWeight: 700, color: '#ffffff' }}>{c.label}</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>Maximum Marks: {c.max}</div>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <input
-                  type="number"
-                  min="0"
-                  max={c.max}
-                  disabled={locked}
-                  value={scores[c.id] || 0}
-                  onChange={(e) => handleScoreChange(c.id, Number(e.target.value), c.max)}
-                  style={{ width: '80px', padding: '0.6rem', textAlign: 'center', background: 'rgba(0,0,0,0.5)', border: '1px solid var(--border-gold)', borderRadius: '6px', color: '#ffffff', fontWeight: 700 }}
-                />
-                <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>/ {c.max}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '1rem 0', borderTop: '1px solid rgba(255,255,255,0.08)', marginBottom: '1.5rem' }}>
-          <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#ffffff' }}>Total Score</div>
-          <div style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--gold-400)' }}>{total} / 75</div>
-        </div>
-
-        {!locked ? (
-          <button onClick={handleLock} className="btn-primary" style={{ width: '100%' }}>
-            <Lock size={16} /> Lock Scorecard (Irreversible Submission)
-          </button>
-        ) : (
-          <div style={{ textAlign: 'center', color: '#4ade80', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
-            <Lock size={16} /> Scorecard Locked & Audited
-          </div>
-        )}
-
-      </div>
-
-    </div>
-  );
+      {a && <form className="ws-card stack" onSubmit={e => { e.preventDefault(); run('save', '/api/judge/scorecard', { assignment_id: a.assignment_id, marks, lock: false }); }}>
+        <h2>{a.entry} · {a.rubric}</h2>
+        {a.conflict_declared && <Notice tone="error">A conflict of interest is recorded for this entry. You cannot score it.</Notice>}
+        {a.criteria.map(c => <label key={c.id} className="field">{c.label} (max {c.max_marks}){c.conditional && <small>Conditional criterion</small>}
+          <input type="number" min={0} max={c.max_marks} step="0.5" disabled={locked} value={marks[c.id] ?? ''} onChange={e => setMarks(m => ({ ...m, [c.id]: e.target.value }))} />
+        </label>)}
+        <p style={{ fontWeight: 700 }}>Total: {total} / {a.max_marks}</p>
+        <ResultNotice result={result} success={d => d.state === 'locked' ? <>Scorecard locked.</> : <>Draft saved.</>} />
+        {locked ? <Notice tone="ok">Locked {a.scorecard?.locked_at ? new Date(a.scorecard.locked_at).toLocaleString('en-IN') : ''}.</Notice> : <div className="row">
+          <button className="btn-secondary" disabled={!!busy}>Save draft</button>
+          <button type="button" className="btn-primary" disabled={!!busy} onClick={() => { if (confirm('Lock this scorecard? This cannot be undone by you.')) run('lock', '/api/judge/scorecard', { assignment_id: a.assignment_id, marks, lock: true }); }}>Lock scorecard</button>
+        </div>}
+      </form>}
+    </div>}
+  </StaffShell>;
 }

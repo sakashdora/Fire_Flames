@@ -51,3 +51,12 @@ Additional: .gitignore and app/next.config.mjs isolate preview output; Next adde
 
 ## Cinematic hero — 28 October 2026
 Added app/src/components/FestivalHero.tsx and festival-hero.css; app/src/app/page.tsx now imports the standalone hero. Existing track pages, business logic, database and auth untouched in this follow-up. Screenshots: handoff/qa/hero-cinematic-desktop.png and hero-cinematic-mobile.png.
+
+
+## Claude Code — 28 October 2026 (IST): mockup hero, Supabase command layer, real workflows
+Added: supabase/config.toml, supabase/migrations (0100-0400), supabase/tests/verify-command-layer.cjs (+ generated command-layer-verification.json); app/src/proxy.ts; app/src/lib/{env.ts, supabase/{server,browser,proxy}.ts, api/{command,errors}.ts, client/api.ts}; app/src/app/auth/{callback,signout}/route.ts; app/src/app/(auth)/mfa; app/src/app/(student)/{registrations/[id],invite/[token]}; API routes me, profile, registrations, invitations, catalogue, staff/*, volunteer/scan, judge/*, scoring/review-result, admin/*; components/{auth,ui,workspace,staff}/*, components/layout/SiteFooter.tsx; app/src/app/workspace.css; app/vercel.json; app/.env.example; brand assets hero-ribbon-*, efest-gateway-*, kurukshetra-banner-*, srustiprosar-logo-dark-320; tests/errors.test.ts; handoff/qa/hero-mockup-reference.webp; .claude/launch.json (local preview only, untracked).
+Moved: components/FestivalHero.tsx + festival-hero.css -> components/hero/; SiteHeader -> components/layout/; FestivalMotion -> components/motion/; lib/qr-crypto.ts -> lib/crypto/pass-envelope.ts (rewritten).
+Rewritten: all previous API routes (same paths), student/teacher login, dashboard, register, admin, referee, volunteer, judge pages, layout, health route, crypto test.
+Deleted: app/src/lib/supabase.ts (placeholder credentials), app/src/tests/workflows.test.ts (fixture-only assertions).
+Modified: app/package.json/lock (Next 16, React 19, @supabase/ssr 0.12, pglite dev dep, server-only), root package.json scripts, .gitignore, globals.css (fonts, header), handoff/database/verify-all.cjs (PGlite path now app/node_modules instead of C:/CrossFire).
+Untouched: handoff/database 001/002 originals, PDFs/DOCX, planning/.

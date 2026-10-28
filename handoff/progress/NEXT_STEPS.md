@@ -21,3 +21,12 @@ Review the new public design. Before release, implement real student/teacher aut
 
 ## Cinematic hero — 28 October 2026
 Review the cinematic hero in the local preview. Continue backend work from UI_REFINEMENT.md; preserve the isolated review build and do not overwrite concurrent changes.
+
+
+## Claude Code — 28 October 2026 (IST): mockup hero, Supabase command layer, real workflows
+1. Obtain a college-authorized Supabase project (Mumbai region). Then: supabase link --project-ref <ref>; supabase db push (applies 0100-0400). Record in MIGRATIONS.md.
+2. Supabase Auth: Site URL = production origin; redirect URLs = <origin>/auth/callback for production and Vercel preview domains; enable TOTP MFA; configure an approved SMTP sender.
+3. Vercel: import github.com/sakashdora/Fire_Flames, Root Directory app, set NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_SITE_URL, PASS_ENCRYPTION_KEY (openssl rand -hex 32, distinct per environment). Check /api/health returns database: reachable.
+4. First organizer signs in, saves profile; run app.bootstrap_super_admin in the SQL editor; super admin enrolls TOTP at /mfa, then grants event admins/referees/volunteers/judges.
+5. Live acceptance on staging: two real accounts for invitation binding, captain flow to place held, referee two-person result review, MFA denial, and a concurrent reservation race using multiple connections.
+Not implemented yet: payments (blocked on official QR/beneficiary/storage), pass issuance and QR display, waitlist, notifications/outbox worker, storage policies and uploads, exports, results publication, rate limiting at the route boundary.

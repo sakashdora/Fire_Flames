@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
-import FestivalMotion from '@/components/FestivalMotion';
+import FestivalMotion from '@/components/motion/FestivalMotion';
 export default function EsportsPage() {
   return <FestivalMotion><div className="wrap">
     <section className="track-heading"><Link className="eyebrow back-link" href="/">← BACK TO THE FESTIVAL</Link><div className="hero-eyebrow" data-intro><span>02 / ORGANIZED BY SRUSTIPROSAR</span><span>KURUKSHETRA ESPORTS</span></div><h1 data-intro>YOUR SQUAD.<br /><em>YOUR MOMENT.</em></h1><div className="track-subline" data-intro><p>Kalinga BGMI Clash — Season 1<br />13–14 November 2026 · On campus</p><a href="#bgmi" className="text-link">Enter the arena <ArrowUpRight size={20} /></a></div></section>

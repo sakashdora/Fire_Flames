@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { randomUUID } = require('node:crypto');
-const modulePath = process.env.PGLITE_MODULE_PATH || 'C:/CrossFire/node_modules/@electric-sql/pglite/dist/index.cjs';
+const modulePath = process.env.PGLITE_MODULE_PATH || require('node:path').resolve(__dirname, '../../app/node_modules/@electric-sql/pglite/dist/index.cjs');
 const { PGlite } = require(modulePath);
 
 const root = __dirname;

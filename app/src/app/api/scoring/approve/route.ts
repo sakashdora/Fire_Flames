@@ -1,30 +1,16 @@
-import { NextResponse } from 'next/server';
+import { jsonError, num, readJson, runCommand, str } from '@/lib/api/command';
 
+// Saves the organizer-approved kill points and tie-break policy on the draft, then approves it.
+// Approval fails in the database if either value is missing (E07).
 export async function POST(request: Request) {
-  try {
-    const body = await request.json();
-    const { scoring_version_id, kill_multiplier, tie_break_policy, approved_by } = body;
-
-    // E07 Invariant: incomplete scoring rules cannot be approved!
-    if (kill_multiplier === null || kill_multiplier === undefined || !tie_break_policy) {
-      return NextResponse.json({
-        error: 'Cannot approve incomplete scoring version: kill multiplier and tie-break policy are strictly required (E07 compliance).'
-      }, { status: 422 });
-    }
-
-    if (!approved_by) {
-      return NextResponse.json({ error: 'Missing authorized approver ID' }, { status: 422 });
-    }
-
-    return NextResponse.json({
-      status: 'approved',
-      scoring_version_id,
-      kill_multiplier,
-      tie_break_policy,
-      approved_by,
-      approved_at: new Date().toISOString()
+  const body = await readJson(request);
+  const id = str(body?.scoring_version_id);
+  if (!body || !id) return jsonError(422, 'invalid', 'Missing scoring version.');
+  if ('kill_multiplier' in body || 'tie_break_policy' in body) {
+    const draft = await runCommand('ff_admin_update_scoring', {
+      p_scoring_version_id: id, p_kill_multiplier: num(body.kill_multiplier), p_tie_break_policy: str(body.tie_break_policy),
     });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 400 });
+    if (!draft.ok || body.approve === false) return draft;
   }
+  return runCommand('ff_admin_approve_scoring', { p_scoring_version_id: id });
 }

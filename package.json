@@ -6,6 +6,8 @@
     "dev": "npm --prefix app run dev",
     "build": "npm --prefix app run build",
     "start": "npm --prefix app run start",
-    "test": "npm --prefix app test"
+    "test": "npm --prefix app test",
+    "typecheck": "npm --prefix app run typecheck",
+    "verify:db": "node supabase/tests/verify-command-layer.cjs"
   }
 }

@@ -26,3 +26,7 @@ Latest cinematic hero: local production preview session 22844 on port 3100. Buil
 - Pushed commit: `516ef1f` (`feat(ui): complete UI refinement, cinematic hero, unified portal sign-in, and DJ section removal`)
 - Upstream: `origin/main` configured and synced
 
+
+
+## Claude Code — 28 October 2026 (IST): mockup hero, Supabase command layer, real workflows
+No Supabase project linked and no Vercel deployment performed. The Supabase CLI on this machine is signed in to an organization whose projects (Trade_Vault, crossfire, Elesene, SOCILA SPACE) are unrelated; none was modified. User chose to import the GitHub repo into Vercel themselves (Root Directory: app). Until NEXT_PUBLIC_SUPABASE_URL/ANON_KEY are set, the deployed site serves public pages and reports sign-in/workspaces as not configured; /api/health returns 503 degraded.

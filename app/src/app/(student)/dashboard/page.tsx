@@ -1,143 +1,77 @@
-'use client';
-
-import { useState } from 'react';
 import Link from 'next/link';
-import { User, QrCode, Shield, FileText, CheckCircle2, Clock, AlertTriangle, ArrowRight } from 'lucide-react';
+import { redirect } from 'next/navigation';
+import { ArrowRight, ShieldCheck } from 'lucide-react';
+import { getSessionUser } from '@/lib/supabase/server';
+import ProfileForm from '@/components/workspace/ProfileForm';
+import { Notice } from '@/components/ui/Notice';
 
-export default function StudentDashboardPage() {
-  const [profile, setProfile] = useState({
-    name: 'Avishek Mohanty',
-    email: 'avishek@example.com',
-    college: 'Srusti Academy of Management & Technology',
-    course: 'MBA / IT',
-    affiliation: 'student'
-  });
+export const metadata = { title: 'My workspace | Fire & Flames 2026' };
+export const dynamic = 'force-dynamic';
 
-  return (
-    <div style={{ maxWidth: '1100px', margin: '2rem auto 4rem', padding: '0 1.5rem' }}>
-      
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2.5rem', flexWrap: 'wrap', gap: '1rem' }}>
-        <div>
-          <span className="badge-gold" style={{ marginBottom: '0.5rem' }}>STUDENT WORKSPACE</span>
-          <h1 style={{ fontSize: '2.2rem', fontWeight: 900, color: '#ffffff' }}>
-            Welcome, {profile.name}
-          </h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-            {profile.college} • {profile.course}
-          </p>
-        </div>
+const STATE_LABEL: Record<string, string> = {
+  draft: 'Draft', awaiting_members: 'Inviting team', payment_due: 'Place held · payment pending', payment_review: 'Payment under review',
+  confirmed: 'Confirmed', expired: 'Expired', cancelled: 'Cancelled', waitlisted: 'Waitlisted', action_required: 'Action required',
+};
 
-        <Link href="/register" className="btn-primary" style={{ fontSize: '0.88rem' }}>
-          Register Another Event <ArrowRight size={16} />
-        </Link>
-      </div>
+const STAFF_LINKS: Record<string, { href: string; label: string }> = {
+  super_admin: { href: '/admin', label: 'Admin console' }, event_admin: { href: '/admin', label: 'Admin console' },
+  referee: { href: '/referee', label: 'Referee console' }, volunteer: { href: '/volunteer', label: 'Volunteer desk' }, judge: { href: '/judge', label: 'Judge workspace' },
+};
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' }}>
-        
-        {/* Active Registrations & Squad Status */}
-        <div className="glass-panel" style={{ padding: '2rem' }}>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <FileText size={18} color="var(--gold-400)" />
-            Active Team Registrations
-          </h3>
+export default async function DashboardPage() {
+  const { supabase, user } = await getSessionUser();
+  if (!supabase) return <div className="ws"><Notice>The workspace is unavailable because Supabase is not connected to this deployment.</Notice></div>;
+  if (!user) redirect('/student-login?next=/dashboard');
 
-          {/* BGMI Card */}
-          <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)', marginBottom: '1.25rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
-              <div>
-                <span className="badge-gold" style={{ fontSize: '0.7rem', background: 'rgba(234, 88, 12, 0.2)', color: 'var(--ember-400)' }}>
-                  KALINGA BGMI CLASH SEASON 1
-                </span>
-                <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#ffffff', marginTop: '0.25rem' }}>
-                  Team: Kalinga Vipers
-                </div>
-              </div>
-              <span className="badge-pending" style={{ fontSize: '0.72rem' }}>Pre-Registered</span>
-            </div>
+  const { data: ws, error } = await supabase.rpc('ff_my_workspace');
+  if (error || !ws) return <div className="ws"><Notice tone="error">We could not load your workspace. Refresh to try again.</Notice></div>;
 
-            <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.85rem' }}>
-              Roster: 4 Starters + 1 Substitute • IGL Designated • Leader: 8260555312
-            </div>
+  const staff = Array.from(new Map((ws.roles as any[]).filter(r => STAFF_LINKS[r.role]).map(r => [STAFF_LINKS[r.role].href, STAFF_LINKS[r.role]])).values());
 
-            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              <span className="badge-verified" style={{ fontSize: '0.72rem' }}>
-                ✓ Declaration Accepted
-              </span>
-              <span className="badge-gold" style={{ fontSize: '0.72rem' }}>
-                UIDs Locked (4 Starters)
-              </span>
-            </div>
-          </div>
-
-          {/* E-Fest Card */}
-          <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1.25rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
-              <div>
-                <span className="badge-gold" style={{ fontSize: '0.7rem' }}>
-                  IPL AUCTION (E-FEST)
-                </span>
-                <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#ffffff', marginTop: '0.25rem' }}>
-                  Team: Master Bidders
-                </div>
-              </div>
-              <span className="badge-verified" style={{ fontSize: '0.72rem' }}>Confirmed Entry</span>
-            </div>
-
-            <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.85rem' }}>
-              Fee: ₹99 Paid once for accepted team • 3 Members Accepted
-            </div>
-
-            <span className="badge-verified" style={{ fontSize: '0.72rem' }}>
-              ✓ Pass Issued
-            </span>
-          </div>
-        </div>
-
-        {/* Identity & Verification Security Status */}
-        <div className="glass-panel" style={{ padding: '2rem' }}>
-          <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Shield size={18} color="var(--gold-400)" />
-            Restricted Identity Verification (E05)
-          </h3>
-
-          <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: '1.25rem' }}>
-            In accordance with data minimization policies, government ID numbers (Aadhaar/PAN/Voter ID) are never stored in plaintext or exposed to volunteers. Verification is performed in-person or via expiring signed URLs.
-          </p>
-
-          <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1rem', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)', marginBottom: '1rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
-              <span style={{ fontWeight: 700, fontSize: '0.9rem', color: '#ffffff' }}>Avishek Mohanty (IGL)</span>
-              <span className="badge-verified" style={{ fontSize: '0.7rem' }}>Verified In-Person</span>
-            </div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>
-              Type: Aadhaar • Reviewer: Staff Desk 1 • Expiry: 15 Nov 2026
-            </div>
-          </div>
-
-          <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1rem', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)', marginBottom: '1.5rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
-              <span style={{ fontWeight: 700, fontSize: '0.9rem', color: '#ffffff' }}>Teammate 2 (Player 2)</span>
-              <span className="badge-pending" style={{ fontSize: '0.7rem' }}>Pending Venue Check</span>
-            </div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>
-              Type: College ID / PAN • Present original ID at venue verification gate before cutoff.
-            </div>
-          </div>
-
-          {/* QR Pass Preview */}
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '1.25rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 700, color: 'var(--gold-400)', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
-              <QrCode size={16} /> Authenticated Pass Envelope (ADR 004)
-            </div>
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-dim)', lineHeight: 1.5 }}>
-              Pass tokens are stored as SHA-256 hashes for lookup and encrypted via server-side AES-256-GCM. Scanned tokens carry duty-bound verification and duplicate-scan protection.
-            </p>
-          </div>
-        </div>
-
-      </div>
-
+  return <div className="ws">
+    <div className="ws-head">
+      <span className="badge-gold">MY WORKSPACE</span>
+      <h1>{ws.profile ? `Hello, ${ws.profile.display_name.split(' ')[0]}` : 'Complete your profile'}</h1>
+      <p>{ws.profile ? 'Your registrations, team invitations and assigned duties.' : 'Add your details once. Organizers use them for registrations, passes and results.'}</p>
     </div>
-  );
+
+    {!ws.profile ? <div className="ws-card"><ProfileForm profile={null} email={ws.email} /></div> : <div className="ws-grid">
+      <div className="stack">
+        {ws.pending_invitations.length > 0 && <div className="ws-card">
+          <h2>Team invitations</h2>
+          <ul className="ws-list">{ws.pending_invitations.map((i: any) => <li key={i.id}>
+            <span><strong>{i.team_name}</strong> · {i.event_name}<br /><span className="meta">Open the link your captain shared with you to accept.</span></span>
+          </li>)}</ul>
+        </div>}
+
+        <div className="ws-card">
+          <h2>My registrations</h2>
+          {ws.registrations.length === 0 ? <p style={{ color: 'var(--text-muted)', marginBottom: 14 }}>You have not started a registration yet.</p>
+            : <ul className="ws-list" style={{ marginBottom: 16 }}>{ws.registrations.map((r: any) => <li key={r.id}>
+              <span><strong>{r.team_name ?? r.event_name}</strong><br /><span className="meta">{r.event_name} · {r.reference}{r.is_owner ? ' · Captain' : ''}</span></span>
+              <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                <span className={r.state === 'confirmed' ? 'badge-verified' : 'badge-gold'}>{STATE_LABEL[r.state] ?? r.state}</span>
+                <Link className="btn-secondary btn-small" href={`/registrations/${r.id}`}>Open</Link>
+              </span>
+            </li>)}</ul>}
+          <Link href="/register" className="btn-primary">Register for an event <ArrowRight size={16} /></Link>
+        </div>
+
+        {staff.length > 0 && <div className="ws-card">
+          <h2>Staff duties</h2>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)', marginBottom: 12 }}>
+            {ws.aal === 'aal2' ? <><ShieldCheck size={14} style={{ verticalAlign: -2 }} /> Two-step verification confirmed for this session.</>
+              : <>Staff actions need two-step verification. <Link href="/mfa" style={{ color: 'var(--gold-400)' }}>Verify now</Link>.</>}
+          </p>
+          <div className="row">{staff.map(s => <Link key={s.href} className="btn-secondary btn-small" href={s.href}>{s.label}</Link>)}</div>
+        </div>}
+      </div>
+
+      <div className="ws-card">
+        <h2>Profile</h2>
+        <ProfileForm profile={ws.profile} email={ws.email} />
+        <form action="/auth/signout" method="post" style={{ marginTop: 18 }}><button className="btn-secondary btn-small">Sign out</button></form>
+      </div>
+    </div>}
+  </div>;
 }

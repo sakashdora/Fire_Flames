@@ -1,107 +1,85 @@
 'use client';
 
-import { useState } from 'react';
-import { QrCode, UserCheck, Shield, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Camera, QrCode } from 'lucide-react';
+import { api, type ApiResult } from '@/lib/client/api';
+import { StaffShell } from '@/components/staff/StaffShell';
+import { ApiErrorNotice, Notice } from '@/components/ui/Notice';
 
-export default function VolunteerScanningPage() {
-  const [tokenInput, setTokenInput] = useState('');
-  const [dutySession, setDutySession] = useState('Session Day 1 (13 Nov 09:00 - 12:00)');
-  const [station, setStation] = useState('Station Gate 1');
-  const [scanResult, setScanResult] = useState<any | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [recentScans, setRecentScans] = useState<string[]>([]);
+interface Duty { duty_id: string; event_name: string; session_id: string; session: string; station_id: string; station: string; starts_at: string; ends_at: string; active: boolean }
 
-  const handleScan = (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrorMsg(null);
-    setScanResult(null);
+export default function VolunteerDesk() {
+  const [duties, setDuties] = useState<Duty[]>([]);
+  const [status, setStatus] = useState<ApiResult | null>(null);
+  const [dutyId, setDutyId] = useState('');
+  const [token, setToken] = useState('');
+  const [scan, setScan] = useState<ApiResult | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [camera, setCamera] = useState(false);
+  const video = useRef<HTMLVideoElement>(null);
+  const supportsCamera = typeof window !== 'undefined' && 'BarcodeDetector' in window;
 
-    const token = tokenInput.trim();
-    if (!token) return;
-
-    if (recentScans.includes(token)) {
-      setErrorMsg('DUPLICATE ATTENDANCE DETECTED (E11): Pass was already checked in for this duty session.');
-      return;
-    }
-
-    // Simulate online duty-bound verification
-    setRecentScans([token, ...recentScans]);
-    setScanResult({
-      status: 'checked_in',
-      participant: 'Avishek Mohanty',
-      team: 'Kalinga Warriors',
-      event: 'Kalinga BGMI Clash Season 1',
-      session: dutySession,
-      station,
-      timestamp: new Date().toLocaleTimeString(),
-      note: 'Volunteer scan verified within active duty shift. Government ID numbers are not revealed in volunteer view (Data minimization policy).'
+  useEffect(() => {
+    api<Duty[]>('/api/staff/duties').then(res => {
+      setStatus(res);
+      if (res.ok && res.data) { setDuties(res.data); setDutyId(res.data.find(d => d.active)?.duty_id ?? ''); }
     });
-    setTokenInput('');
+  }, []);
+
+  const duty = duties.find(d => d.duty_id === dutyId);
+  const submit = async (code: string) => {
+    if (!duty || !code.trim()) return;
+    setBusy(true); setScan(null);
+    const res = await api('/api/volunteer/scan', { body: { token: code, session_id: duty.session_id, station_id: duty.station_id } });
+    setScan(res); setBusy(false); setToken('');
   };
 
-  return (
-    <div style={{ maxWidth: '800px', margin: '2rem auto 4rem', padding: '0 1.5rem' }}>
-      
-      <div style={{ marginBottom: '2rem' }}>
-        <span className="badge-gold" style={{ marginBottom: '0.5rem' }}>VOLUNTEER DESK • ONLINE SCANNER</span>
-        <h1 style={{ fontSize: '2rem', fontWeight: 900, color: '#ffffff' }}>
-          Duty-Bound Attendance & QR Scanner
-        </h1>
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-          Real-time check-in with duty shift verification and duplicate-scan protection.
-        </p>
-      </div>
+  useEffect(() => {
+    if (!camera || !video.current) return;
+    let stop = false; let stream: MediaStream | null = null;
+    (async () => {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+        video.current!.srcObject = stream; await video.current!.play();
+        const detector = new (window as any).BarcodeDetector({ formats: ['qr_code'] });
+        while (!stop) {
+          const codes = await detector.detect(video.current!).catch(() => []);
+          if (codes[0]?.rawValue) { setCamera(false); submit(codes[0].rawValue); break; }
+          await new Promise(r => setTimeout(r, 250));
+        }
+      } catch { setCamera(false); setScan({ ok: false, status: 0, error: { code: 'camera', message: 'Camera unavailable. Type the pass code instead.' } }); }
+    })();
+    return () => { stop = true; stream?.getTracks().forEach(t => t.stop()); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [camera]);
 
-      <div className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem' }}>
-        
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
-          <div>
-            <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-dim)', marginBottom: '0.25rem' }}>Active Duty Session</label>
-            <input type="text" readOnly value={dutySession} style={{ width: '100%', padding: '0.65rem', background: 'rgba(0,0,0,0.5)', border: '1px solid var(--border-subtle)', borderRadius: '6px', color: '#ffffff', fontSize: '0.85rem' }} />
-          </div>
-
-          <div>
-            <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-dim)', marginBottom: '0.25rem' }}>Station Desk</label>
-            <input type="text" readOnly value={station} style={{ width: '100%', padding: '0.65rem', background: 'rgba(0,0,0,0.5)', border: '1px solid var(--border-subtle)', borderRadius: '6px', color: '#ffffff', fontSize: '0.85rem' }} />
-          </div>
-        </div>
-
-        {errorMsg && (
-          <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid rgba(239, 68, 68, 0.4)', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem', color: '#fca5a5', fontSize: '0.88rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <AlertTriangle size={18} /> {errorMsg}
-          </div>
-        )}
-
-        {scanResult && (
-          <div style={{ background: 'rgba(34, 197, 94, 0.12)', border: '1px solid rgba(34, 197, 94, 0.3)', borderRadius: '8px', padding: '1.25rem', marginBottom: '1.5rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#4ade80', fontWeight: 800, fontSize: '1rem', marginBottom: '0.5rem' }}>
-              <CheckCircle2 size={18} /> Attendance Verified: {scanResult.participant}
-            </div>
-            <div style={{ fontSize: '0.85rem', color: '#ffffff', marginBottom: '0.25rem' }}>
-              Team: <strong>{scanResult.team}</strong> • Event: <strong>{scanResult.event}</strong>
-            </div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-              {scanResult.note}
-            </div>
-          </div>
-        )}
-
-        <form onSubmit={handleScan} style={{ display: 'flex', gap: '0.75rem' }}>
-          <input
-            type="text"
-            required
-            value={tokenInput}
-            onChange={e => setTokenInput(e.target.value)}
-            placeholder="Scan QR token or paste hash (e.g. PASS-TOKEN-01)..."
-            style={{ flex: 1, padding: '0.8rem 1rem', background: 'rgba(0,0,0,0.5)', border: '1px solid var(--border-gold)', borderRadius: '8px', color: '#ffffff', fontSize: '0.9rem' }}
-          />
-          <button type="submit" className="btn-primary" style={{ padding: '0.8rem 1.5rem', whiteSpace: 'nowrap' }}>
-            Check In Pass
-          </button>
+  return <StaffShell badge="VOLUNTEER DESK" title="Check-in scanner" status={status}
+    intro="Scans only work during your assigned shift at your assigned station. A pass is checked in once per session; repeats show the original time.">
+    {duties.length === 0 ? <Notice>You have no current duties. An event admin assigns stations and shifts.</Notice> : <div className="ws-grid">
+      <div className="ws-card stack">
+        <label className="field">Your duty
+          <select value={dutyId} onChange={e => setDutyId(e.target.value)}>
+            <option value="">Choose duty</option>
+            {duties.map(d => <option key={d.duty_id} value={d.duty_id}>{d.event_name} · {d.session} · {d.station}{d.active ? '' : ' (not active now)'}</option>)}
+          </select>
+        </label>
+        {duty && !duty.active && <Notice>This shift runs {new Date(duty.starts_at).toLocaleString('en-IN')} – {new Date(duty.ends_at).toLocaleTimeString('en-IN')}. Scans are refused outside it.</Notice>}
+        <form className="row" onSubmit={e => { e.preventDefault(); submit(token); }}>
+          <label className="field">Pass code<input value={token} onChange={e => setToken(e.target.value)} autoComplete="off" placeholder="Scan with a reader or type" /></label>
+          <button className="btn-primary btn-small" style={{ flex: '0 0 auto' }} disabled={busy || !duty}><QrCode size={16} /> {busy ? 'Checking…' : 'Check in'}</button>
         </form>
-
+        {supportsCamera && <button type="button" className="btn-secondary btn-small" disabled={!duty} onClick={() => setCamera(c => !c)}><Camera size={16} /> {camera ? 'Stop camera' : 'Scan with camera'}</button>}
+        {camera && <video ref={video} muted playsInline style={{ width: '100%', borderRadius: 4, background: '#000' }} />}
       </div>
-
-    </div>
-  );
+      <div className="ws-card">
+        <h2>Result</h2>
+        {!scan ? <p style={{ color: 'var(--text-muted)' }}>Waiting for a scan.</p>
+          : scan.ok ? <Notice tone={scan.data.status === 'duplicate' ? 'info' : 'ok'}>
+              <strong>{scan.data.status === 'duplicate' ? 'Already checked in' : 'Checked in'}</strong>: {scan.data.participant} · {scan.data.event}<br />
+              {new Date(scan.data.checked_in_at).toLocaleTimeString('en-IN')} · ref {scan.data.support_reference}
+            </Notice>
+          : <ApiErrorNotice result={scan} />}
+      </div>
+    </div>}
+  </StaffShell>;
 }

@@ -29,3 +29,16 @@ Correction to prior verification claims: auth/MFA and registration persistence a
 
 ## Cinematic hero — 28 October 2026
 Premium hero follow-up implemented and visually verified on desktop/mobile, with functional pause/resume and offscreen suspension. Does not alter the previously documented backend gaps.
+
+
+## Claude Code — 28 October 2026 (IST): mockup hero, Supabase command layer, real workflows
+| Module | State | Evidence / limitation |
+|---|---|---|
+| Mockup hero + header | verified_local | Browser review desktop/mobile; assets recovered from supplied mockup |
+| Supabase command layer (migration 003) | verified_local | 102 PGlite checks as authenticated role; not applied to Supabase |
+| Catalogue reference data (004) | verified_local | Idempotent; all events draft, unknown values NULL |
+| Auth (magic link, callback, proxy, TOTP MFA UI) | implemented_unverified | Needs a real Supabase project |
+| Registration, invitations, roster, declaration, capacity hold | verified_local (DB) / implemented_unverified (UI against live API) | |
+| Referee, volunteer scan, judge, admin consoles | verified_local (DB) / implemented_unverified (UI against live API) | No simulated success remains |
+| Payments, pass issuance, waitlist, notifications, storage, exports | blocked / not_started | See NEXT_STEPS |
+| Vercel deployment | blocked | User will import repo; no URL recorded |

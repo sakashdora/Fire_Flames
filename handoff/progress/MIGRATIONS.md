@@ -17,3 +17,16 @@ No SQL changes or remote migrations in this UI refinement.
 
 ## Cinematic hero — 28 October 2026
 Hero follow-up: no database/schema/migration changes.
+
+
+## Claude Code — 28 October 2026 (IST): mockup hero, Supabase command layer, real workflows
+Migrations now live in supabase/migrations (Supabase CLI format). Local PGlite only; NOTHING applied to any Supabase project.
+
+| Migration | SHA-256 | Environment | Result |
+|---|---|---|---|
+| 20261027000100_schema_design.sql | 8c49e495...7122 (identical to handoff 001) | PGlite | PASS |
+| 20261028000200_esports_lan_extensions.sql | 2ae5619c...877c (identical to handoff 002) | PGlite | PASS |
+| 20261028000300_auth_command_layer.sql | 837da56e...22ee | PGlite | PASS |
+| 20261028000400_catalogue_reference_data.sql | 2e34a3ba...9690 | PGlite, applied twice (idempotent) | PASS |
+
+Staging/production: NOT RUN (no authorized project). After the first super admin signs in and saves a profile, run once in the SQL editor: select app.bootstrap_super_admin('<email>', '<authorizing reference>');

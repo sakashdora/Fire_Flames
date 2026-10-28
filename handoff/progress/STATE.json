@@ -2,9 +2,9 @@
   "schema_version": 1,
   "updated_date": "2026-10-28",
   "timezone": "Asia/Kolkata",
-  "updated_by": "Codex",
-  "phase": "public_design_and_motion_refinement",
-  "active_task": "Cinematic animated hero complete and verified locally",
+  "updated_by": "Claude Code",
+  "phase": "authenticated_workflows_local",
+  "active_task": "Hero redesign, Supabase command layer (migration 003/004), real API workflows, Next 16 upgrade; awaiting authorized Supabase/Vercel targets",
   "application_created": true,
   "git_remote": {
     "origin": "https://github.com/sakashdora/Fire_Flames.git",
@@ -16,8 +16,8 @@
     "status": "verified_local",
     "tables": 68,
     "foreign_keys": 165,
-    "evidence": "handoff/database/verification.json",
-    "scope": "PGlite disposable engine applying 001_schema_design.sql and 002_esports_lan_extensions.sql"
+    "evidence": "supabase/tests/command-layer-verification.json; handoff/database/verification.json",
+    "scope": "PGlite disposable engine applying supabase/migrations 0100-0400 with anon/authenticated roles and JWT claim stubs"
   },
   "features": {
     "app_foundation": "verified_local",
@@ -25,35 +25,58 @@
     "auth_and_staff_mfa": "implemented_unverified",
     "dual_track_public_pages": "verified_local",
     "student_teacher_workspaces": "verified_local",
-    "team_invites_and_consent": "implemented_unverified",
+    "team_invites_and_consent": "verified_local",
     "capacity_and_waitlist": "verified_local",
-    "payments_and_reconciliation": "implemented_unverified",
-    "passes_and_qr_scanning": "verified_local",
+    "payments_and_reconciliation": "blocked",
+    "passes_and_qr_scanning": "implemented_unverified",
     "admin_super_admin": "verified_local",
     "judging_and_results": "verified_local",
     "esports_operations": "verified_local",
     "notifications_and_workers": "not_started",
-    "storage_and_exports": "implemented_unverified",
+    "storage_and_exports": "not_started",
     "live_acceptance_tests": "not_started",
-    "vercel_deployment": "not_started",
+    "vercel_deployment": "blocked",
     "public_gsap_redesign": "verified_local",
-    "cinematic_hero": "verified_local"
+    "cinematic_hero": "superseded_by_mockup_hero",
+    "mockup_hero": "verified_local"
   },
   "external_dependencies": [
-    "Verified Supabase and Vercel target projects and secure credentials",
-    "Official college payment QR and verified beneficiary",
-    "BGMI fee/device/substitute/identity/scoring/prize-distribution decisions; Free Fire details",
-    "Approved individual allocation refund eligibility and timetable policies",
-    "Named staff and approved transactional sender"
+    "College-authorized Supabase project (the CLI is signed in to a personal org whose projects are unrelated; crossfire must not be touched)",
+    "Vercel project importing github.com/sakashdora/Fire_Flames with Root Directory app and env vars from app/.env.example",
+    "Approved transactional email sender (Supabase built-in SMTP is rate limited)",
+    "Official college payment QR and verified beneficiary; BGMI fee; tie-break and kill points; Free Fire details",
+    "Named first super admin for app.bootstrap_super_admin"
   ],
-  "next_action": "Read handoff/UI_REFINEMENT.md; finish real auth and persisted workflows before deployment",
+  "next_action": "Create/authorize Supabase project, supabase link + db push, set Auth redirect URLs, import repo into Vercel, run live acceptance on staging",
   "latest_requirements_addendum": "handoff/ESPORTS_CLIENT_UPDATE.md",
   "audio_transcription_status": "unavailable; not transcribed",
   "esports_database_extensions": "verified_local",
-  "verification_correction": "Earlier workflow verified_local claims include simulated UI and synthetic fixtures. Do not treat those as E2E proof. See UI_REFINEMENT.md.",
+  "verification_correction": "Earlier workflow claims based on simulated UI were replaced: all staff/student pages now call API routes that execute public.ff_* commands as the session user. workflows.test.ts (fixture-only) removed.",
   "local_preview": {
-    "url": "http://127.0.0.1:3100",
-    "dist_directory": ".next-preview",
-    "session_id": 22844
+    "url": "http://localhost:3200",
+    "dist_directory": ".next-dev",
+    "launch_config": ".claude/launch.json app-dev"
+  },
+  "feature_notes": {
+    "verified_local": "Means the SQL command was exercised in PGlite as the authenticated role with simulated JWT claims (supabase/tests/verify-command-layer.cjs, 102 checks). Supabase Auth email delivery, real JWT/aal2 issuance, PostgREST and Vercel runtime are NOT verified.",
+    "auth_and_staff_mfa": "Magic-link sign-in, /auth/callback PKCE exchange, proxy session refresh and TOTP enrollment UI implemented; never run against a real Supabase project.",
+    "passes_and_qr_scanning": "Scan command and duty boundary verified; pass issuance blocked because registrations cannot be confirmed until payments exist.",
+    "payments_and_reconciliation": "Blocked: official college payment QR, verified beneficiary, private storage bucket and BGMI fee.",
+    "waitlist": "Waitlist commands not implemented."
+  },
+  "migrations": {
+    "location": "supabase/migrations",
+    "applied_remote": false,
+    "files": [
+      "20261027000100_schema_design.sql",
+      "20261028000200_esports_lan_extensions.sql",
+      "20261028000300_auth_command_layer.sql",
+      "20261028000400_catalogue_reference_data.sql"
+    ]
+  },
+  "framework": {
+    "next": "16.4.3",
+    "react": "19.2.0",
+    "npm_audit": "0 vulnerabilities (2026-10-28)"
   }
 }

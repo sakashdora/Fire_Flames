@@ -1,37 +1,43 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { generatePassToken, hashPassToken, encryptPassEnvelope, decryptPassEnvelope } from '../lib/qr-crypto.ts';
+import { generatePassToken, hashPassToken, encryptPassEnvelope, decryptPassEnvelope } from '../lib/crypto/pass-envelope.ts';
 
-test('ADR 004: Pass token generation, hashing and AES-256-GCM encryption/decryption', () => {
-  // 1. Generate 256-bit token
+const KEY = 'ab'.repeat(32);
+const binding = { passId: 'pass-1', participantId: 'participant-1', eventId: 'event-1' };
+
+test('ADR 004: 256-bit token, deterministic SHA-256 lookup hash', () => {
   const token = generatePassToken();
-  assert.equal(token.length, 64, 'Token must be 64 hex characters (256 bits)');
-
-  // 2. Hash token with SHA-256
+  assert.match(token, /^[0-9a-f]{64}$/);
   const hash = hashPassToken(token);
-  assert.equal(hash.length, 64, 'SHA-256 hash must be 64 hex characters');
-  assert.notEqual(hash, token, 'Hash must differ from plaintext token');
+  assert.match(hash, /^[0-9a-f]{64}$/);
+  assert.notEqual(hash, token);
+  assert.equal(hashPassToken(` ${token} `), hash, 'scanner whitespace must not change the lookup hash');
+});
 
-  // Same token produces identical hash
-  assert.equal(hashPassToken(token), hash, 'Hash must be deterministic for lookup');
+test('ADR 004: AES-256-GCM envelope round-trips and rejects tampering', () => {
+  const token = generatePassToken();
+  const env = encryptPassEnvelope(token, binding, KEY);
+  assert.equal(env.nonce.length, 24);
+  assert.equal(env.tag.length, 32);
+  assert.equal(env.keyVersion, 1);
+  assert.equal(decryptPassEnvelope(env, binding, KEY), token);
+  assert.throws(() => decryptPassEnvelope({ ...env, ciphertext: env.ciphertext.slice(0, -2) + (env.ciphertext.endsWith('00') ? '11' : '00') }, binding, KEY));
+  assert.throws(() => decryptPassEnvelope(env, binding, 'cd'.repeat(32)), 'wrong key must fail');
+});
 
-  // 3. Encrypt envelope
-  const envelope = encryptPassEnvelope(token);
-  assert.ok(envelope.ciphertext, 'Ciphertext must be present');
-  assert.equal(envelope.nonce.length, 24, 'Nonce must be 12 bytes (24 hex characters)');
-  assert.equal(envelope.tag.length, 32, 'GCM auth tag must be 16 bytes (32 hex characters)');
-  assert.equal(envelope.keyVersion, 1, 'Key version must be 1');
+test('ADR 004: envelope is bound to its pass, participant and event', () => {
+  const env = encryptPassEnvelope(generatePassToken(), binding, KEY);
+  assert.throws(() => decryptPassEnvelope(env, { ...binding, participantId: 'participant-2' }, KEY));
+  assert.throws(() => decryptPassEnvelope(env, { ...binding, eventId: 'event-2' }, KEY));
+});
 
-  // 4. Decrypt envelope
-  const decrypted = decryptPassEnvelope(envelope);
-  assert.equal(decrypted, token, 'Decrypted token must exactly match original plaintext token');
-
-  // 5. Tampered ciphertext or tag must fail decryption
-  const tamperedEnvelope = {
-    ...envelope,
-    ciphertext: envelope.ciphertext.slice(0, -2) + '00'
-  };
-  assert.throws(() => {
-    decryptPassEnvelope(tamperedEnvelope);
-  }, /unsupported state or unable to authenticate data/i, 'Tampered envelope must fail GCM auth tag validation');
+test('ADR 004: no built-in fallback key', () => {
+  const saved = process.env.PASS_ENCRYPTION_KEY;
+  delete process.env.PASS_ENCRYPTION_KEY;
+  try {
+    assert.throws(() => encryptPassEnvelope('x', binding), /PASS_ENCRYPTION_KEY/);
+    assert.throws(() => encryptPassEnvelope('x', binding, 'short'), /PASS_ENCRYPTION_KEY/);
+  } finally {
+    if (saved !== undefined) process.env.PASS_ENCRYPTION_KEY = saved;
+  }
 });
