@@ -9,3 +9,13 @@ No Supabase or Vercel project has been linked and no application has been deploy
 | Production | Not linked | Not linked | Not recorded | Not applied | Not deployed | NOT RUN (Blocked: Live deployment sign-off & verified target) |
 
 Record actual returned IDs/URLs after linking. Do not store secrets, database passwords or full connection strings here. A returned deployment URL is separate from a passing application smoke test.
+
+## Codex refinement — 28 October 2026
+No cloud deployment. Local preview only; final build/start evidence follows in TEST_EVIDENCE.md.
+
+Final local review server: http://127.0.0.1:3100, NEXT_DIST_DIR=.next-preview, production build passed. This is not a Vercel deployment.
+
+## Cinematic hero — 28 October 2026
+Hero follow-up remains local only; no Vercel deployment.
+
+Latest cinematic hero: local production preview session 22844 on port 3100. Build PASS; no public deployment.

@@ -4,6 +4,23 @@ import assert from 'node:assert/strict';
 // Test Event Catalogue Invariants (E01 & Client Brief)
 import { EVENT_CATALOGUE } from '../domain/events.ts';
 
+test('E-Fest catalogue preserves documented capacities, rosters and payment gates', () => {
+  const expected = {
+    'ipl-auction': [null, 2, 4, 800000],
+    'brand-war': [null, 2, 3, 450000],
+    'e-trivia': [null, 2, 4, 450000],
+    'treasure-hunt': [null, 2, 4, 700000],
+    'srusti-bazar': [10, undefined, undefined, 300000],
+    'srusti-exhibition': [10, undefined, undefined, 900000],
+  };
+  for (const [slug, values] of Object.entries(expected)) {
+    const event = EVENT_CATALOGUE.find(e => e.slug === slug)!;
+    assert.deepEqual([event.capacity, event.teamMin, event.teamMax, event.prizePoolPaise], values, slug);
+    assert.ok(event.gates.includes('official_payment_profile'));
+    assert.ok(event.priceOptions.every(option => !option.enabled), 'No payment without official QR');
+  }
+});
+
 test('E01: BGMI Event Catalogue matches confirmed client brief', () => {
   const bgmi = EVENT_CATALOGUE.find(e => e.slug === 'bgmi');
   assert.ok(bgmi, 'BGMI event must exist with slug bgmi');

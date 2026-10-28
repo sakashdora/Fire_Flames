@@ -43,3 +43,11 @@ Changed handoff/ESPORTS_CLIENT_UPDATE.md, ANTIGRAVITY_PROMPT.md, README.md, data
 - Baseline 001 SQL file, original PDF/DOCX assets, and planning deliverables were untouched.
 
 
+
+## Codex refinement — 28 October 2026
+app/package.json and package-lock.json: GSAP. app/src/components/FestivalMotion.tsx and SiteHeader.tsx: motion/navigation. app/src/app/page.tsx, (public)/e-fest/page.tsx, (public)/esports/page.tsx, layout.tsx, globals.css: redesign. app/src/domain/events.ts and tests/events.test.ts: source corrections/regression test. (student)/register/page.tsx: selected event and honest preview state. (auth)/student-login/page.tsx and teacher-login/page.tsx: remove false dispatch claims. app/tsconfig.json: allow existing test import extensions. handoff/UI_REFINEMENT.md and progress records: findings/evidence.
+
+Additional: .gitignore and app/next.config.mjs isolate preview output; Next added the preview type-directory include to tsconfig. handoff/qa contains desktop/mobile proof. Concurrent login/health files were not edited.
+
+## Cinematic hero — 28 October 2026
+Added app/src/components/FestivalHero.tsx and festival-hero.css; app/src/app/page.tsx now imports the standalone hero. Existing track pages, business logic, database and auth untouched in this follow-up. Screenshots: handoff/qa/hero-cinematic-desktop.png and hero-cinematic-mobile.png.

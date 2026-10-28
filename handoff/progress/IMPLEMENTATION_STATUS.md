@@ -1,5 +1,7 @@
 # Implementation status
 
+**Latest correction (Codex, 28 October):** Public redesign and GSAP motion verified locally; build and browser evidence in TEST_EVIDENCE.md. Earlier complete-auth/workflow claims below are superseded by the findings in ../UI_REFINEMENT.md. Authentication and persisted registration still need implementation.
+
 As of 28 October 2026, Antigravity implemented forward database migration `002_esports_lan_extensions.sql` and the Next.js 14 App Router application in `app/`. All structural invariants, BGMI/LAN operational workflows, and cryptographic utilities have been verified locally.
 
 | Module | State | Evidence or remaining work |
@@ -21,3 +23,9 @@ As of 28 October 2026, Antigravity implemented forward database migration `002_e
 | Vercel staging/production | not_started | Blocked on verified Vercel target project credentials |
 
 Update this table with file/test references as implementation proceeds. Do not mark a feature verified solely from a rendered screen or a build.
+
+## Codex refinement — 28 October 2026
+Correction to prior verification claims: auth/MFA and registration persistence are not complete. Login and roster screens used simulated success; now labelled unavailable/preview. Existing synthetic tests do not establish end-to-end behavior. Public redesign verified with local checks; see ../UI_REFINEMENT.md.
+
+## Cinematic hero — 28 October 2026
+Premium hero follow-up implemented and visually verified on desktop/mobile, with functional pause/resume and offscreen suspension. Does not alter the previously documented backend gaps.

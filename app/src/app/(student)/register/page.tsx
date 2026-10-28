@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Trophy, Flame, Users, Shield, CheckCircle2, AlertTriangle, ArrowRight, Phone } from 'lucide-react';
 import { EVENT_CATALOGUE, EventItem } from '@/domain/events';
 
@@ -12,8 +12,10 @@ interface PlayerSlot {
   verifyMethod: 'in_person' | 'upload';
 }
 
-export default function RegistrationPage() {
-  const [selectedSlug, setSelectedSlug] = useState<string>('bgmi');
+export default function RegistrationPage({ searchParams }: { searchParams: { event?: string } }) {
+  const requestedEvent = EVENT_CATALOGUE.find(event => event.slug === searchParams.event)?.slug;
+  const [selectedSlug, setSelectedSlug] = useState<string>(requestedEvent || 'bgmi');
+  useEffect(() => { if (requestedEvent) setSelectedSlug(requestedEvent); }, [requestedEvent]);
   const [teamName, setTeamName] = useState('');
   const [leaderPhone, setLeaderPhone] = useState('');
   const [declarationAccepted, setDeclarationAccepted] = useState(false);
@@ -108,7 +110,7 @@ export default function RegistrationPage() {
           Team Registration & Roster Submission
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '1rem' }}>
-          Register your squad for Fire & Flames 2026. External college teams welcome.
+          Preview your team details for Fire & Flames 2026. Registration is not connected yet; this form does not save or submit your entry.
         </p>
       </div>
 
@@ -146,16 +148,16 @@ export default function RegistrationPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
             <CheckCircle2 size={32} color="#4ade80" />
             <div>
-              <h2 style={{ fontSize: '1.6rem', color: '#ffffff', fontWeight: 800 }}>Roster Snapshot Recorded</h2>
+              <h2 style={{ fontSize: '1.6rem', color: '#ffffff', fontWeight: 800 }}>Roster preview — not submitted</h2>
               <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                Event: <strong>{submittedRoster.event}</strong> • Team: <strong>{submittedRoster.teamName}</strong>
+                Event: <strong>{submittedRoster.event}</strong> · Team: <strong>{submittedRoster.teamName}</strong>
               </div>
             </div>
           </div>
 
           <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1.5rem', borderRadius: '12px', marginBottom: '2rem', border: '1px solid rgba(255,255,255,0.06)' }}>
             <h4 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--gold-400)', marginBottom: '1rem' }}>
-              Locked Roster Members (Leading zeros preserved)
+              Review your roster
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
               {submittedRoster.starters.map((s: PlayerSlot, i: number) => (
@@ -196,10 +198,10 @@ export default function RegistrationPage() {
           ) : (
             <div style={{ background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.3)', borderRadius: '12px', padding: '1.5rem', marginBottom: '2rem' }}>
               <div style={{ fontWeight: 800, color: '#4ade80', fontSize: '1.1rem', marginBottom: '0.5rem' }}>
-                E-Fest Team Order: ₹99 Total
+                Event fee: {selectedEvent.priceOptions[0].label}
               </div>
               <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                One ₹99 team payment covers all accepted members. Official college payment QR will be rendered upon finance verification.
+                Payment is not available in this preview. Official college payment details will be published when confirmed.
               </p>
             </div>
           )}
@@ -224,7 +226,7 @@ export default function RegistrationPage() {
               <div>
                 <span className="badge-gold" style={{ marginBottom: '0.35rem' }}>{selectedEvent.organizerName}</span>
                 <h3 style={{ fontSize: '1.3rem', color: '#ffffff', fontWeight: 800 }}>{selectedEvent.name}</h3>
-                <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>{selectedEvent.datesDisplay} • {selectedEvent.venue}</div>
+                <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>{selectedEvent.datesDisplay} · {selectedEvent.venue}</div>
               </div>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--gold-400)' }}>
@@ -398,10 +400,10 @@ export default function RegistrationPage() {
           {/* Team Declaration Acceptance (E06) */}
           <div style={{ background: 'rgba(0,0,0,0.35)', padding: '1.25rem', borderRadius: '10px', marginBottom: '2rem', border: '1px solid rgba(255,255,255,0.08)' }}>
             <div style={{ fontWeight: 700, color: '#ffffff', fontSize: '0.95rem', marginBottom: '0.5rem' }}>
-              Official Tournament Declaration (E06)
+              Declaration preview
             </div>
             <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: '0.85rem' }}>
-              I hereby declare as team captain that all player details and UIDs submitted are genuine. Our squad agrees to abide by Srusti Academy LAN Tournament rules, organizer-provided hardware policies, referee pause adjudications, and conduct protocols. I understand that submitting false credentials will lead to official disqualification.
+              The approved event declaration will be shown when registration opens. This preview does not record consent or submit your team details.
             </p>
             <label style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#ffffff', fontSize: '0.88rem', cursor: 'pointer', fontWeight: 600 }}>
               <input
@@ -410,12 +412,12 @@ export default function RegistrationPage() {
                 checked={declarationAccepted}
                 onChange={e => setDeclarationAccepted(e.target.checked)}
               />
-              I accept the tournament declaration on behalf of the squad (Hash: SHA-256 bound v1)
+              I understand this is a preview and my team is not registered.
             </label>
           </div>
 
           <button type="submit" className="btn-primary" style={{ width: '100%', padding: '0.9rem', fontSize: '1rem' }}>
-            Submit Squad Roster <ArrowRight size={18} />
+            Preview Squad Roster <ArrowRight size={18} />
           </button>
         </form>
       )}

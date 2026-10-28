@@ -2,9 +2,9 @@
   "schema_version": 1,
   "updated_date": "2026-10-28",
   "timezone": "Asia/Kolkata",
-  "updated_by": "Antigravity",
-  "phase": "application_foundation_and_esports_lan_extensions",
-  "active_task": "Milestone 1 & 2 completed: Forward migration 002 applied; Next.js 14 app foundation and workflows built and verified",
+  "updated_by": "Codex",
+  "phase": "public_design_and_motion_refinement",
+  "active_task": "Cinematic animated hero complete and verified locally",
   "application_created": true,
   "cloud_resources_linked": false,
   "schema_design": {
@@ -17,10 +17,10 @@
   "features": {
     "app_foundation": "verified_local",
     "supabase_migrations_and_rpc": "verified_local",
-    "auth_and_staff_mfa": "verified_local",
+    "auth_and_staff_mfa": "implemented_unverified",
     "dual_track_public_pages": "verified_local",
     "student_teacher_workspaces": "verified_local",
-    "team_invites_and_consent": "verified_local",
+    "team_invites_and_consent": "implemented_unverified",
     "capacity_and_waitlist": "verified_local",
     "payments_and_reconciliation": "implemented_unverified",
     "passes_and_qr_scanning": "verified_local",
@@ -29,8 +29,10 @@
     "esports_operations": "verified_local",
     "notifications_and_workers": "not_started",
     "storage_and_exports": "implemented_unverified",
-    "live_acceptance_tests": "verified_local",
-    "vercel_deployment": "not_started"
+    "live_acceptance_tests": "not_started",
+    "vercel_deployment": "not_started",
+    "public_gsap_redesign": "verified_local",
+    "cinematic_hero": "verified_local"
   },
   "external_dependencies": [
     "Verified Supabase and Vercel target projects and secure credentials",
@@ -39,8 +41,14 @@
     "Approved individual allocation refund eligibility and timetable policies",
     "Named staff and approved transactional sender"
   ],
-  "next_action": "Link authorized Supabase staging project, apply versioned migrations 001 and 002, and deploy preview to Vercel.",
+  "next_action": "Read handoff/UI_REFINEMENT.md; finish real auth and persisted workflows before deployment",
   "latest_requirements_addendum": "handoff/ESPORTS_CLIENT_UPDATE.md",
   "audio_transcription_status": "unavailable; not transcribed",
-  "esports_database_extensions": "verified_local"
+  "esports_database_extensions": "verified_local",
+  "verification_correction": "Earlier workflow verified_local claims include simulated UI and synthetic fixtures. Do not treat those as E2E proof. See UI_REFINEMENT.md.",
+  "local_preview": {
+    "url": "http://127.0.0.1:3100",
+    "dist_directory": ".next-preview",
+    "session_id": 22844
+  }
 }

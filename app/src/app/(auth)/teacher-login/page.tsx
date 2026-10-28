@@ -40,9 +40,9 @@ export default function TeacherLoginPage() {
 
         {submitted ? (
           <div style={{ background: 'rgba(34, 197, 94, 0.12)', border: '1px solid rgba(34, 197, 94, 0.3)', borderRadius: '8px', padding: '1.25rem', textAlign: 'center' }}>
-            <h4 style={{ color: '#4ade80', fontWeight: 700, marginBottom: '0.5rem' }}>Verification Link Dispatched</h4>
+            <h4 style={{ color: '#4ade80', fontWeight: 700, marginBottom: '0.5rem' }}>Teacher sign-in is not connected yet</h4>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
-              A secure authentication token has been dispatched to <strong>{email}</strong>. Once authenticated, pending staff assignments will require MFA verification before granting operational views.
+              No authentication email has been sent. Please contact the event coordinator for access once sign-in is available.
             </p>
           </div>
         ) : (

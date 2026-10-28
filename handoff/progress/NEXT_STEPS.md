@@ -15,3 +15,9 @@
 - Official college payment QR asset & unconfirmed BGMI entry fee.
 - Voice note audio transcript (spoken requirements remain unverified; no audio-derived requirements were invented).
 
+
+## Codex refinement — 28 October 2026
+Review the new public design. Before release, implement real student/teacher authentication and persisted registration; replace synthetic acceptance claims with actual endpoint/Auth/RLS/concurrency tests. Audit the remaining staff workflows and dependency advisories. Use verified cloud targets only. Visual task did not perform migrations or deployment.
+
+## Cinematic hero — 28 October 2026
+Review the cinematic hero in the local preview. Continue backend work from UI_REFINEMENT.md; preserve the isolated review build and do not overwrite concurrent changes.

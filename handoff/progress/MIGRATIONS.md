@@ -11,3 +11,9 @@ No application migration has been applied to any local Supabase stack, staging o
 
 Antigravity: copy reviewed schema into a timestamped first migration for a fresh target, then add RPC/policy/storage migrations. Record all actual applications. Never edit an applied migration or infer production state from local files.
 
+
+## Codex refinement — 28 October 2026
+No SQL changes or remote migrations in this UI refinement.
+
+## Cinematic hero — 28 October 2026
+Hero follow-up: no database/schema/migration changes.

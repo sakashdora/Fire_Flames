@@ -75,3 +75,20 @@ npm run build
 - Outcome: PASS (exited with code 0).
 - Prerendered routes: 24 static and dynamic routes compiled cleanly.
 
+
+## Codex refinement — 28 October 2026
+node ./app/node_modules/typescript/bin/tsc --noEmit -p app/tsconfig.json: PASS. npm test in app/: 11 PASS. Existing workflow fixture tests have limited scope; added real catalogue source-regression assertions. Mobile 390×844 visual review, menu Escape dismissal and E-Fest navigation checked through browser. Sandbox build failed EPERM; retry pending at this entry.
+
+## Final verification — 28 October 2026
+- Production build PASS (26 routes in final workspace snapshot) using NEXT_DIST_DIR=.next-preview; home/E-Fest/esports report 146 kB First Load JS. A concurrent process regenerated .next, so added optional NEXT_DIST_DIR in next.config.mjs and ignored .next-preview/ plus generated *.tsbuildinfo. Default project output remains .next.
+- Fixed a CSS font-import formatting error found by production browser inspection, rebuilt and verified final styles visually. The earlier broken preview is not counted as a pass.
+- Final desktop 1440×1000 and mobile 390×844: no horizontal page overflow (1425/1425 and 375/375 client/scroll widths including scrollbar); both organizer entrances and hero images present, title settles at opacity 1.
+- Mobile menu opens/closes, Escape returns focus, navigation closes the menu. E-Fest Choose IPL Auction navigates to /register?event=ipl-auction and the form shows IPL Auction. Esports displays the supplied placement chart and unresolved settings honestly.
+- Final isolated preview browser error log: empty. Production server left available for review on http://127.0.0.1:3100 (session 25172). No cloud deployment.
+- Screenshot evidence: handoff/qa/home-desktop.png and home-mobile.png. UI_REFINEMENT.md records limited backend verification and remaining mock workflows. No physical-phone camera or OS reduced-motion test performed.
+- Concurrent untracked /login and /api/health routes appeared during work; preserved untouched, included by Next build, not reviewed or claimed as this change.
+
+## Cinematic hero — 28 October 2026
+Hero follow-up: TypeScript noEmit and git diff --check PASS. Desktop 1440×1000 and phone 390×844 screenshots inspected. Pause control aria-pressed=true; rotor transform remained at 142.299deg across observations. After scrolling hero bottom to -1062px, rotor remained at 183.348deg across observations, verifying offscreen suspension. Resume and lineup anchor exercised. Browser error log empty. Reduced-motion system preference implemented but not OS-emulated. Final build result follows.
+
+Final cinematic hero production build: PASS, 26 routes; homepage First Load JS 149 kB. Isolated production server restarted on port 3100, session 22844. No database or deployment changes.

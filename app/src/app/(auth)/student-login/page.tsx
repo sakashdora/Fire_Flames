@@ -13,11 +13,8 @@ export default function StudentLoginPage() {
     e.preventDefault();
     setLoading(true);
     setMessage(null);
-    // Simulating Supabase SSR magic link / password request
-    setTimeout(() => {
-      setLoading(false);
-      setMessage(`Check your email (${email}) for your secure login link or OTP code.`);
-    }, 800);
+    setLoading(false);
+    setMessage('Sign-in is not connected yet. No email has been sent. Please return when registration opens.');
   };
 
   return (

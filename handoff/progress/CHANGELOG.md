@@ -20,3 +20,9 @@ Completed by Antigravity:
 6. Verified application unit tests (10 passing tests in `app/src/tests/`) and successful Next.js production compilation (`next build` exiting with 0, 24 static/dynamic routes prerendered).
 7. Unresolved items (BGMI entry fee, official payment QR, mobile vs PC device confirmation, tie-break policy) kept strictly gated as pending. No audio-derived requirements invented.
 
+
+## Codex refinement — 28 October 2026
+Rebuilt the three public routes and shared shell; added GSAP motion and responsive navigation. Corrected public catalogue facts and false success messages. See ../UI_REFINEMENT.md for scope and unresolved backend findings.
+
+## Cinematic hero — 28 October 2026
+Replaced the homepage hero with FestivalHero: large masked headline reveal, source ember background, illuminated rotating date ring, drifting embers, desktop pointer response and two compact organizer entrances. Added pause/resume, reduced-motion handling and visibility/offscreen suspension.
